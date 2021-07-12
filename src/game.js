@@ -41,12 +41,14 @@ class Game {
     this.bindKeyHandlers();
     this.lastTime = 0;
     console.log('hello');
-    requestAnimationFrame(this.animate());
+    requestAnimationFrame(this.animate.bind(this));
   }
 
   animate() {
+    console.log(this);
     this.context.clearRect(0, 0, 800, 600);
-    this.map.floorPieces.forEach((tile) => {
+    const allPieces = this.map.allPieces();
+    allPieces.forEach((tile) => {
       this.map.draw(tile);
     });
     // this.context.clearRect(0, 0, 800, 600);

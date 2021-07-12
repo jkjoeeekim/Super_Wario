@@ -14,6 +14,10 @@ class Map {
     this.roofHoles = this.generateRoofHoles();
   }
 
+  allPieces() {
+    return this.floorPieces.concat(this.roofPieces);
+  }
+
   draw(tile) {
     tile.context.drawImage(tile.image,
       tile.spritePos[0], tile.spritePos[1],
