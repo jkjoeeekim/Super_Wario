@@ -20,3 +20,13 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 ## This project will be implemented with the following technologies:
   - the `Canvas API` to render the game board.
   - `Webpack` to bundle and transpile the source JavaScript code.
+
+# Implementation timeline:
+  ## Friday July 9th, 2021
+    - Import sprites and render them.
+    - Set up basic tiles for floors and roofs.
+    - Create Wario sprite and allow for user input to render movement.
+
+  ## Monday July 12th, 2021
+    - Fix Wario character jumping movement.
+    - Create and update readme.md.
