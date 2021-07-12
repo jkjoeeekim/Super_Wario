@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
   .then(image => {
     map.generateTiles(floor, context, image, map.floorHoles);
     map.generateTiles(roof, context, image, map.roofHoles);
-    console.log(map.floorPieces);
-    console.log(map.roofPieces);
+    // console.log(map.floorPieces);
+    // console.log(map.roofPieces);
   });
   
   loadImage('../img/wario4.png')
@@ -42,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
     wario.context = context;
     wario.image = image;
     wario.draw();
+    // game.enableGravity(wario);
+    // map.fpsCounter(context);
     game.start();
+    // console.log(game.tileAtXCoordinate(33))
   });
   
   game.bindKeyHandlers();

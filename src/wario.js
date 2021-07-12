@@ -3,13 +3,13 @@ class Wario {
     this.height = 34 / 2;
     this.width = 48 / 2;
     this.x = x;
-    this.y = y;
+    this.y = y + 5;
     this.context = null;
     this.image = null;
   }
 
   draw() {
-    this.context.drawImage(this.image, 13, 670, 35, 49, this.x, this.y, this.width, this.height);
+    this.context.drawImage(this.image, 13, 670, 35, 49, this.x - 10, this.y + 5, this.width, this.height);
   }
 
   moveX(direction) {
@@ -18,26 +18,21 @@ class Wario {
     console.log('new pos', this.x);
   }
 
-  moveY(direction, that, steps = 0) {
+  jump(direction, that, steps = 0) {
     console.log('steps: ', steps)
     console.log(this.y);
     let wario = this;
-    let maxSteps = 24;
+    let maxSteps = 36;
     that.animate();
 
     if (steps === maxSteps) {
       that.animate();
       return;
-    } else if (steps < maxSteps / 2) {
+    } else {
       this.y -= direction;
       return setTimeout(function () {
-        wario.moveY(direction, that, steps + 1);
-      }, 20);
-    } else if (steps < maxSteps && steps >= maxSteps / 2) {
-      this.y += direction;
-      return setTimeout(function () {
-        wario.moveY(direction, that, steps + 1);
-      }, 20);
+        wario.jump(direction, that, steps + 1);
+      }, 5);
     }
 
     console.log(this.y);

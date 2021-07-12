@@ -5,7 +5,8 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 
 # Features:
 ## In Super Wario, players will be able to:
-  - Use "Left, Up, Right" arrow keys to move your character.
+  - Use Left and Right arrow keys for vertical movement.
+  - Use Spacebar for jumping action.
   - Navigate Wario through an obstacle course to get to the castle on the other side.
   - Defeat of evade enemy Goombas along the way.
 
