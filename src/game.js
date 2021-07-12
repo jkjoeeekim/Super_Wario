@@ -21,20 +21,20 @@ class Game {
   bindKeyHandlers() {
     const wario = this.character;
     let that = this;
-    key("a", function () {
+    key("left", function () {
       that.keysDown['a'] = true;
-      console.log('hi', that.keysDown)
+      console.log('his', that.keysDown);
 
       wario.moveX(-3);
       that.animate();
     });
-    key("d", function () {
+    key("right", function () {
       wario.moveX(3);
       that.animate();
     });
     key("w", function () {
       wario.moveY(3, that);
-    })
+    });
   }
 
   start() {

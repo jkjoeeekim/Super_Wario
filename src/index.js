@@ -21,6 +21,7 @@ window.onload = function () {
 document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("game-window");
   const context = canvas.getContext('2d');
+  context.imageSmoothingEnabled = false;
   const game = new Game(context);
   const wario = game.character;
   const map = game.map;
