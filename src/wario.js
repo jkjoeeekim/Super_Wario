@@ -23,20 +23,22 @@ class Wario {
     console.log(this.y);
     let wario = this;
     that.animate();
+
     if (steps === 6) {
       that.animate();
       return;
     } else if (steps < 3) {
       this.y -= direction;
-      return setInterval(function () {
+      return setTimeout(function () {
         wario.moveY(direction, that, steps + 1);
       }, 500);
     } else if (steps < 6 && steps > 2) {
       this.y += direction;
-      return setInterval(function () {
+      return setTimeout(function () {
         wario.moveY(direction, that, steps + 1);
       }, 500);
     }
+
     console.log(this.y);
   }
 }

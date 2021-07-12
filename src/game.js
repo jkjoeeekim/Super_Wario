@@ -32,7 +32,7 @@ class Game {
       wario.moveX(3);
       that.animate();
     });
-    key("w", function () {
+    key("up", function () {
       wario.moveY(3, that);
     });
   }
