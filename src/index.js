@@ -28,21 +28,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const floor = game.floor;
   const roof = game.roof;
 
+  
   loadImage('../img/tiles.png')
-    .then(image => {
-      map.generateTiles(floor, context, image, map.floorHoles);
-      map.generateTiles(roof, context, image, map.roofHoles);
-      console.log(map.floorPieces);
-      console.log(map.roofPieces);
-    });
-
+  .then(image => {
+    map.generateTiles(floor, context, image, map.floorHoles);
+    map.generateTiles(roof, context, image, map.roofHoles);
+    console.log(map.floorPieces);
+    console.log(map.roofPieces);
+  });
+  
   loadImage('../img/wario4.png')
-    .then(image => {
-      wario.context = context;
-      wario.image = image;
-      wario.draw();
-      game.start(context, image);
-    });
-
+  .then(image => {
+    wario.context = context;
+    wario.image = image;
+    wario.draw();
+    game.start();
+  });
+  
+  game.bindKeyHandlers();
   // key("w", function() { wario.moveX(1) })
+
+  // requestAnimationFrame(game.start.bind(game));
 });

@@ -13,30 +13,31 @@ class Wario {
   }
 
   moveX(direction) {
-    console.log(this.x);
+    console.log('old pos', this.x);
     this.x += direction;
-    console.log(this.x);
+    console.log('new pos', this.x);
   }
 
   moveY(direction, that, steps = 0) {
     console.log('steps: ', steps)
     console.log(this.y);
     let wario = this;
+    let maxSteps = 24;
     that.animate();
 
-    if (steps === 6) {
+    if (steps === maxSteps) {
       that.animate();
       return;
-    } else if (steps < 3) {
+    } else if (steps < maxSteps / 2) {
       this.y -= direction;
       return setTimeout(function () {
         wario.moveY(direction, that, steps + 1);
-      }, 500);
-    } else if (steps < 6 && steps > 2) {
+      }, 20);
+    } else if (steps < maxSteps && steps >= maxSteps / 2) {
       this.y += direction;
       return setTimeout(function () {
         wario.moveY(direction, that, steps + 1);
-      }, 500);
+      }, 20);
     }
 
     console.log(this.y);

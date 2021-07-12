@@ -28,5 +28,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Create Wario sprite and allow for user input to render movement.
 
   ## Monday July 12th, 2021
-    - Fix Wario character jumping movement.
     - Create and update readme.md.
+    - Make character side-to-side scrolling and jumping more fluid.
