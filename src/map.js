@@ -10,13 +10,14 @@ class Map {
     this.framesPrevSec = 0;
     this.floorPieces = [];
     this.roofPieces = [];
+    this.emptyPieces = [];
     this.floorHoles = [160, 176];
     this.roofFills = [240, 256, 272, 288];
     this.roofHoles = this.generateRoofHoles();
   }
 
   allPieces() {
-    return this.floorPieces.concat(this.roofPieces);
+    return this.floorPieces.concat(this.roofPieces).concat(this.emptyPieces);
   }
 
   draw(tile) {
@@ -56,6 +57,11 @@ class Map {
         if (holes.includes(x)) {
           break;
         } else {
+          let pieceIdx = 0;
+          this.emptyPieces.forEach((piece, index) => {
+            if (piece.x === x && piece.y === y) pieceIdx = index;
+          })
+          this.emptyPieces.splice(pieceIdx, 1)
           let newTile = new tile.constructor(x, y, context, image);
           if (newTile instanceof Floor) this.floorPieces.push(newTile);
           if (newTile instanceof Roof) this.roofPieces.push(newTile);

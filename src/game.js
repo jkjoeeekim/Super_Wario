@@ -2,6 +2,7 @@ const Wario = require('./wario');
 const Map = require('./map');
 const Floor = require('./floor');
 const Roof = require('./roof');
+const Tile = require('./tile');
 
 class Game {
   constructor(context) {
@@ -12,6 +13,7 @@ class Game {
     };
     this.context = context;
     this.map = new Map();
+    this.emptyTile = new Tile(0, 0);
     this.character = new Wario(25, 0);
     this.floor = new Floor(0, 112);
     this.roof = new Roof(0, 48);
@@ -24,9 +26,11 @@ class Game {
     document.addEventListener('keypress', function (e) {
       if (e.key === ' ') {
         if (!that.keysDown[e.key]) {
-          that.keysDown[e.key] = true;
-          wario.jump(2, that);
-          setTimeout(function () { that.keysDown[e.key] = false; }, 550);
+          if (that.enableGravity(wario)) {
+            that.keysDown[e.key] = true;
+            wario.jump(2, that);
+            setTimeout(function () { that.keysDown[e.key] = false; }, 550);
+          }
         }
       }
     });
@@ -51,10 +55,13 @@ class Game {
       if (this.keysDown[key]) {
         switch (key) {
           case 'ArrowLeft':
-            wario.moveX(-1);
+            if (this.canMove(wario, 'backward')) {
+              wario.moveX(-1);
+              // wario.currentTile(that);
+            };
             break;
           case 'ArrowRight':
-            wario.moveX(1);
+            if (this.canMove(wario, 'forward')) wario.moveX(1);
             break;
         }
       }
@@ -70,7 +77,11 @@ class Game {
     this.context.clearRect(0, 0, 800, 600);
     const allPieces = this.map.allPieces();
     allPieces.forEach((tile) => {
-      this.map.draw(tile);
+      if (tile instanceof Tile) {
+        return;
+      } else {
+        this.map.draw(tile);
+      }
     });
     // this.context.clearRect(0, 0, 800, 600);
     // this.map.generateTiles(this.floor)
@@ -78,52 +89,75 @@ class Game {
     // requestAnimationFrame(this.animate(context, image));
   }
 
-  enableGravity(obj) {
-    // console.log(obj.x + obj.width)
-    // console.log(obj.y + obj.height)
-    this.context.fillText(".", obj.x + obj.width, obj.y + obj.height);
-    // console.log(this);
-    console.log('y', obj.y + obj.height);
-    console.log('x', obj.x + obj.width);
+  canMove(wario, direction) {
     let allFloorPieces = this.map.floorPieces;
-    let tiles = this.tilesAtXCoordinate(obj.x, allFloorPieces);
-    // console.log('top floor y', tiles[0].y);
-    // console.log('top floor x', tiles[0].x);
-    console.log(tiles);
-    if (tiles.length === 0) {
-      console.log('falling')
-      obj.y += 1;
-    } else if ((obj.y + obj.height) < tiles[0].y) {
-      console.log('falling');
-      obj.y += 1;
+    let tiles = wario.currentTiles(this);
+    let bubble = wario.bubble(this);
+    let rightBubble = bubble['rightBubble'];
+    let leftBubble = bubble['leftBubble'];
+    switch (direction) {
+      case 'forward':
+        let forwardMoves = 0;
+        rightBubble.forEach(tile => {
+          if (tile instanceof Floor) {
+            forwardMoves += 1;
+          }
+        })
+        return forwardMoves < 2;
+      case 'backward':
+        let backwardMoves = 0;
+        leftBubble.forEach(tile => {
+          if (tile instanceof Floor) {
+            backwardMoves += 1;
+          }
+        })
+        return backwardMoves < 2;
     }
+    return false;
   }
 
-  closestXCoordinate(xOrd) {
-    // let newOrd = xOrd;
+  enableGravity(obj) {
+    let tiles = obj.currentTiles(this);
+    let bottomTiles = [tiles[0], tiles[1]];
+    let floorCount = 0;
+
+    bottomTiles.forEach(tile => {
+      if (tile instanceof Floor) {
+        return;
+      } else {
+        floorCount += 1;
+      }
+    });
+
+    if (floorCount < 2) {
+      return true;
+    } else {
+      obj.y += 1;
+      return false;
+    };
+  }
+
+  closestCoordinate(ord) {
     for (let i = 0; i < 16; i++) {
-      if ((xOrd - i) % 16 === 0) {
-        return xOrd - i;
+      let newOrd = ord - i;
+      if (newOrd % 16 === 0) {
+        return [newOrd, newOrd + 16];
       }
     }
   }
 
-  tilesAtXCoordinate(xOrd, pieces) {
-    let ord = this.closestXCoordinate(xOrd);
-    console.log(ord);
-    let allPieces = pieces;
-    // console.log(allfloorPieces);
-    // debugger;
-    let tiles = [];
+  tilesAtXCoordinate(ord) {
+    let closestOrd = this.closestCoordinate(ord);
+    let allPieces = this.map.floorPieces;
+    let leftTiles = [];
+    let rightTiles = [];
 
-    // floorPieces.forEach(tile => console.log(tile))
-    // debugger;
     allPieces.forEach(tile => {
-      if (tile.x === ord) tiles.push(tile);
+      if (tile.x === closestOrd[0]) leftTiles.push(tile);
+      if (tile.x === closestOrd[1]) rightTiles.push(tile);
     });
-    // console.log(tiles);
 
-    return tiles;
+    return [leftTiles, rightTiles];
   }
 }
 

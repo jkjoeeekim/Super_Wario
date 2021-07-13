@@ -25,16 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const game = new Game(context);
   const wario = game.character;
   const map = game.map;
+  const tile = game.emptyTile;
   const floor = game.floor;
   const roof = game.roof;
-
   
   loadImage('../img/tiles.png')
   .then(image => {
+    tile.generateEmptyTiles(map, tile, context);
     map.generateTiles(floor, context, image, map.floorHoles);
     map.generateTiles(roof, context, image, map.roofHoles);
-    // console.log(map.floorPieces);
-    // console.log(map.roofPieces);
+    console.log(map.emptyPieces)
   });
   
   loadImage('../img/wario4.png')
