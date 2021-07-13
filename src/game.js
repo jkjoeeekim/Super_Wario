@@ -60,7 +60,7 @@ class Game {
     // wario.moveX(1, false);
   }
 
-  start() {
+  start(fnc) {
     let that = this;
     const wario = this.character;
     Object.keys(this.keysDown).forEach((key) => {
@@ -83,7 +83,7 @@ class Game {
                   });
                   setTimeout(function () {
                     that.notRendering = true;
-                  }, 5);
+                  }, 6);
                 };
               } else {
                 wario.moveX(1, true);
@@ -97,7 +97,12 @@ class Game {
     this.animate();
     this.map.fpsCounter(this.context);
     this.enableGravity(wario);
-    let animationFrame = requestAnimationFrame(this.start.bind(this));
+    let animationFrame = requestAnimationFrame(this.start.bind(this, fnc));
+    if (this.checkDeath(wario)) {
+      setTimeout(function() {
+        fnc();
+      }, 1500)
+    }
     if (this.checkDeath(wario)) {
       cancelAnimationFrame(animationFrame);
     };

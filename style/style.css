@@ -46,4 +46,44 @@ html {
   width: 1200px;
   height: 800px;
   margin-top: 20px;
+  position: absolute;
+  top: 75px;
+  left: 18.7%;
+}
+
+.dim-canvas {
+  display: none;
+  position: absolute;
+  width: 1210px;
+  height: 810px;
+  top: 95px;
+  left: 18.7%;
+  background-color: rgb(0, 0, 0, 0.7);
+}
+
+/* game over display message */
+.gg-msg {
+  text-align: center;
+  width: 500px;
+  height: 250px;
+  border: 5px solid black;
+  background-color: white;
+  display: none;
+  padding: 75px;
+  top: 33%;
+  left: 37.5%;
+  position: absolute;
+  z-index: 999;
+}
+
+.gg-text {
+  font-size: 40px;
+}
+
+.gg-button {
+  align-self: center;
+}
+
+.enable {
+  display: block;
 }
