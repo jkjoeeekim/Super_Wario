@@ -11,7 +11,7 @@ class Map {
     this.floorPieces = [];
     this.roofPieces = [];
     this.emptyPieces = [];
-    this.floorHoles = [160, 176];
+    this.floorHoles = [160, 176, 320, 336];
     this.roofFills = [240, 256, 272, 288];
     this.roofHoles = this.generateRoofHoles();
   }
@@ -24,7 +24,7 @@ class Map {
     tile.context.drawImage(tile.image,
       tile.spritePos[0], tile.spritePos[1],
       16, 16,
-      tile.x, tile.y,
+      tile.x - tile.viewportDiff, tile.y,
       tile.width, tile.height
     );
   }
@@ -32,13 +32,8 @@ class Map {
   fpsCounter(context) {
     if (context == null) return;
     let sec = Math.floor(Date.now() / 1000);
-    // console.log(sec)
-    // console.log(this.currentSecond)
-    // console.log('fps', this.framesPrevSec)
-    // let framesPrevSec;
-    
+
     if (sec != this.currentSecond) {
-      // console.log('before reset', this.frameCount)
       this.currentSecond = sec;
       this.framesPrevSec = this.frameCount;
       this.frameCount = 1;
@@ -46,9 +41,6 @@ class Map {
       this.frameCount += 1;
     }
     context.fillText("FPS: " + this.framesPrevSec, 10, 10)
-    // context.fillStyle = "#ff0000";
-    // context.clearText();
-    // window.requestAnimationFrame(this.fpsCounter(context));
   }
 
   generateTiles(tile, context, image, holes) {

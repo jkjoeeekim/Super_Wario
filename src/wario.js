@@ -4,8 +4,14 @@ class Wario {
     this.width = 48 / 2;
     this.x = x;
     this.y = y;
+    this.relativex ||= x;
+    this.viewportDiff = 0;
     this.context = null;
     this.image = null;
+  }
+
+  relativeX() {
+    return this.x + this.viewportDiff;
   }
 
   bubble(game) {
@@ -21,22 +27,26 @@ class Wario {
     };
     floorTiles['leftBubble'].forEach(tile => {
       allPieces.forEach(piece => {
-        if (piece.x - 32 === tile.x && piece.y === tile.y) {
+        // console.log(piece);
+        // console.log(tile);
+        if (!piece || !tile) {
+          return;
+        } else if (piece.x - 32 === tile.x && piece.y === tile.y) {
           bubble['rightBubble'].push(piece);
         } else if (piece.x + 16 === tile.x && piece.y === tile.y) {
           bubble['leftBubble'].push(piece);
         }
       });
     });
-    console.log('bubble', bubble)
+    console.log('bubble', bubble);
     return bubble;
   }
 
-  currentTiles(game) {
+  currentTiles(game, bool) {
     let allTiles = game.map.allPieces();
     let currentTiles = [];
     let closestYOrd = game.closestCoordinate(this.y);
-    let closestXOrd = game.closestCoordinate(this.x);
+    let closestXOrd = game.closestCoordinate(this.x + allTiles[0].viewportDiff);
     // console.log(this.x);
     // console.log(this.y);
     // console.log(closestYOrd);
@@ -44,8 +54,10 @@ class Wario {
     allTiles.forEach(tile => {
       if ((tile.y === closestYOrd[0] || tile.y === closestYOrd[1]) && (tile.x === closestXOrd[0] || tile.x === closestXOrd[1])) currentTiles.push(tile);
     });
-    console.log('x coord', this.x)
-    console.log('y coord', this.y)
+    console.log('x coord', this.x);
+    console.log(this);
+    console.log('relative x coord', this.relativeX());
+    console.log('y coord', this.y);
     console.log(currentTiles);
     return currentTiles;
   }
@@ -54,9 +66,16 @@ class Wario {
     this.context.drawImage(this.image, 13, 670, 35, 49, this.x - 10, this.y + 4, this.width, this.height);
   }
 
-  moveX(direction) {
+  moveX(direction, bool) {
     console.log('old pos', this.x);
-    this.x += direction;
+    if (bool) {
+      this.x += direction;
+    } else if (bool === false) {
+      this.relativex += direction;
+    } else {
+      this.x += direction;
+      this.relativex += direction;
+    }
     console.log('new pos', this.x);
   }
 

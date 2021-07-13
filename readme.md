@@ -31,3 +31,6 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   ## Monday July 12th, 2021
     - Create and update readme.md.
     - Make character side-to-side scrolling and jumping more fluid.
+
+  ## Tuesday July 13th, 2021
+    - Fix camera-follow when side scrolling.

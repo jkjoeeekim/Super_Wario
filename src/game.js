@@ -17,6 +17,7 @@ class Game {
     this.character = new Wario(25, 0);
     this.floor = new Floor(0, 112);
     this.roof = new Roof(0, 48);
+    this.notRendering = true;
   }
 
   bindKeyHandlers() {
@@ -48,6 +49,13 @@ class Game {
     });
   }
 
+  moveBack(tile, num, wario) {
+    tile.viewportDiff += num;
+    wario.viewportDiff += num;
+    // wario.relativex += num;
+    // wario.moveX(1, false);
+  }
+
   start() {
     let that = this;
     const wario = this.character;
@@ -61,7 +69,22 @@ class Game {
             };
             break;
           case 'ArrowRight':
-            if (this.canMove(wario, 'forward')) wario.moveX(1);
+            if (this.canMove(wario, 'forward')) {
+              if (wario.x + 5 > 100) {
+                if (this.notRendering) {
+                  this.notRendering = false;
+                  let allPieces = that.map.allPieces();
+                  allPieces.forEach(piece => {
+                    that.moveBack(piece, 1, wario);
+                  });
+                  setTimeout(function () {
+                    that.notRendering = true;
+                  }, 5);
+                };
+              } else {
+                wario.moveX(1, true);
+              }
+            };
             break;
         }
       }
@@ -102,7 +125,7 @@ class Game {
           if (tile instanceof Floor) {
             forwardMoves += 1;
           }
-        })
+        });
         return forwardMoves < 2;
       case 'backward':
         let backwardMoves = 0;
@@ -110,7 +133,7 @@ class Game {
           if (tile instanceof Floor) {
             backwardMoves += 1;
           }
-        })
+        });
         return backwardMoves < 2;
     }
     return false;
