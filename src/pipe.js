@@ -14,8 +14,12 @@ class Pipe {
   }
 
   createDouble(map) {
-    let pipePair = new Pipe(this.x + 16, this.y, null, null, false)
-    map.pipePieces.push(pipePair);
+    let pipePair1 = new Pipe(this.x + 16, this.y, null, null, false)
+    let pipePair2 = new Pipe(this.x, this.y + 16, null, null, false)
+    let pipePair3 = new Pipe(this.x + 16, this.y + 16, null, null, false)
+    map.pipePieces.push(pipePair1);
+    map.pipePieces.push(pipePair2);
+    map.pipePieces.push(pipePair3);
   }
 }
 

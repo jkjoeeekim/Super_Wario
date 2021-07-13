@@ -37,3 +37,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add green pipes and item blocks.
     - Add blinking effect for item blocks.
     - Fix bug with side scrolling and gravity effect.
+    - Fix bug with character going off screen.

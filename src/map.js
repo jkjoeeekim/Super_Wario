@@ -17,8 +17,8 @@ class Map {
     this.itemBlockPieces = [];
     this.floorHoles = [160, 176, 560, 576, 800, 816];
     this.roofFills = [240, 272, 288, 864, 880, 896];
-    this.itemBlockFills = [256, 912, 32];
-    this.pipeFills = [32, 480];
+    this.itemBlockFills = [256, 912];
+    this.pipeFills = [480];
     this.roofHoles = this.generateHoles(this.roofFills, 16);
     this.itemBlockHoles = this.generateHoles(this.itemBlockFills, 16);
     this.pipeHoles = this.generateHoles(this.pipeFills, 32);

@@ -1,10 +1,11 @@
 class Wario {
-  constructor(x, y) {
+  constructor(x, y, restricted) {
     this.height = 34 / 2;
     this.width = 48 / 2;
     this.x = x;
     this.y = y;
     this.context = null;
+    this.nogoZones = restricted;
     this.image = null;
   }
 

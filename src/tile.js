@@ -5,7 +5,7 @@ class Tile {
     this.x = x;
     this.y = y;
     this.viewportDiff = 0;
-    this.maxRender = 180;
+    this.maxRender = 1000;
     this.passable = true;
   }
 
@@ -13,7 +13,7 @@ class Tile {
     for (let x = tile.x; x < 1200; x += tile.width) {
       for (let y = tile.y; y < tile.maxRender; y += tile.height) {
         let newTile = new Tile(x, y);
-        console.log(context.canvas.offsetWidth)
+        console.log(context.canvas.offsetWidth);
         map.emptyPieces.push(newTile);
       }
     }

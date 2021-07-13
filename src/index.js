@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
     map.generateTiles(roof, context, image, map.roofHoles);
     map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
     map.generateTiles(pipe, context, image, map.pipeHoles);
+    let noGoZones = game.noGoZones();
+    wario.nogoZones = noGoZones;
     // pipe.context = context;
     // pipe.image = image;
     // map.draw(pipe);
