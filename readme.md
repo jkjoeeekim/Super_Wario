@@ -35,4 +35,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   ## Tuesday July 13th, 2021
     - Fix camera-follow when side scrolling.
     - Add green pipes and item blocks.
+    - Add blinking effect for item blocks.
     - Fix bug with side scrolling and gravity effect.

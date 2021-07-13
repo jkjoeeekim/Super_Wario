@@ -29,12 +29,14 @@ class Map {
   }
 
   draw(tile) {
-    tile.context.drawImage(tile.image,
-      tile.spritePos[0], tile.spritePos[1],
-      tile.width, tile.height,
-      tile.x - tile.viewportDiff, tile.y,
-      tile.width, tile.height
-    );
+    if (tile.render) {
+      tile.context.drawImage(tile.image,
+        tile.spritePos[0], tile.spritePos[1],
+        tile.width, tile.height,
+        tile.x - tile.viewportDiff, tile.y,
+        tile.width, tile.height
+      );
+    }
   }
 
   fpsCounter(context) {
@@ -62,10 +64,13 @@ class Map {
             if (piece.x === x && piece.y === y) pieceIdx = index;
           });
           this.emptyPieces.splice(pieceIdx, 1);
-          let newTile = new tile.constructor(x, y, context, image);
+          let newTile = new tile.constructor(x, y, context, image, this);
           if (newTile instanceof Floor) this.floorPieces.push(newTile);
           if (newTile instanceof Roof) this.roofPieces.push(newTile);
-          if (newTile instanceof Pipe) this.pipePieces.push(newTile);
+          if (newTile instanceof Pipe) {
+            newTile.createDouble(this)
+            this.pipePieces.push(newTile);
+          };
           if (newTile instanceof ItemBlock) this.itemBlockPieces.push(newTile);
           this.draw(newTile);
         };

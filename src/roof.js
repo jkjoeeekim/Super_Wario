@@ -1,5 +1,5 @@
 class Roof {
-  constructor(x, y, context, image) {
+  constructor(x, y, context, image, bool=true) {
     this.context = context;
     this.image = image;
     this.height = 16;
@@ -8,6 +8,7 @@ class Roof {
     this.viewportDiff = 0;
     this.x = x;
     this.y = y;
+    this.render = bool;
     this.maxRender = 51;
     this.passable = false;
   }

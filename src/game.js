@@ -158,16 +158,19 @@ class Game {
     let tiles = obj.currentTiles(this);
     let bottomTiles = [tiles[0], tiles[1]];
     let floorCount = 0;
+    let pipeCount = 0;
 
     bottomTiles.forEach(tile => {
       if (tile instanceof Floor) {
         return;
+      } else if (tile instanceof Pipe) {
+        pipeCount += 1
       } else {
         floorCount += 1;
       }
     });
 
-    if (floorCount < 2) {
+    if (floorCount < 2 || pipeCount > 0) {
       return true;
     } else {
       obj.y += 1;
@@ -175,11 +178,11 @@ class Game {
     };
   }
 
-  closestCoordinate(ord) {
-    for (let i = 0; i < 16; i++) {
+  closestCoordinate(ord, width=16) {
+    for (let i = 0; i < width; i++) {
       let newOrd = ord - i;
-      if (newOrd % 16 === 0) {
-        return [newOrd, newOrd + 16];
+      if (newOrd % width === 0) {
+        return [newOrd, newOrd + width];
       }
     }
   }

@@ -56,7 +56,7 @@ class Wario {
   }
 
   draw() {
-    this.context.drawImage(this.image, 13, 670, 35, 49, this.x - 10, this.y + 4, this.width, this.height);
+    this.context.drawImage(this.image, 13, 670, 35, 49, this.x - 8, this.y + 4, this.width, this.height);
   }
 
   moveX(direction, bool) {
