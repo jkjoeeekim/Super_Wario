@@ -4,14 +4,8 @@ class Wario {
     this.width = 48 / 2;
     this.x = x;
     this.y = y;
-    this.relativex ||= x;
-    this.viewportDiff = 0;
     this.context = null;
     this.image = null;
-  }
-
-  relativeX() {
-    return this.x + this.viewportDiff;
   }
 
   bubble(game) {
@@ -56,7 +50,6 @@ class Wario {
     });
     console.log('x coord', this.x);
     console.log(this);
-    console.log('relative x coord', this.relativeX());
     console.log('y coord', this.y);
     console.log(currentTiles);
     return currentTiles;

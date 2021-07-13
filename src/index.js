@@ -28,13 +28,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const tile = game.emptyTile;
   const floor = game.floor;
   const roof = game.roof;
+  const itemBlock = game.itemBlock;
+  const pipe = game.pipe;
   
   loadImage('../img/tiles.png')
   .then(image => {
     tile.generateEmptyTiles(map, tile, context);
     map.generateTiles(floor, context, image, map.floorHoles);
     map.generateTiles(roof, context, image, map.roofHoles);
-    console.log(map.emptyPieces)
+    map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
+    map.generateTiles(pipe, context, image, map.pipeHoles);
+    // pipe.context = context;
+    // pipe.image = image;
+    // map.draw(pipe);
+    // console.log(map.emptyPieces)
   });
   
   loadImage('../img/wario4.png')
@@ -45,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // game.enableGravity(wario);
     // map.fpsCounter(context);
     game.start();
+
     // console.log(game.tileAtXCoordinate(33))
   });
   

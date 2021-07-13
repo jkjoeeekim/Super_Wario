@@ -3,6 +3,8 @@ const Map = require('./map');
 const Floor = require('./floor');
 const Roof = require('./roof');
 const Tile = require('./tile');
+const Pipe = require('./pipe');
+const ItemBlock = require('./itemBlock');
 
 class Game {
   constructor(context) {
@@ -15,7 +17,9 @@ class Game {
     this.map = new Map();
     this.emptyTile = new Tile(0, 0);
     this.character = new Wario(25, 0);
+    this.pipe = new Pipe(0, 80);
     this.floor = new Floor(0, 112);
+    this.itemBlock = new ItemBlock(0, 48);
     this.roof = new Roof(0, 48);
     this.notRendering = true;
   }
@@ -93,7 +97,18 @@ class Game {
     this.animate();
     this.map.fpsCounter(this.context);
     this.enableGravity(wario);
-    requestAnimationFrame(this.start.bind(this));
+    let animationFrame = requestAnimationFrame(this.start.bind(this));
+    if (this.checkDeath(wario)) {
+      cancelAnimationFrame(animationFrame);
+    };
+  }
+
+  checkDeath(wario) {
+    if (wario.y > 111) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   animate() {

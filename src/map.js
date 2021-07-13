@@ -1,9 +1,11 @@
 const Floor = require('./floor');
 const Roof = require('./roof');
+const Pipe = require('./pipe');
+const ItemBlock = require('./itemBlock');
 
 class Map {
   constructor() {
-    this.width = 1000;
+    this.width = 1500;
     this.height = 20;
     this.currentSecond = 0;
     this.frameCount = 0;
@@ -11,19 +13,25 @@ class Map {
     this.floorPieces = [];
     this.roofPieces = [];
     this.emptyPieces = [];
-    this.floorHoles = [160, 176, 320, 336];
-    this.roofFills = [240, 256, 272, 288];
-    this.roofHoles = this.generateRoofHoles();
+    this.pipePieces = [];
+    this.itemBlockPieces = [];
+    this.floorHoles = [160, 176, 560, 576, 800, 816];
+    this.roofFills = [240, 272, 288, 864, 880, 896];
+    this.itemBlockFills = [256, 912, 32];
+    this.pipeFills = [32, 480];
+    this.roofHoles = this.generateHoles(this.roofFills, 16);
+    this.itemBlockHoles = this.generateHoles(this.itemBlockFills, 16);
+    this.pipeHoles = this.generateHoles(this.pipeFills, 32);
   }
 
   allPieces() {
-    return this.floorPieces.concat(this.roofPieces).concat(this.emptyPieces);
+    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.emptyPieces);
   }
 
   draw(tile) {
     tile.context.drawImage(tile.image,
       tile.spritePos[0], tile.spritePos[1],
-      16, 16,
+      tile.width, tile.height,
       tile.x - tile.viewportDiff, tile.y,
       tile.width, tile.height
     );
@@ -40,7 +48,7 @@ class Map {
     } else {
       this.frameCount += 1;
     }
-    context.fillText("FPS: " + this.framesPrevSec, 10, 10)
+    context.fillText("FPS: " + this.framesPrevSec, 10, 10);
   }
 
   generateTiles(tile, context, image, holes) {
@@ -52,11 +60,13 @@ class Map {
           let pieceIdx = 0;
           this.emptyPieces.forEach((piece, index) => {
             if (piece.x === x && piece.y === y) pieceIdx = index;
-          })
-          this.emptyPieces.splice(pieceIdx, 1)
+          });
+          this.emptyPieces.splice(pieceIdx, 1);
           let newTile = new tile.constructor(x, y, context, image);
           if (newTile instanceof Floor) this.floorPieces.push(newTile);
           if (newTile instanceof Roof) this.roofPieces.push(newTile);
+          if (newTile instanceof Pipe) this.pipePieces.push(newTile);
+          if (newTile instanceof ItemBlock) this.itemBlockPieces.push(newTile);
           this.draw(newTile);
         };
       }
@@ -67,6 +77,14 @@ class Map {
     let holes = [];
     for (let pos = 0; pos < this.width; pos += 16) {
       if (!this.roofFills.includes(pos)) holes.push(pos);
+    }
+    return holes;
+  }
+
+  generateHoles(fills, width) {
+    let holes = [];
+    for (let pos = 0; pos < this.width; pos += width) {
+      if (!fills.includes(pos)) holes.push(pos);
     }
     return holes;
   }
