@@ -43,7 +43,9 @@ class Game {
         if (!that.keysDown[e.key]) {
           if (that.enableGravity(wario)) {
             that.keysDown[e.key] = true;
-            wario.jump(2, that);
+            if (!wario.dead) {
+              wario.jump(2, that);
+            }
             setTimeout(function () { that.keysDown[e.key] = false; }, 515);
           }
         }
@@ -127,11 +129,18 @@ class Game {
   }
 
   checkDeath(wario) {
-    if (wario.y > 111) {
-      return true;
-    } else {
-      return false;
+    // let tiles = wario.currentTiles(this);
+    if (wario.y > 106) {
+      wario.dead = true;
     }
+    return wario.dead;
+    // tiles.splice(0, 2)
+    // let anyGoombas = false;
+    // tiles.forEach(tile => {
+    //   if (tile ) {
+
+    //   }
+    // })
   }
 
   checkGoomba(game, fx) {
@@ -300,21 +309,37 @@ class Game {
     };
   }
 
+  checkDeathByGoomba(tile) {
+    let wario = this.character;
+    let goombas = this.map.goombaPieces;
+
+    goombas.forEach(goomba => {
+      // console.log('hellohello')
+      if (goomba.x > (wario.x + tile.viewportDiff - 28)) {
+        // console.log('hellohello')
+        if (goomba.x < (wario.x + tile.viewportDiff + 16)) {
+          // console.log('hellohello')
+          if (goomba.y < wario.y + 10) {
+            if (!goomba.dead) {
+              wario.dead = true;
+            }
+          }
+        }
+      }
+    });
+  }
+
   checkDeathGoomba(bottomTiles) {
     let bottomLeft = bottomTiles[0];
     let bottomRight = bottomTiles[1];
     let wario = this.character;
     let that = this;
     this.map.goombaPieces.forEach(goomba => {
-      // console.log('hi')
-      // console.log(bottomLeft.x + bottomRight.x);
-      // console.log('goomba', goomba.x);
-      // console.log(bottomLeft.x)
-      // console.log(bottomRight.x)
-      if (goomba.x >= (bottomLeft.x - 17) && goomba.x <= (bottomRight.x + 17)) {
-        // console.log('hihi');
+      if (goomba.x >= (bottomLeft.x - 16) && goomba.x <= (bottomRight.x + 16)) {
+        this.checkDeathByGoomba(bottomLeft);
         if (goomba.y > wario.y + 5 && goomba.y < wario.y + 15) {
-          if (!goomba.jumpedOn) {
+          goomba.dead = true;
+          if (!goomba.jumpedOn && !wario.dead) {
             goomba.jumpedOn = true;
             wario.bouncing = true;
             setTimeout(function () {
@@ -328,10 +353,6 @@ class Game {
               wario.jump(2, that, 10);
             }, 25);
           }
-
-          // if (wario.bouncing) {
-          // } else {
-          // }
         }
       }
     });

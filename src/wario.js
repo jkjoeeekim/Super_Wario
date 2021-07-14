@@ -6,6 +6,7 @@ class Wario {
     this.y = y;
     this.context = null;
     this.bouncing = false;
+    this.dead = false;
     this.nogoZones = restricted;
     this.image = null;
   }
