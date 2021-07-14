@@ -44,7 +44,7 @@ class Wario {
     allTiles.forEach(tile => {
       if ((tile.y === closestYOrd[0] || tile.y === closestYOrd[1]) && (tile.x === closestXOrd[0] || tile.x === closestXOrd[1])) currentTiles.push(tile);
     });
-    console.log(currentTiles);
+    // console.log(currentTiles);
     return currentTiles;
   }
 
@@ -66,6 +66,10 @@ class Wario {
   jump(direction, that, steps = 0) {
     let wario = this;
     let maxSteps = 36;
+    // if (this.bouncing) {
+    //   steps = 36;
+    //   this.y -= 10;
+    // }
     that.animate();
 
     if (steps === maxSteps) {

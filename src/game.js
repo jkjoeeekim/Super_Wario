@@ -116,6 +116,7 @@ class Game {
     this.animate();
     this.map.fpsCounter(this.context);
     this.enableGravity(wario);
+    this.enableGoombaGravity();
     // this.toggleGoomba(wario, this.floor, goomba);
     let animationFrame = requestAnimationFrame(this.start.bind(this, fnc));
     if (this.checkDeath(wario)) {
@@ -130,8 +131,10 @@ class Game {
 
   checkDeath(wario) {
     // let tiles = wario.currentTiles(this);
-    if (wario.y > 106) {
-      wario.dead = true;
+    if (wario.y > 98) {
+      setTimeout(function () {
+        wario.dead = true;
+      }, 30);
     }
     return wario.dead;
     // tiles.splice(0, 2)
@@ -310,6 +313,16 @@ class Game {
     };
   }
 
+  enableGoombaGravity() {
+    let goombas = this.map.goombaPieces;
+    let holes = this.map.floorHoles;
+    goombas.forEach(goomba => {
+      if (holes.includes(goomba.x)) {
+        goomba.fall();
+      }
+    });
+  }
+
   getClosestTileLeft() {
     let wario = this.character;
     let closestXcoord = this.closestCoordinate(wario.x);
@@ -337,7 +350,7 @@ class Game {
       // console.log('hellohello')
       if (goomba.x > (wario.x + tile.viewportDiff - 28)) {
         // console.log('hellohello')
-        if (goomba.x < (wario.x + tile.viewportDiff + 16)) {
+        if (goomba.x < (wario.x + tile.viewportDiff + 19)) {
           // console.log('hellohello')
           if (goomba.y < wario.y + 10) {
             if (!goomba.dead) {

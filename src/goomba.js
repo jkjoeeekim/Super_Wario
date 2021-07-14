@@ -49,6 +49,19 @@ class Goomba {
     }
   }
 
+  fall(steps = 0) {
+    let maxSteps = 36;
+    let that = this;
+    if (steps === maxSteps) {
+      return;
+    } else {
+      this.y += 1;
+      return setTimeout(function () {
+        that.fall(steps + 1);
+      }, 15)
+    }
+  }
+
   changeSprite() {
     switch (this.spritePos[0]) {
       case 90:
