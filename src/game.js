@@ -67,6 +67,7 @@ class Game {
   //   }
   // }
 
+  // give all units a value of viewportDiff which keeps track of x-axis difference.
   moveBack(tile, num, wario, goomba) {
     tile.viewportDiff += num;
     wario.viewportDiff += num;
@@ -131,6 +132,15 @@ class Game {
     }
   }
 
+  checkGoomba(game, fx) {
+    this.goombas.forEach((goomba, index) => {
+      if (goomba.x - 208 === fx && !goomba.triggered) {
+        goomba.triggerMovement(goomba);
+        // this.goombas.splice(index, 1);
+      }
+    })
+  }
+
   animate() {
     this.context.clearRect(0, 0, 800, 600);
     const allPieces = this.map.allRenderPieces();
@@ -153,6 +163,42 @@ class Game {
       }
     });
     return noGoCoords;
+  }
+  
+  canMove(wario, direction) {
+    let allFloorPieces = this.map.floorPieces;
+    let tiles = wario.currentTiles(this);
+    tiles.slice(2);
+    let bubble = wario.bubble(this);
+    let rightBubble = bubble['rightBubble'];
+    let leftBubble = bubble['leftBubble'];
+    switch (direction) {
+      case 'forward':
+        let frontxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+        let frontyCoord = this.closestCoordinate(wario.y);
+        let fx = frontxCoord[1];
+        let fy = frontyCoord[1];
+        // console.log(fx)
+        this.checkGoomba(this, fx);
+        if (wario.nogoZones.includes([fx, fy])) {
+          return false;
+        } else {
+          return true;
+        }
+      case 'backward':
+        let backxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+        let backyCoord = this.closestCoordinate(wario.y);
+        let bx = backxCoord[0];
+        let by = backyCoord[0];
+        if (wario.nogoZones.includes([bx, by])) {
+          return false;
+        } else if (wario.x - 10 < 0) {
+          return false;
+        } else {
+          return true;
+        }
+    }
+    return false;
   }
 
   canMove2(wario, direction) {
@@ -217,44 +263,6 @@ class Game {
         return backward > 0;
         break;
     }
-  }
-
-  canMove(wario, direction) {
-    let allFloorPieces = this.map.floorPieces;
-    let tiles = wario.currentTiles(this);
-    tiles.slice(2);
-    let bubble = wario.bubble(this);
-    let rightBubble = bubble['rightBubble'];
-    let leftBubble = bubble['leftBubble'];
-    switch (direction) {
-      case 'forward':
-        let frontxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
-        let frontyCoord = this.closestCoordinate(wario.y);
-        let fx = frontxCoord[1];
-        let fy = frontyCoord[1];
-        // console.log(fx)
-        if (fx === 192 && !this.goomba1.triggered) {
-          this.goomba1.triggerMovement(this.goomba1);
-        }
-        if (wario.nogoZones.includes([fx, fy])) {
-          return false;
-        } else {
-          return true;
-        }
-      case 'backward':
-        let backxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
-        let backyCoord = this.closestCoordinate(wario.y);
-        let bx = backxCoord[0];
-        let by = backyCoord[0];
-        if (wario.nogoZones.includes([bx, by])) {
-          return false;
-        } else if (wario.x - 10 < 0) {
-          return false;
-        } else {
-          return true;
-        }
-    }
-    return false;
   }
 
   enableGravity(obj) {

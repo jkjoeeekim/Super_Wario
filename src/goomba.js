@@ -6,6 +6,7 @@ class Goomba {
     this.y = y;
     this.viewportDiff = 0;
     this.render = true;
+    this.triggered = false;
     // this.spritePos = [290, 40]
     this.spritePos = [90, 40]
     this.context = null;

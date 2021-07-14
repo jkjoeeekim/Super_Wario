@@ -43,3 +43,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add (6) enemy Goombas.
     - Add walking effect for Goombas.
     - Add bounds to prevent character from going backwards off screen.
+    - Add triggered movement for goombas.
