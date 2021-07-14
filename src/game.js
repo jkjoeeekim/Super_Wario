@@ -18,13 +18,15 @@ class Game {
     this.map = new Map();
     this.emptyTile = new Tile(-16, 0);
     this.character = new Wario(25, 0);
+    this.testGoomba = new Goomba(64, 99);
     this.goomba1 = new Goomba(400, 99);
     this.goomba2 = new Goomba(432, 99);
     this.goomba3 = new Goomba(752, 99);
     this.goomba4 = new Goomba(784, 99);
     this.goomba5 = new Goomba(1008, 99);
     this.goomba6 = new Goomba(1040, 99);
-    this.goombas = [this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
+    this.map.goombaPieces = [this.testGoomba, this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
+    // this.map.goombaPieces = this.goombas;
     this.pipe = new Pipe(480, 80);
     this.floor = new Floor(0, 112);
     this.itemBlock = new ItemBlock(0, 48);
@@ -42,7 +44,7 @@ class Game {
           if (that.enableGravity(wario)) {
             that.keysDown[e.key] = true;
             wario.jump(2, that);
-            setTimeout(function () { that.keysDown[e.key] = false; }, 550);
+            setTimeout(function () { that.keysDown[e.key] = false; }, 515);
           }
         }
       }
@@ -133,12 +135,12 @@ class Game {
   }
 
   checkGoomba(game, fx) {
-    this.goombas.forEach((goomba, index) => {
+    this.map.goombaPieces.forEach((goomba, index) => {
       if (goomba.x - 208 === fx && !goomba.triggered) {
         goomba.triggerMovement(goomba);
-        // this.goombas.splice(index, 1);
+        // this.map.goombaPieces.splice(index, 1);
       }
-    })
+    });
   }
 
   animate() {
@@ -147,7 +149,7 @@ class Game {
     allPieces.forEach((tile) => {
       this.map.draw(tile);
     });
-    this.goombas.forEach(goomba => {
+    this.map.goombaPieces.forEach(goomba => {
       goomba.draw(allPieces[0]);
     });
     // this.goomba1.draw(allPieces[0]);
@@ -164,7 +166,7 @@ class Game {
     });
     return noGoCoords;
   }
-  
+
   canMove(wario, direction) {
     let allFloorPieces = this.map.floorPieces;
     let tiles = wario.currentTiles(this);
@@ -268,6 +270,8 @@ class Game {
   enableGravity(obj) {
     let tiles = obj.currentTiles(this);
     let bottomTiles = [tiles[0], tiles[1]];
+    let goombas = this.map.goombaPieces;
+    let that = this;
     let floorCount = 0;
     let pipeCount = 0;
 
@@ -280,8 +284,11 @@ class Game {
         floorCount += 1;
       }
     });
-
-    if (floorCount < 2 || pipeCount > 0) {
+    this.checkDeathGoomba(bottomTiles);
+    if (goombas.includes(bottomTiles[0]) || goombas.includes(bottomTiles[1])) {
+      // bottomTiles[0].triggerDeath(bottomTiles[0], that);
+      return true;
+    } else if (floorCount < 2 || pipeCount > 0) {
       return true;
     } else if (floorCount < 2 && pipeCount > 0) {
       obj.x -= 3;
@@ -291,6 +298,43 @@ class Game {
       obj.y += 1;
       return false;
     };
+  }
+
+  checkDeathGoomba(bottomTiles) {
+    let bottomLeft = bottomTiles[0];
+    let bottomRight = bottomTiles[1];
+    let wario = this.character;
+    let that = this;
+    this.map.goombaPieces.forEach(goomba => {
+      // console.log('hi')
+      // console.log(bottomLeft.x + bottomRight.x);
+      // console.log('goomba', goomba.x);
+      // console.log(bottomLeft.x)
+      // console.log(bottomRight.x)
+      if (goomba.x >= (bottomLeft.x - 17) && goomba.x <= (bottomRight.x + 17)) {
+        // console.log('hihi');
+        if (goomba.y > wario.y + 5 && goomba.y < wario.y + 15) {
+          if (!goomba.jumpedOn) {
+            goomba.jumpedOn = true;
+            wario.bouncing = true;
+            setTimeout(function () {
+              wario.bouncing = false;
+            }, 200);
+            setTimeout(function () {
+              goomba.triggerDeath(goomba, that);
+            }, 200);
+            wario.bouncing = true;
+            setTimeout(function () {
+              wario.jump(2, that, 10);
+            }, 25);
+          }
+
+          // if (wario.bouncing) {
+          // } else {
+          // }
+        }
+      }
+    });
   }
 
   closestCoordinate(ord, width = 16) {

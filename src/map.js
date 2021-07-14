@@ -15,6 +15,7 @@ class Map {
     this.emptyPieces = [];
     this.pipePieces = [];
     this.itemBlockPieces = [];
+    this.goombaPieces = [];
     this.floorHoles = [160, 176, 560, 576, 800, 816];
     this.roofFills = [240, 272, 288, 864, 880, 896];
     this.itemBlockFills = [256, 912];
@@ -25,11 +26,11 @@ class Map {
   }
 
   allPieces() {
-    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.emptyPieces);
+    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.goombaPieces).concat(this.emptyPieces);
   }
 
   allRenderPieces() {
-    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces)
+    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces);
   }
 
   draw(tile) {
@@ -73,7 +74,7 @@ class Map {
           if (newTile instanceof Floor) this.floorPieces.push(newTile);
           if (newTile instanceof Roof) this.roofPieces.push(newTile);
           if (newTile instanceof Pipe) {
-            newTile.createDouble(this)
+            newTile.createDouble(this);
             this.pipePieces.push(newTile);
           };
           if (newTile instanceof ItemBlock) this.itemBlockPieces.push(newTile);

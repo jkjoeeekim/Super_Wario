@@ -5,6 +5,7 @@ class Wario {
     this.x = x;
     this.y = y;
     this.context = null;
+    this.bouncing = false;
     this.nogoZones = restricted;
     this.image = null;
   }
@@ -42,6 +43,7 @@ class Wario {
     allTiles.forEach(tile => {
       if ((tile.y === closestYOrd[0] || tile.y === closestYOrd[1]) && (tile.x === closestXOrd[0] || tile.x === closestXOrd[1])) currentTiles.push(tile);
     });
+    // console.log(currentTiles);
     return currentTiles;
   }
 

@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const game = new Game(context);
   const wario = game.character; 
   const goomba1 = game.goomba1;
-  const goombas = game.goombas;
   const map = game.map;
+  const goombas = map.goombaPieces;
   const tile = game.emptyTile;
   const floor = game.floor;
   const roof = game.roof;

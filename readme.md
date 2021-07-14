@@ -44,3 +44,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add walking effect for Goombas.
     - Add bounds to prevent character from going backwards off screen.
     - Add triggered movement for goombas.
+    - Add death effect for goombas when stepped on.

@@ -7,15 +7,19 @@ class Goomba {
     this.viewportDiff = 0;
     this.render = true;
     this.triggered = false;
-    // this.spritePos = [290, 40]
-    this.spritePos = [90, 40]
+    this.passable = false;
+    this.spritePos = [90, 40];
+    // this.spritePos = [500, 30]
     this.context = null;
     this.image = null;
+    this.moving = null;
+    this.dead = false;
+    this.jumpedOn = false;
 
     let that = this;
-    setInterval(function() {
+    setInterval(function () {
       that.changeSprite();
-    }, 500)
+    }, 500);
   }
 
   moveX() {
@@ -24,9 +28,25 @@ class Goomba {
 
   triggerMovement(goomba) {
     goomba.triggered = true;
-    setInterval(function () {
+    this.moving = setInterval(function () {
       goomba.moveX();
     }, 1000 / 60);
+  }
+
+  triggerDeath(goomba, that) {
+    goomba.passable = true;
+    goomba.jumpedOn = true;
+    // goomba.spritePos[0] = 500;
+    goomba.spritePos = [500, 30];
+    goomba.dead = true;
+    let goombas = that.map.goombaPieces;
+    let goombaIdx = goombas.indexOf(goomba);
+    setTimeout(function () {
+      that.map.goombaPieces.splice(goombaIdx, 1);
+    }, 200)
+    if (goomba.moving) {
+      clearInterval(goomba.moving);
+    }
   }
 
   changeSprite() {
