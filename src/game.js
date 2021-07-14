@@ -5,6 +5,7 @@ const Roof = require('./roof');
 const Tile = require('./tile');
 const Pipe = require('./pipe');
 const ItemBlock = require('./itemBlock');
+const Goomba = require('./goomba');
 
 class Game {
   constructor(context) {
@@ -17,6 +18,13 @@ class Game {
     this.map = new Map();
     this.emptyTile = new Tile(-16, 0);
     this.character = new Wario(25, 0);
+    this.goomba1 = new Goomba(400, 99);
+    this.goomba2 = new Goomba(432, 99);
+    this.goomba3 = new Goomba(752, 99);
+    this.goomba4 = new Goomba(784, 99);
+    this.goomba5 = new Goomba(1008, 99);
+    this.goomba6 = new Goomba(1040, 99);
+    this.goombas = [this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
     this.pipe = new Pipe(480, 80);
     this.floor = new Floor(0, 112);
     this.itemBlock = new ItemBlock(0, 48);
@@ -53,33 +61,39 @@ class Game {
     });
   }
 
-  moveBack(tile, num, wario) {
+  // toggleGoomba(wario, tile, goomba) {
+  //   if (wario.x + tile.viewportDiff > goomba.x - 200) {
+  //     goomba.triggerMovement();
+  //   }
+  // }
+
+  moveBack(tile, num, wario, goomba) {
     tile.viewportDiff += num;
     wario.viewportDiff += num;
-    // wario.relativex += num;
-    // wario.moveX(1, false);
+    goomba.viewportDiff += num;
   }
 
   start(fnc) {
     let that = this;
     const wario = this.character;
+    const goomba = this.goomba1;
     Object.keys(this.keysDown).forEach((key) => {
       if (this.keysDown[key]) {
         switch (key) {
           case 'ArrowLeft':
-            if (this.canMove2(wario, 'backward')) {
+            if (this.canMove(wario, 'backward')) {
               wario.moveX(-1);
               // wario.currentTile(that);
             };
             break;
           case 'ArrowRight':
-            if (this.canMove2(wario, 'forward')) {
+            if (this.canMove(wario, 'forward')) {
               if (wario.x + 5 > 100) {
                 if (this.notRendering) {
                   this.notRendering = false;
                   let allPieces = that.map.allPieces();
                   allPieces.forEach(piece => {
-                    that.moveBack(piece, 1, wario);
+                    that.moveBack(piece, 1, wario, goomba);
                   });
                   setTimeout(function () {
                     that.notRendering = true;
@@ -97,11 +111,12 @@ class Game {
     this.animate();
     this.map.fpsCounter(this.context);
     this.enableGravity(wario);
+    // this.toggleGoomba(wario, this.floor, goomba);
     let animationFrame = requestAnimationFrame(this.start.bind(this, fnc));
     if (this.checkDeath(wario)) {
-      setTimeout(function() {
+      setTimeout(function () {
         fnc();
-      }, 1500)
+      }, 1500);
     }
     if (this.checkDeath(wario)) {
       cancelAnimationFrame(animationFrame);
@@ -118,18 +133,15 @@ class Game {
 
   animate() {
     this.context.clearRect(0, 0, 800, 600);
-    const allPieces = this.map.allPieces();
+    const allPieces = this.map.allRenderPieces();
     allPieces.forEach((tile) => {
-      if (tile instanceof Tile) {
-        return;
-      } else {
-        this.map.draw(tile);
-      }
+      this.map.draw(tile);
     });
-    // this.context.clearRect(0, 0, 800, 600);
-    // this.map.generateTiles(this.floor)
+    this.goombas.forEach(goomba => {
+      goomba.draw(allPieces[0]);
+    });
+    // this.goomba1.draw(allPieces[0]);
     this.character.draw();
-    // requestAnimationFrame(this.animate(context, image));
   }
 
   noGoZones() {
@@ -148,26 +160,60 @@ class Game {
     let closestXCoords = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
     let closestYCoords = this.closestCoordinate(wario.y);
     let bubble = wario.bubble(this);
+    // console.log(tiles)
 
     switch (direction) {
       case 'forward':
+        // let forward = true;
+        // let nogoCoords = this.noGoZones();
+        // console.log(nogoCoords);
+        // nogoCoords.forEach(coord => {
+        //   if (wario.x + tiles[0].viewportDiff > coord[0] && wario.x + tiles[0].viewportDiff < coord[0] + 16 && wario.y < coord[1] && wario.y > coord[1] - 16) {
+        //     // console.log(wario.x)
+        //     forward = false;
+        //   }
+        // });
+        // return forward
         let forward = 0;
-        bubble['rightBubble'].forEach(tile => {
-          if (tile.passable) {
-            forward += 1;
+        bubble['leftBubble'].forEach(tile => {
+          if (tiles[0] instanceof Pipe && tiles[1] instanceof Pipe && tiles[2] instanceof Pipe) {
+            wario.x -= 20;
+            forward -= 200;
           }
-        })
+          if (tile.passable) {
+            forward += 51;
+          }
+          if (tiles[2] instanceof Pipe) {
+            forward -= 100;
+          }
+          if (wario.y < tiles[0].y && wario.y < tiles[1].y) {
+            forward += 50;
+          }
+        });
         return forward > 0;
         break;
       case 'backward':
         let backward = 0;
-        bubble['leftBubble'].forEach(tile => {
-        if (wario.x - 16 < 0) {
-          backward = -10;
-        } else if (tile.passable) {
+        bubble['rightBubble'].forEach(tile => {
+          if (tiles[0] instanceof Pipe && tiles[1] instanceof Pipe && tiles[2] instanceof Pipe) {
+            wario.x += 20;
+            backward -= 200;
+          }
+          if (tile.passable) {
+            backward += 51;
+          }
+          if (tiles[2] instanceof Pipe) {
+            backward -= 100;
+          }
+          if (wario.y < tiles[0].y && wario.y < tiles[1].y) {
+            backward += 50;
+          }
+          if (wario.x - 5 < 0) {
+            backward = -10;
+          } else if (tile.passable) {
             backward += 1;
           }
-        })
+        });
         return backward > 0;
         break;
     }
@@ -182,27 +228,31 @@ class Game {
     let leftBubble = bubble['leftBubble'];
     switch (direction) {
       case 'forward':
-        let forwardMoves = 0;
-        rightBubble.forEach(tile => {
-          if (tile instanceof Floor) {
-            forwardMoves += 1;
-          }
-        });
-        console.log(rightBubble);
-        tiles.forEach(tile => {
-          if (tile instanceof Pipe) {
-            forwardMoves += 1;
-          }
-        });
-        return forwardMoves < 3;
+        let frontxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+        let frontyCoord = this.closestCoordinate(wario.y);
+        let fx = frontxCoord[1];
+        let fy = frontyCoord[1];
+        // console.log(fx)
+        if (fx === 192 && !this.goomba1.triggered) {
+          this.goomba1.triggerMovement(this.goomba1);
+        }
+        if (wario.nogoZones.includes([fx, fy])) {
+          return false;
+        } else {
+          return true;
+        }
       case 'backward':
-        let backwardMoves = 0;
-        leftBubble.forEach(tile => {
-          if (tile instanceof Floor) {
-            backwardMoves += 1;
-          }
-        });
-        return backwardMoves < 2;
+        let backxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+        let backyCoord = this.closestCoordinate(wario.y);
+        let bx = backxCoord[0];
+        let by = backyCoord[0];
+        if (wario.nogoZones.includes([bx, by])) {
+          return false;
+        } else if (wario.x - 10 < 0) {
+          return false;
+        } else {
+          return true;
+        }
     }
     return false;
   }
@@ -224,6 +274,10 @@ class Game {
     });
 
     if (floorCount < 2 || pipeCount > 0) {
+      return true;
+    } else if (floorCount < 2 && pipeCount > 0) {
+      obj.x -= 3;
+      obj.y += 1;
       return true;
     } else {
       obj.y += 1;

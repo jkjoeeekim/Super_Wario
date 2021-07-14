@@ -28,9 +28,14 @@ class Map {
     return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.emptyPieces);
   }
 
+  allRenderPieces() {
+    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces)
+  }
+
   draw(tile) {
     if (tile.render) {
-      tile.context.drawImage(tile.image,
+      tile.context.drawImage(
+        tile.image,
         tile.spritePos[0], tile.spritePos[1],
         tile.width, tile.height,
         tile.x - tile.viewportDiff, tile.y,

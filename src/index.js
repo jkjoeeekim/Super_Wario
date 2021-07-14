@@ -17,14 +17,14 @@ function createGGMsg() {
   let gameOverMsg = document.createElement('form');
   let text = document.createElement('p');
   let button = document.createElement('button');
-  text.innerHTML = 'GAME OVER'
+  text.innerHTML = 'GAME OVER';
   button.innerText = 'Play Again?';
   gameOverMsg.appendChild(text);
   gameOverMsg.appendChild(button);
   gameOverMsg.classList.add("gg-msg");
   gameOverMsg.setAttribute("id", "gg");
   newCanvas.classList.add("dim-canvas");
-  newCanvas.setAttribute("id", "dim")
+  newCanvas.setAttribute("id", "dim");
   text.classList.add("gg-text");
   button.classList.add("gg-button");
   document.body.appendChild(newCanvas);
@@ -35,7 +35,7 @@ function displayGGMsg() {
   let ggMsg = document.getElementById("gg");
   let displayCanvas = document.getElementById("dim");
   ggMsg.classList.add("enable");
-  displayCanvas.classList.add("enable")
+  displayCanvas.classList.add("enable");
 }
 
 window.onload = function () {
@@ -49,9 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("game-window");
   const context = canvas.getContext('2d');
   context.imageSmoothingEnabled = false;
-  
+
   const game = new Game(context);
-  const wario = game.character;
+  const wario = game.character; 
+  const goomba1 = game.goomba1;
+  const goombas = game.goombas;
   const map = game.map;
   const tile = game.emptyTile;
   const floor = game.floor;
@@ -59,34 +61,47 @@ document.addEventListener("DOMContentLoaded", function () {
   const itemBlock = game.itemBlock;
   const pipe = game.pipe;
   const displayGG = displayGGMsg;
-  
-  loadImage('../img/tiles.png')
-  .then(image => {
-    tile.generateEmptyTiles(map, tile, context);
-    map.generateTiles(floor, context, image, map.floorHoles);
-    map.generateTiles(roof, context, image, map.roofHoles);
-    map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
-    map.generateTiles(pipe, context, image, map.pipeHoles);
-    let noGoZones = game.noGoZones();
-    wario.nogoZones = noGoZones;
-    // pipe.context = context;
-    // pipe.image = image;
-    // map.draw(pipe);
-    // console.log(map.emptyPieces)
-  });
-  
-  loadImage('../img/wario4.png')
-  .then(image => {
-    wario.context = context;
-    wario.image = image;
-    wario.draw();
-    // game.enableGravity(wario);
-    // map.fpsCounter(context);
-    game.start(displayGG);
+  const allRenderTiles = map.allRenderPieces();
 
-    // console.log(game.tileAtXCoordinate(33))
-  });
-  
+  loadImage('../img/tiles.png')
+    .then(image => {
+      map.generateTiles(floor, context, image, map.floorHoles);
+      map.generateTiles(roof, context, image, map.roofHoles);
+      map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
+      map.generateTiles(pipe, context, image, map.pipeHoles);
+      tile.generateEmptyTiles(map, tile, allRenderTiles);
+      let noGoZones = game.noGoZones();
+      wario.nogoZones = noGoZones;
+      // pipe.context = context;
+      // pipe.image = image;
+      // map.draw(pipe);
+      // console.log(map.emptyPieces)
+    });
+
+  loadImage('../img/goomba.png')
+    .then(image => {
+      goombas.forEach(goomba => {
+        goomba.context = context;
+        goomba.image = image;
+        goomba.draw(tile);
+      })
+      // goomba1.context = context;
+      // goomba1.image = image;
+      // goomba1.draw(tile);
+    });
+
+  loadImage('../img/wario4.png')
+    .then(image => {
+      wario.context = context;
+      wario.image = image;
+      wario.draw();
+      // game.enableGravity(wario);
+      // map.fpsCounter(context);
+      game.start(displayGG);
+
+      // console.log(game.tileAtXCoordinate(33))
+    });
+
   game.bindKeyHandlers();
   // key("w", function() { wario.moveX(1) })
 

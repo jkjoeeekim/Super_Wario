@@ -38,3 +38,8 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add blinking effect for item blocks.
     - Fix bug with side scrolling and gravity effect.
     - Fix bug with character going off screen.
+
+  ## Wednesday July 14th, 2021
+    - Add (6) enemy Goombas.
+    - Add walking effect for Goombas.
+    - Add bounds to prevent character from going backwards off screen.

@@ -11,6 +11,7 @@ class ItemBlock {
     this.render = bool;
     this.maxRender = 51;
     this.passable = false;
+    this.triggered = false;
     let that = this;
     setInterval(function() {
       that.changeSprite();

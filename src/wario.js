@@ -22,8 +22,6 @@ class Wario {
     };
     floorTiles['leftBubble'].forEach(tile => {
       allPieces.forEach(piece => {
-        // console.log(piece);
-        // console.log(tile);
         if (!piece || !tile) {
           return;
         } else if (piece.x - 32 === tile.x && piece.y === tile.y) {
@@ -33,7 +31,6 @@ class Wario {
         }
       });
     });
-    console.log('bubble', bubble);
     return bubble;
   }
 
@@ -42,17 +39,9 @@ class Wario {
     let currentTiles = [];
     let closestYOrd = game.closestCoordinate(this.y);
     let closestXOrd = game.closestCoordinate(this.x + allTiles[0].viewportDiff);
-    // console.log(this.x);
-    // console.log(this.y);
-    // console.log(closestYOrd);
-    // console.log(closestXOrd);
     allTiles.forEach(tile => {
       if ((tile.y === closestYOrd[0] || tile.y === closestYOrd[1]) && (tile.x === closestXOrd[0] || tile.x === closestXOrd[1])) currentTiles.push(tile);
     });
-    console.log('x coord', this.x);
-    console.log(this);
-    console.log('y coord', this.y);
-    console.log(currentTiles);
     return currentTiles;
   }
 
@@ -61,7 +50,6 @@ class Wario {
   }
 
   moveX(direction, bool) {
-    console.log('old pos', this.x);
     if (bool) {
       this.x += direction;
     } else if (bool === false) {
@@ -70,12 +58,9 @@ class Wario {
       this.x += direction;
       this.relativex += direction;
     }
-    console.log('new pos', this.x);
   }
 
   jump(direction, that, steps = 0) {
-    console.log('steps: ', steps);
-    console.log(this.y);
     let wario = this;
     let maxSteps = 36;
     that.animate();
@@ -89,8 +74,6 @@ class Wario {
         wario.jump(direction, that, steps + 1);
       }, 5);
     }
-
-    console.log(this.y);
   }
 }
 
