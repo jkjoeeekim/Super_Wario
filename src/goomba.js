@@ -43,7 +43,7 @@ class Goomba {
     let goombaIdx = goombas.indexOf(goomba);
     setTimeout(function () {
       that.map.goombaPieces.splice(goombaIdx, 1);
-    }, 200)
+    }, 200);
     if (goomba.moving) {
       clearInterval(goomba.moving);
     }

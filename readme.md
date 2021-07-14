@@ -46,3 +46,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add triggered movement for goombas.
     - Add death effect for goombas when stepped on.
     - Add death effect for wario when touched by a goomba.
+    - Remove keymaster.js API.

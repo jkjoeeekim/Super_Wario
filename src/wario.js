@@ -44,7 +44,7 @@ class Wario {
     allTiles.forEach(tile => {
       if ((tile.y === closestYOrd[0] || tile.y === closestYOrd[1]) && (tile.x === closestXOrd[0] || tile.x === closestXOrd[1])) currentTiles.push(tile);
     });
-    // console.log(currentTiles);
+    console.log(currentTiles);
     return currentTiles;
   }
 

@@ -293,6 +293,7 @@ class Game {
         floorCount += 1;
       }
     });
+    this.getClosestTileLeft();
     this.checkDeathGoomba(bottomTiles);
     if (goombas.includes(bottomTiles[0]) || goombas.includes(bottomTiles[1])) {
       // bottomTiles[0].triggerDeath(bottomTiles[0], that);
@@ -307,6 +308,25 @@ class Game {
       obj.y += 1;
       return false;
     };
+  }
+
+  getClosestTileLeft() {
+    let wario = this.character;
+    let closestXcoord = this.closestCoordinate(wario.x);
+    let closestYcoord = this.closestCoordinate(wario.y);
+    let tiles = this.map.allRenderPieces();
+    let leftTile = null;
+    tiles.forEach(tile => {
+      // console.log('cord', closestXcoord[0])
+      // console.log('tile', tile.x)
+      if (tile.x === closestXcoord[0]) {
+        if (tile.y === closestYcoord[0]) {
+          leftTile = tile;
+        }
+      }
+    });
+    // console.log(leftTile)
+    return leftTile;
   }
 
   checkDeathByGoomba(tile) {
