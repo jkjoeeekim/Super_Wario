@@ -48,4 +48,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add death effect for wario when touched by a goomba.
     - Add gravity effect for all goombas.
     - Add flag pole at the end of the map.
+    - Add initial endgame sequence when reaching the flagpole.
     - Remove keymaster.js API.

@@ -4,6 +4,7 @@ class Wario {
     this.width = 48 / 2;
     this.x = x;
     this.y = y;
+    this.points = 0;
     this.context = null;
     this.bouncing = false;
     this.dead = false;
@@ -34,14 +35,6 @@ class Wario {
       });
     });
     return bubble;
-  }
-
-  pieceLeft() {
-
-  }
-
-  pieceRight() {
-
   }
 
   currentTiles(game, bool) {
@@ -89,6 +82,23 @@ class Wario {
         wario.jump(direction, that, steps + 1);
       }, 5);
     }
+  }
+
+  slideDown() {
+    let wario = this;
+    wario.points += 100;
+    if (wario.y === 96) {
+      return;
+    } else {
+      this.y += 1;
+      return setTimeout(function() {
+        wario.slideDown()
+      }, 100)
+    }
+  }
+
+  initiateEndgame() {
+
   }
 }
 

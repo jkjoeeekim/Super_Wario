@@ -4,11 +4,13 @@ const Roof = require('./roof');
 const Pipe = require('./pipe');
 const ItemBlock = require('./itemBlock');
 const FlagPole = require('./flagPole');
+const FlagPoleTip = require('./flagPoleTip');
 
 class Map {
   constructor() {
     this.width = 1500;
     this.height = 20;
+    this.ingameSecond = 0;
     this.currentSecond = 0;
     this.frameCount = 0;
     this.framesPrevSec = 0;
@@ -19,34 +21,37 @@ class Map {
     this.pipePieces = [];
     this.itemBlockPieces = [];
     this.flagPolePieces = [];
+    this.flagPoleTipPieces = [];
     this.goombaPieces = [];
     this.floorHoles = [160, 176, 560, 576, 800, 816];
     this.roofFills = [240, 272, 288, 864, 880, 896];
     this.itemBlockFills = [256, 912];
     this.pipeFills = [480];
     this.stairFills = [48, 1152];
-    this.stair2Fills = [64, 1168];
-    this.stair3Fills = [80, 1184];
-    this.stair4Fills = [96, 1200];
-    this.stair5Fills = [112, 1216];
-    this.flagPoleFills = [128, 1296];
+    this.stair2Fills = [1168];
+    this.stair3Fills = [1184];
+    this.stair4Fills = [1200];
+    // this.stair5Fills = [112, 1216];
+    this.flagPoleFills = [1296];
+    this.flagPoleTipFills = [1296];
     this.stairHoles = this.generateHoles(this.stairFills, 16);
     this.stair2Holes = this.generateHoles(this.stair2Fills, 16);
     this.stair3Holes = this.generateHoles(this.stair3Fills, 16);
     this.stair4Holes = this.generateHoles(this.stair4Fills, 16);
-    this.stair5Holes = this.generateHoles(this.stair5Fills, 16);
+    // this.stair5Holes = this.generateHoles(this.stair5Fills, 16);
     this.roofHoles = this.generateHoles(this.roofFills, 16);
     this.itemBlockHoles = this.generateHoles(this.itemBlockFills, 16);
     this.pipeHoles = this.generateHoles(this.pipeFills, 32);
     this.flagPoleHoles = this.generateHoles(this.flagPoleFills, 16);
+    this.flagPoleTipHoles = this.generateHoles(this.flagPoleTipFills, 16);
   }
 
   allPieces() {
-    return this.floorPieces.concat(this.flagPolePieces).concat(this.stairPieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.goombaPieces).concat(this.emptyPieces);
+    return this.floorPieces.concat(this.flagPolePieces).concat(this.flagPoleTipPieces).concat(this.stairPieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.goombaPieces).concat(this.emptyPieces);
   }
 
   allRenderPieces() {
-    return this.floorPieces.concat(this.stairPieces).concat(this.flagPolePieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces);
+    return this.floorPieces.concat(this.stairPieces).concat(this.flagPolePieces).concat(this.flagPoleTipPieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces);
   }
 
   draw(tile) {
@@ -61,18 +66,31 @@ class Map {
     }
   }
 
-  fpsCounter(context) {
+  scoreCounter(context, wario) {
+    if (context == null) return;
+    context.fillText("SCORE: " + wario.points, 120, 10)
+  }
+
+  timeCounter(context) {
+    let sec = Math.floor(Date.now() / 1000);
+
+  }
+
+  topBar(context, wario) {
     if (context == null) return;
     let sec = Math.floor(Date.now() / 1000);
 
     if (sec != this.currentSecond) {
       this.currentSecond = sec;
       this.framesPrevSec = this.frameCount;
+      this.ingameSecond += 1;
       this.frameCount = 1;
     } else {
       this.frameCount += 1;
     }
-    context.fillText("FPS: " + this.framesPrevSec, 10, 10);
+    context.fillText("SCORE: " + wario.points, 120, 10)
+    context.fillText("TIME: " + this.ingameSecond, 250, 10)
+    context.fillText("FPS: " + this.framesPrevSec, 5, 10);
   }
 
   generateTiles(tile, context, image, holes) {
@@ -91,6 +109,7 @@ class Map {
           if (newTile instanceof Roof) this.roofPieces.push(newTile);
           if (newTile instanceof Stair) this.stairPieces.push(newTile);
           if (newTile instanceof FlagPole) this.flagPolePieces.push(newTile);
+          if (newTile instanceof FlagPoleTip) this.flagPoleTipPieces.push(newTile);
           if (newTile instanceof Pipe) {
             newTile.createDouble(this);
             this.pipePieces.push(newTile);

@@ -8,6 +8,7 @@ const Pipe = require('./pipe');
 const ItemBlock = require('./itemBlock');
 const Goomba = require('./goomba');
 const FlagPole = require('./flagPole');
+const FlagPoleTip = require('./flagPoleTip');
 
 class Game {
   constructor(context) {
@@ -33,8 +34,9 @@ class Game {
     this.goomba6 = new Goomba(1040, 99);
     this.map.goombaPieces = [this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
 
-    // floors, pipes, item blocks, roofs, flag poles
-    this.flagPole = new FlagPole(16, 32)
+    // floors, pipes, item blocks, roofs, flag pole, flag pole tip.
+    this.flagPole = new FlagPole(32, 48);
+    this.flagPoleTip = new FlagPoleTip(16, 32);
     this.pipe = new Pipe(480, 80);
     this.floor = new Floor(0, 112);
     this.itemBlock = new ItemBlock(256, 48);
@@ -47,7 +49,8 @@ class Game {
     this.stair4 = new Stair(16, 48);
     this.stair5 = new Stair(16, 32);
 
-    
+
+    this.controlsActive = true;
     this.notRendering = true;
   }
 
@@ -99,45 +102,49 @@ class Game {
     let that = this;
     const wario = this.character;
     const goomba = this.goomba1;
-    Object.keys(this.keysDown).forEach((key) => {
-      if (this.keysDown[key]) {
-        switch (key) {
-          case 'ArrowLeft':
-            if (this.leftGravity(wario)) {
-              if (wario.x - 10 < 0) {
-                return;
-              } else {
-                wario.moveX(-1);
-                // wario.currentTile(that);
-              };
-            }
-            break;
-          case 'ArrowRight':
-            if (this.rightGravity(wario)) {
-              if (wario.x + 5 > 100) {
-                if (this.notRendering) {
-                  this.notRendering = false;
-                  let allPieces = that.map.allPieces();
-                  allPieces.forEach(piece => {
-                    that.moveBack(piece, 1, wario, goomba);
-                  });
-                  setTimeout(function () {
-                    that.notRendering = true;
-                  }, 6);
+    if (this.controlsActive) {
+      Object.keys(this.keysDown).forEach((key) => {
+        if (this.keysDown[key]) {
+          switch (key) {
+            case 'ArrowLeft':
+              if (this.leftGravity(wario)) {
+                if (wario.x - 10 < 0) {
+                  return;
+                } else {
+                  wario.moveX(-1);
+                  // wario.currentTile(that);
                 };
-              } else {
-                wario.moveX(1, true);
               }
-            };
-            break;
+              break;
+            case 'ArrowRight':
+              if (this.rightGravity(wario)) {
+                if (wario.x + 5 > 100) {
+                  if (this.notRendering) {
+                    this.notRendering = false;
+                    let allPieces = that.map.allPieces();
+                    allPieces.forEach(piece => {
+                      that.moveBack(piece, 1, wario, goomba);
+                    });
+                    setTimeout(function () {
+                      that.notRendering = true;
+                    }, 6);
+                  };
+                } else {
+                  wario.moveX(1, true);
+                }
+              };
+              break;
+          }
         }
-      }
-    });
-
+      });
+      this.enableGravity(wario);
+      this.enableGoombaGravity();
+    }
+    
+    console.log(wario.points)
     this.animate();
-    this.map.fpsCounter(this.context);
-    this.enableGravity(wario);
-    this.enableGoombaGravity();
+    this.map.topBar(this.context, wario);
+    // this.map.scoreCounter(this.context, wario);
     // this.toggleGoomba(wario, this.floor, goomba);
     let animationFrame = requestAnimationFrame(this.start.bind(this, fnc));
     if (this.checkDeath(wario)) {
@@ -322,10 +329,11 @@ class Game {
       moveable = false;
     }
     let bottomRight = tiles[1];
-    console.log('tile', tile)
-    console.log(wario.x + bottomRight.viewportDiff);
-    console.log(wario.y);
-    console.log(bottomRight);
+    // console.log('tile', tile)
+    // console.log(wario.x + bottomRight.viewportDiff);
+    // console.log(wario.y);
+    // console.log(bottomRight);
+    // console.log(this.map.flagPoleTipPieces);
     if (!bottomRight.passable && wario.y + 15 > bottomRight.y) {
 
       moveable = false;
@@ -379,10 +387,10 @@ class Game {
       moveable = false;
     }
     let bottomLeft = tiles[0];
-    console.log('tile', tile)
-    console.log(wario.x + bottomLeft.viewportDiff);
-    console.log(wario.y);
-    console.log(bottomLeft);
+    // console.log('tile', tile)
+    // console.log(wario.x + bottomLeft.viewportDiff);
+    // console.log(wario.y);
+    // console.log(bottomLeft);
     if (!bottomLeft.passable && wario.y + 15 > bottomLeft.y) {
       moveable = false;
     }
@@ -412,7 +420,9 @@ class Game {
     let stairCount = 0;
 
     bottomTiles.forEach(tile => {
-      if (tile instanceof Floor) {
+      if (tile instanceof FlagPole) {
+        that.outtro(wario);
+      } else if (tile instanceof Floor) {
         return;
       } else if (tile instanceof Pipe) {
         pipeCount += 1;
@@ -522,6 +532,7 @@ class Game {
           if (!goomba.jumpedOn && !wario.dead) {
             goomba.jumpedOn = true;
             wario.bouncing = true;
+            wario.points += 100;
             setTimeout(function () {
               wario.bouncing = false;
             }, 200);
@@ -559,6 +570,16 @@ class Game {
     });
 
     return [leftTiles, rightTiles];
+  }
+
+  outtro(wario) {
+    // console.log('hi im done');
+    this.controlsActive = false;
+    wario.x = 100;
+    let y = wario.y;
+    setTimeout(function() {
+      wario.slideDown();
+    }, 800)
   }
 }
 

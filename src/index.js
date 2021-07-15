@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
   context.imageSmoothingEnabled = false;
 
   const game = new Game(context);
-  const wario = game.character; 
+  const wario = game.character;
   const goomba1 = game.goomba1;
   const map = game.map;
   const goombas = map.goombaPieces;
@@ -62,10 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const pipe = game.pipe;
   const stair = game.stair;
   const flagPole = game.flagPole;
-  const stair2 =  game.stair2;
-  const stair3 =  game.stair3;
-  const stair4 =  game.stair4;
-  const stair5 =  game.stair5;
+  const flagPoleTip = game.flagPoleTip;
+  const stair2 = game.stair2;
+  const stair3 = game.stair3;
+  const stair4 = game.stair4;
+  // const stair5 = game.stair5;
   const displayGG = displayGGMsg;
   const allRenderTiles = map.allRenderPieces();
   let noGoZones = game.noGoZones();
@@ -81,8 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
       map.generateTiles(stair2, context, image, map.stair2Holes);
       map.generateTiles(stair3, context, image, map.stair3Holes);
       map.generateTiles(stair4, context, image, map.stair4Holes);
-      map.generateTiles(stair5, context, image, map.stair5Holes);
+      // map.generateTiles(stair5, context, image, map.stair5Holes);
       map.generateTiles(flagPole, context, image, map.flagPoleHoles);
+      map.generateTiles(flagPoleTip, context, image, map.flagPoleTipHoles);
       tile.generateEmptyTiles(map, tile, allRenderTiles);
       // pipe.context = context;
       // pipe.image = image;
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         goomba.context = context;
         goomba.image = image;
         goomba.draw(tile);
-      })
+      });
       // goomba1.context = context;
       // goomba1.image = image;
       // goomba1.draw(tile);
