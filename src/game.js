@@ -141,7 +141,7 @@ class Game {
       this.enableGoombaGravity();
     }
     
-    console.log(wario.points)
+    // console.log(wario.points)
     this.animate();
     this.map.topBar(this.context, wario);
     // this.map.scoreCounter(this.context, wario);
