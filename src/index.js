@@ -147,8 +147,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("click", function () {
     if (directions === 0) {
       directions += 1;
-      introScreen.classList.add("disable")
-      introScreen2.classList.add("enable")
+      introScreen.classList.add("disable");
+      introScreen2.classList.add("enable");
 
       // introScreen.setAttribute("display", "none");
       // introScreen2.setAttribute("display", "block");
@@ -158,7 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
       introScreen3.classList.add("enable");
       // introScreen2.setAttribute("display", "none");
       // introScreen3.setAttribute("display", "block");
-      document.location.render();
     } else if (directions === 2) {
       directions += 1;
       introScreen3.classList.add("disable");
@@ -184,36 +183,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // introScreen.addEventListener("click", function () {
-  //   introScreen.setAttribute("display", "none");
-  //   introScreen2.setAttribute("display", "block");
-  // });
+  let volumeOn = document.getElementById("volume-button");
+  let muteOn = document.getElementById("mute-button");
 
-  // introScreen2.addEventListener("click", function () {
-  //   introScreen2.setAttribute("display", "none");
-  //   introScreen3.setAttribute("display", "block");
-  // });
+  volumeOn.addEventListener("click", function () {
+    volumeOn.classList.add("disable");
+    muteOn.classList.add("enable");
+    wario.toggleMute();
+  });
 
-  // introScreen3.addEventListener("click", function () {
-  //   introScreen3.setAttribute("display", "none");
-
-  //   let soundClipCoin = new sound("../audio/smb_coin.wav");
-  //   let soundClipStomp = new sound("../audio/smb_stomp.wav");
-  //   let soundClipJump = new sound("../audio/smb_jump-small.wav");
-  //   let soundClipStageClear = new sound("../audio/smb_stage_clear.wav");
-  //   let soundClipDeath = new sound("../audio/smb_mariodie.wav");
-  //   let soundClipFlagPole = new sound("../audio/smb_flagpole.wav");
-  //   let soundClipBG = new sound("../audio/smb-overworld.wav");
-
-  //   soundClipBG.play();
-  //   wario.audioCoin = soundClipCoin;
-  //   wario.audioStomp = soundClipStomp;
-  //   wario.audioJump = soundClipJump;
-  //   wario.audioStageClear = soundClipStageClear;
-  //   wario.audioDeath = soundClipDeath;
-  //   wario.audioFlagPole = soundClipFlagPole;
-  //   wario.audioBG = soundClipBG;
-  // });
+  muteOn.addEventListener("click", function () {
+    muteOn.classList.remove("enable");
+    volumeOn.classList.remove("disable");
+    wario.toggleMute();
+  });
 
   loadImage('../img/tiles.png')
     .then(image => {

@@ -20,7 +20,7 @@ html {
   margin-left: 16px;
   height: 800px;
   width: 1200px;
-  background-color: rgb(0, 0, 0, 0.92);
+  background-color: rgb(0, 0, 0, 0.97);
 }
 
 .point-bottom-left {
@@ -290,6 +290,50 @@ html {
   position: absolute;
   top: 75px;
   left: 18.7%;
+}
+
+#volume-button {
+  display: block;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  width: 100px;
+  position: absolute;
+  background: none;
+  border: none;
+  left: 10%;
+  bottom: 30px;
+  padding: 0;
+}
+
+#volume-button:hover {
+  left: 10.2%;
+  bottom: 32px;
+}
+
+#mute-button {
+  display: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  width: 100px;
+  position: absolute;
+  background: none;
+  border: none;
+  left: 10.2%;
+  bottom: 50px;
+  padding: 0;
+}
+
+#mute-button:hover {
+  left: 10.4%;
+  bottom: 52px;
+}
+
+.mute-img {
+  width: 60px;
+  margin-left: 20px;
+  padding-top: 20px;
 }
 
 .gg-canvas {

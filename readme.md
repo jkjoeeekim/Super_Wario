@@ -66,4 +66,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add W, A, S, D movement and update game controls.
     - Add audio cues to game.
     - Add game introduction.
+    - Add volume mute/unmute controls.
     - Update homepage style.

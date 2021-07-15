@@ -299,8 +299,8 @@ class Game {
     // let tiles = wario.currentTiles(this);
     if (wario.y > 98) {
       setTimeout(function () {
-        wario.audioBG.stop();
         wario.dead = true;
+        wario.audioBG.stop();
       }, 30);
     }
     return wario.dead;
@@ -575,7 +575,9 @@ class Game {
     tiles.forEach(tile => {
       if (tile instanceof ItemBlock) {
         if (!tile.used) {
-          wario.audioCoin.play();
+          if (!wario.muted) {
+            wario.audioCoin.play();
+          }
           wario.points += 100;
           tile.useBlock();
         }
@@ -692,9 +694,13 @@ class Game {
               goomba.triggerDeath(goomba, that);
             }, 200);
             wario.bouncing = true;
-            wario.audioStomp.play();
-            setTimeout(function () {
+            if (!wario.muted) {
               wario.audioStomp.play();
+            }
+            setTimeout(function () {
+              if (!wario.muted) {
+                wario.audioStomp.play();
+              }
               wario.jump(2, 10);
             }, 25);
           }
