@@ -21,6 +21,7 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 ## This project will be implemented with the following technologies:
   - the `Canvas API` to render the game board.
   - `Webpack` to bundle and transpile the source JavaScript code.
+  - `Google Fonts API` for fonts: `Kalam` and `Roboto Mono`
 
 # Implementation timeline:
   ## Friday July 9th, 2021
