@@ -6,7 +6,7 @@ class Wario {
     this.y = y;
     this.points = 0;
     this.spritePos = [13, 670];
-    // this.spritePos = [314, 50];
+    // this.spritePos = [65, 1300];
     this.context = null;
     this.bouncing = false;
     this.movingRight = false;
@@ -19,6 +19,13 @@ class Wario {
   resetSprite() {
     this.spritePos[0] = 13;
     this.spritePos[1] = 670;
+  }
+
+  death(that) {
+    this.spritePos[0] = 65;
+    this.spritePos[1] = 1300;
+    // this.draw();
+    that.animate();
   }
 
   move(dir) {

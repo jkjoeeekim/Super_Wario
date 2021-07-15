@@ -58,3 +58,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   ## Thursday July 15th, 2021
     - Add clouds in the background.
     - Add item box triggered animations.
+    - Update homepage style.

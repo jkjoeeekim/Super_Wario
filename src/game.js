@@ -209,6 +209,7 @@ class Game {
     // this.toggleGoomba(wario, this.floor, goomba);
     let animationFrame = requestAnimationFrame(this.start.bind(this, fnc1, fnc2));
     if (this.checkDeath(wario)) {
+      wario.death(that);
       setTimeout(function () {
         fnc1();
       }, 1500);
