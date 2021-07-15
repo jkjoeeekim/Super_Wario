@@ -67,4 +67,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add audio cues to game.
     - Add game introduction.
     - Add volume mute/unmute controls.
+    - Add quick email share functionality.
     - Update homepage style.

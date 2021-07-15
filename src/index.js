@@ -48,6 +48,8 @@ function createVictoryMsg(wario, map) {
 
   let emailLabel = document.createElement('label');
   let emailInput = document.createElement('input');
+  let linkInput = document.createElement('input');
+  let descInput = document.createElement('input');
   let sendButton = document.createElement('input');
   sendButton.setAttribute("type", "submit");
   sendButton.classList.add("send-button");
@@ -57,8 +59,24 @@ function createVictoryMsg(wario, map) {
   emailLabel.classList.add("email-label");
   emailInput.classList.add("email-input");
   emailInput.setAttribute("placeholder", "  example@email.com");
+  emailInput.setAttribute("type", "text");
+  linkInput.setAttribute("value", "https://jkjoeeekim.github.io/Super_Wario/dist/index")
+  linkInput.setAttribute("name", "link");
+  linkInput.setAttribute("type", "hidden");
+  descInput.setAttribute("name", "desc");
+  descInput.setAttribute("type", "hidden");
+  // victoryMsg.setAttribute("method", "post");
   victoryMsg.appendChild(emailLabel);
+  victoryMsg.appendChild(linkInput);
+  victoryMsg.appendChild(descInput);
   victoryMsg.appendChild(sendButton);
+
+  sendButton.addEventListener("click", function () {
+    victoryMsg.setAttribute("method", "post");
+    victoryMsg.setAttribute("enctype", "text/plain");
+    descInput.setAttribute("value", `Check out this cool game! Try to beat my Score, I got ${wario.points} points in ${map.ingameSecond} seconds`);
+    victoryMsg.setAttribute("action", `mailto:${emailInput.value}`)
+  });
 
   text.innerHTML = `SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
   retryButton.innerText = 'RESTART';
