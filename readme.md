@@ -18,7 +18,7 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 ## Before:
 ![Alt text](./img/wireframe2.png)
 ## After:
-![Alt text](./img/newWireframe.png)
+![Alt text](./img/wireframe_v2.png)
 
 # Technologies, Libraries, APIs:
 ## This project will be implemented with the following technologies:
