@@ -43,17 +43,33 @@ function createVictoryMsg(wario, map) {
   let newCanvas = document.createElement('div');
   let victoryMsg = document.createElement('form');
   let text = document.createElement('p');
-  let button = document.createElement('button');
-  text.innerHTML = `Congratulations, you cleared level 1. _____________________ SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
-  button.innerText = 'Restart';
+  let retryButton = document.createElement('a');
+
+  let emailLabel = document.createElement('label');
+  let emailInput = document.createElement('input');
+  let sendButton = document.createElement('input');
+  sendButton.setAttribute("type", "submit");
+  sendButton.classList.add("send-button");
+  sendButton.innerText = "Send"
+  emailLabel.innerHTML = 'Share via Email: '
+  emailLabel.appendChild(emailInput);
+  emailLabel.classList.add("email-label")
+  emailInput.classList.add("email-input")
+  emailInput.setAttribute("placeholder", "sample@email.com")
+  victoryMsg.appendChild(emailLabel);
+  victoryMsg.appendChild(sendButton);
+  
+  text.innerHTML = `SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
+  retryButton.innerText = 'Restart';
   victoryMsg.appendChild(text);
-  victoryMsg.appendChild(button);
+  victoryMsg.appendChild(retryButton);
   victoryMsg.classList.add("victory-msg");
   victoryMsg.setAttribute("id", "victory");
   newCanvas.classList.add("victory-canvas");
   newCanvas.setAttribute("id", "victory-can");
   text.classList.add("victory-text");
-  button.classList.add("victory-button");
+  retryButton.classList.add("victory-button");
+  retryButton.setAttribute("href", "javascript:window.location.reload(true)")
   document.body.appendChild(newCanvas);
   document.body.appendChild(victoryMsg);
 }
@@ -82,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const goomba1 = game.goomba1;
   const map = game.map;
   const goombas = map.goombaPieces;
+  // displayVictoryMsg(wario, map);
   const tile = game.emptyTile;
   const floor = game.floor;
   const roof = game.roof;

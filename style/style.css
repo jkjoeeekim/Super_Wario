@@ -132,9 +132,12 @@ html {
 
 .horiz-desc {
   padding: 5px;
+  padding-top: 20px;
+  text-align: center;
 }
 
 .vert-desc {
+  text-align: center;
   padding: 5px;
   margin-top: 20px;
   margin-bottom: 0px;
@@ -173,7 +176,8 @@ html {
 
 .info {
   padding: 5px;
-  padding-top: 40px;
+  padding-top: 45px;
+  text-align: center;
 }
 
 .links-title {
@@ -279,9 +283,9 @@ html {
 
 .victory-msg {
   text-align: center;
-  width: 510px;
+  width: 600px;
+  height: 450px;
   font-family: 'Roboto Mono', monospace;
-  height: 425px;
   border: 5px solid rgba(245, 245, 245, 0.795);
   background-color: rgba(35, 35, 92, 0.781);
   display: none;
@@ -290,6 +294,12 @@ html {
   left: 37.5%;
   position: absolute;
   z-index: 999;
+}
+
+.email-label {
+  color: white;
+  font-size: 36px;
+  padding: 5px;
 }
 
 .victory-text {
@@ -304,7 +314,20 @@ html {
   color: white;
   background-color: rgb(36, 36, 87);
   border: 2px solid rgba(245, 245, 245, 0.795);
-  left: 165px;
+  left: 350px;
+  bottom: 40px;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-decoration: none;
+}
+
+.send-button {
+  position: absolute;
+  color: white;
+  background-color: rgb(36, 36, 87);
+  border: 2px solid rgba(245, 245, 245, 0.795);
+  left: 75px;
   bottom: 40px;
   padding: 20px;
   padding-left: 40px;

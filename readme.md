@@ -63,4 +63,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add clouds in the background.
     - Add item box triggered animations.
     - Add wario walking and death animations.
+    - Add W, A, S, D movement and update game controls.
     - Update homepage style.

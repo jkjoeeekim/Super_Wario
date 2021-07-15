@@ -76,11 +76,22 @@ class Game {
             setTimeout(function () { that.keysDown[e.key] = false; }, 515);
           }
         }
+      } else if (e.code === 'KeyW') {
+        if (!that.keysDown[e.code]) {
+          if (that.enableGravity(wario)) {
+            that.keysDown[e.jump] = true;
+            if (!wario.dead && that.controlsActive) {
+              wario.jump(2);
+            }
+            setTimeout(function () { that.keysDown[e.code] = false; }, 515);
+          }
+        }
       }
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight' || e.key === 'KeyD') {
+      // console.log(e.key);
+      if (e.key === 'ArrowRight') {
         that.keysDown[e.key] = true;
         if (!wario.movingRight) {
           // console.log('byeeeeee')
@@ -88,8 +99,24 @@ class Game {
           let moveRight = wario.move('right');
           fncRight = moveRight;
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
+      } else if (e.code === 'KeyD') {
+        that.keysDown[e.code] = true;
+        if (!wario.movingRight) {
+          // console.log('byeeeeee')
+          wario.movingRight = true;
+          let moveRight = wario.move('right');
+          fncRight = moveRight;
+        }
+      } else if (e.key === 'ArrowLeft') {
         that.keysDown[e.key] = true;
+        if (!wario.movingLeft) {
+          // console.log('helloooo')
+          let moveLeft = wario.move('left');
+          wario.movingLeft = true;
+          fncLeft = moveLeft;
+        }
+      } else if (e.code === 'KeyA') {
+        that.keysDown[e.code] = true;
         if (!wario.movingLeft) {
           // console.log('helloooo')
           let moveLeft = wario.move('left');
@@ -107,8 +134,22 @@ class Game {
           wario.resetSprite();
         }, 80);
         clearInterval(fncRight);
-      } else if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
+      } else if (e.code === 'KeyD') {
+        that.keysDown[e.code] = false;
+        wario.movingRight = false;
+        setTimeout(function () {
+          wario.resetSprite();
+        }, 80);
+        clearInterval(fncRight);
+      } else if (e.key === 'ArrowLeft') {
         that.keysDown[e.key] = false;
+        wario.movingLeft = false;
+        setTimeout(function () {
+          wario.resetSprite();
+        }, 80);
+        clearInterval(fncLeft);
+      } else if (e.code === 'KeyA') {
+        that.keysDown[e.code] = false;
         wario.movingLeft = false;
         setTimeout(function () {
           wario.resetSprite();
