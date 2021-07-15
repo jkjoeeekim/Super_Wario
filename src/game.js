@@ -184,7 +184,7 @@ class Game {
     if (!this.controlsActive) {
       setTimeout(function () {
         fnc2(wario, that.map);
-      }, 10000)
+      }, 9000)
     }
     if (this.checkDeath(wario)) {
       cancelAnimationFrame(animationFrame);

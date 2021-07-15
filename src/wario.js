@@ -86,7 +86,7 @@ class Wario {
 
   slide(steps = 0) {
     let wario = this;
-    let maxSteps = 33;
+    let maxSteps = 31;
 
     if (steps === maxSteps) {
       wario.slideDownPipe();
