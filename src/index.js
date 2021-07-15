@@ -1,4 +1,5 @@
 const Game = require('./game');
+const SoundClip = require('./soundClip');
 
 // game elements
 
@@ -18,7 +19,7 @@ function createGGMsg() {
   let text = document.createElement('p');
   let button = document.createElement('button');
   text.innerHTML = 'GAME OVER';
-  button.innerText = 'Play Again?';
+  button.innerText = 'PLAY AGAIN?';
   gameOverMsg.appendChild(text);
   gameOverMsg.appendChild(button);
   gameOverMsg.classList.add("gg-msg");
@@ -50,17 +51,17 @@ function createVictoryMsg(wario, map) {
   let sendButton = document.createElement('input');
   sendButton.setAttribute("type", "submit");
   sendButton.classList.add("send-button");
-  sendButton.innerText = "Send"
-  emailLabel.innerHTML = 'Share via Email: '
+  sendButton.setAttribute("value", "SHARE");
+  emailLabel.innerHTML = 'Share via Email: ';
   emailLabel.appendChild(emailInput);
-  emailLabel.classList.add("email-label")
-  emailInput.classList.add("email-input")
-  emailInput.setAttribute("placeholder", "sample@email.com")
+  emailLabel.classList.add("email-label");
+  emailInput.classList.add("email-input");
+  emailInput.setAttribute("placeholder", "  example@email.com");
   victoryMsg.appendChild(emailLabel);
   victoryMsg.appendChild(sendButton);
-  
+
   text.innerHTML = `SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
-  retryButton.innerText = 'Restart';
+  retryButton.innerText = 'RESTART';
   victoryMsg.appendChild(text);
   victoryMsg.appendChild(retryButton);
   victoryMsg.classList.add("victory-msg");
@@ -69,9 +70,28 @@ function createVictoryMsg(wario, map) {
   newCanvas.setAttribute("id", "victory-can");
   text.classList.add("victory-text");
   retryButton.classList.add("victory-button");
-  retryButton.setAttribute("href", "javascript:window.location.reload(true)")
+  retryButton.setAttribute("href", "javascript:window.location.reload(true)");
   document.body.appendChild(newCanvas);
   document.body.appendChild(victoryMsg);
+}
+
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  // this.sound.setAttribute("autoplay", "");
+  this.sound.setAttribute("muted", "true");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+
+  this.play = function () {
+    this.sound.play();
+  };
+
+  this.stop = function () {
+    this.sound.pause();
+  };
 }
 
 function displayVictoryMsg(wario, map) {
@@ -83,15 +103,20 @@ function displayVictoryMsg(wario, map) {
 }
 
 window.onload = function () {
-  const context = document.getElementById("game-window").getContext('2d');
+  const element = document.getElementById("game-window");
   // window.requestAnimationFrame(game.map.fpsCounter(context));
 };
 
 
 document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("game-window");
+  const introScreen = document.getElementById("intro-screen");
+  const introScreen2 = document.getElementById("intro-screen2");
+  const introScreen3 = document.getElementById("intro-screen3");
   const context = canvas.getContext('2d');
   context.imageSmoothingEnabled = false;
+  let directions = 0;
+
 
   const game = new Game(context);
   const wario = game.character;
@@ -118,6 +143,77 @@ document.addEventListener("DOMContentLoaded", function () {
   const allRenderTiles = map.allRenderPieces();
   let noGoZones = game.noGoZones();
   wario.nogoZones = noGoZones;
+
+  document.body.addEventListener("click", function () {
+    if (directions === 0) {
+      directions += 1;
+      introScreen.classList.add("disable")
+      introScreen2.classList.add("enable")
+
+      // introScreen.setAttribute("display", "none");
+      // introScreen2.setAttribute("display", "block");
+    } else if (directions === 1) {
+      directions += 1;
+      introScreen2.classList.add("disable");
+      introScreen3.classList.add("enable");
+      // introScreen2.setAttribute("display", "none");
+      // introScreen3.setAttribute("display", "block");
+      document.location.render();
+    } else if (directions === 2) {
+      directions += 1;
+      introScreen3.classList.add("disable");
+      // introScreen3.setAttribute("display", "none");
+
+      let soundClipCoin = new sound("../audio/smb_coin.wav");
+      let soundClipStomp = new sound("../audio/smb_stomp.wav");
+      let soundClipJump = new sound("../audio/smb_jump-small.wav");
+      let soundClipStageClear = new sound("../audio/smb_stage_clear.wav");
+      let soundClipDeath = new sound("../audio/smb_mariodie.wav");
+      let soundClipFlagPole = new sound("../audio/smb_flagpole.wav");
+      let soundClipBG = new sound("../audio/smb-overworld.wav");
+
+      soundClipBG.play();
+      wario.audioCoin = soundClipCoin;
+      wario.audioStomp = soundClipStomp;
+      wario.audioJump = soundClipJump;
+      wario.audioStageClear = soundClipStageClear;
+      wario.audioDeath = soundClipDeath;
+      wario.audioFlagPole = soundClipFlagPole;
+      wario.audioBG = soundClipBG;
+      game.start(displayGG, displayVIC);
+    }
+  });
+
+  // introScreen.addEventListener("click", function () {
+  //   introScreen.setAttribute("display", "none");
+  //   introScreen2.setAttribute("display", "block");
+  // });
+
+  // introScreen2.addEventListener("click", function () {
+  //   introScreen2.setAttribute("display", "none");
+  //   introScreen3.setAttribute("display", "block");
+  // });
+
+  // introScreen3.addEventListener("click", function () {
+  //   introScreen3.setAttribute("display", "none");
+
+  //   let soundClipCoin = new sound("../audio/smb_coin.wav");
+  //   let soundClipStomp = new sound("../audio/smb_stomp.wav");
+  //   let soundClipJump = new sound("../audio/smb_jump-small.wav");
+  //   let soundClipStageClear = new sound("../audio/smb_stage_clear.wav");
+  //   let soundClipDeath = new sound("../audio/smb_mariodie.wav");
+  //   let soundClipFlagPole = new sound("../audio/smb_flagpole.wav");
+  //   let soundClipBG = new sound("../audio/smb-overworld.wav");
+
+  //   soundClipBG.play();
+  //   wario.audioCoin = soundClipCoin;
+  //   wario.audioStomp = soundClipStomp;
+  //   wario.audioJump = soundClipJump;
+  //   wario.audioStageClear = soundClipStageClear;
+  //   wario.audioDeath = soundClipDeath;
+  //   wario.audioFlagPole = soundClipFlagPole;
+  //   wario.audioBG = soundClipBG;
+  // });
 
   loadImage('../img/tiles.png')
     .then(image => {
@@ -160,7 +256,6 @@ document.addEventListener("DOMContentLoaded", function () {
       wario.draw();
       // game.enableGravity(wario);
       // map.fpsCounter(context);
-      game.start(displayGG, displayVIC);
 
       // console.log(game.tileAtXCoordinate(33))
     });

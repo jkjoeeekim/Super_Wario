@@ -10,6 +10,7 @@ const Goomba = require('./goomba');
 const FlagPole = require('./flagPole');
 const FlagPoleTip = require('./flagPoleTip');
 const Cloud = require('./cloud');
+const SoundClip = require('./soundClip');
 
 class Game {
   constructor(context) {
@@ -23,8 +24,25 @@ class Game {
     this.map = new Map();
     this.emptyTile = new Tile(-32, -32);
 
+    // audio sound clips
+    // this.soundClipCoin = new SoundClip("../audio/smb_coin.wav");
+    // this.soundClipStomp = new SoundClip("../audio/smb_stomp.wav");
+    // this.soundClipJump = new SoundClip("../audio/smb_jump-small.wav");
+    // this.soundClipStageClear = new SoundClip("../audio/smb_stage_clear.wav");
+    // this.soundClipDeath = new SoundClip("../audio/smb_mariodie.wav");
+    // this.soundClipFlagPole = new SoundClip("../audio/smb_flagpole.wav");
+    // this.soundClipStageClear.play();
+
     // wario
     this.character = new Wario(25, 0);
+
+    // assign wario audio clips
+    this.character.audioCoin = this.soundClipCoin;
+    this.character.audioStomp = this.soundClipStomp;
+    this.character.audioJump = this.soundClipJump;
+    this.character.audioStageClear = this.soundClipStageClear;
+    this.character.audioDeath = this.soundClipDeath;
+    this.character.audoFlagPole = this.soundClipFlagPole;
 
     // goombas
     this.testGoomba = new Goomba(64, 99);
@@ -70,8 +88,10 @@ class Game {
         if (!that.keysDown[e.key]) {
           if (that.enableGravity(wario)) {
             that.keysDown[e.jump] = true;
-            if (!wario.dead && that.controlsActive) {
-              wario.jump(2);
+            if (!wario.dead) {
+              if (that.controlsActive) {
+                wario.jump(2);
+              }
             }
             setTimeout(function () { that.keysDown[e.key] = false; }, 515);
           }
@@ -80,8 +100,10 @@ class Game {
         if (!that.keysDown[e.code]) {
           if (that.enableGravity(wario)) {
             that.keysDown[e.jump] = true;
-            if (!wario.dead && that.controlsActive) {
-              wario.jump(2);
+            if (!wario.dead) {
+              if (that.controlsActive) {
+                wario.jump(2);
+              }
             }
             setTimeout(function () { that.keysDown[e.code] = false; }, 515);
           }
@@ -92,36 +114,44 @@ class Game {
     document.addEventListener('keydown', function (e) {
       // console.log(e.key);
       if (e.key === 'ArrowRight') {
-        that.keysDown[e.key] = true;
-        if (!wario.movingRight) {
-          // console.log('byeeeeee')
-          wario.movingRight = true;
-          let moveRight = wario.move('right');
-          fncRight = moveRight;
+        if (that.controlsActive) {
+          that.keysDown[e.key] = true;
+          if (!wario.movingRight) {
+            // console.log('byeeeeee')
+            wario.movingRight = true;
+            let moveRight = wario.move('right');
+            fncRight = moveRight;
+          }
         }
       } else if (e.code === 'KeyD') {
-        that.keysDown[e.code] = true;
-        if (!wario.movingRight) {
-          // console.log('byeeeeee')
-          wario.movingRight = true;
-          let moveRight = wario.move('right');
-          fncRight = moveRight;
+        if (that.controlsActive) {
+          that.keysDown[e.code] = true;
+          if (!wario.movingRight) {
+            // console.log('byeeeeee')
+            wario.movingRight = true;
+            let moveRight = wario.move('right');
+            fncRight = moveRight;
+          }
         }
       } else if (e.key === 'ArrowLeft') {
-        that.keysDown[e.key] = true;
-        if (!wario.movingLeft) {
-          // console.log('helloooo')
-          let moveLeft = wario.move('left');
-          wario.movingLeft = true;
-          fncLeft = moveLeft;
+        if (that.controlsActive) {
+          that.keysDown[e.key] = true;
+          if (!wario.movingLeft) {
+            // console.log('helloooo')
+            let moveLeft = wario.move('left');
+            wario.movingLeft = true;
+            fncLeft = moveLeft;
+          }
         }
       } else if (e.code === 'KeyA') {
-        that.keysDown[e.code] = true;
-        if (!wario.movingLeft) {
-          // console.log('helloooo')
-          let moveLeft = wario.move('left');
-          wario.movingLeft = true;
-          fncLeft = moveLeft;
+        if (that.controlsActive) {
+          that.keysDown[e.code] = true;
+          if (!wario.movingLeft) {
+            // console.log('helloooo')
+            let moveLeft = wario.move('left');
+            wario.movingLeft = true;
+            fncLeft = moveLeft;
+          }
         }
       }
     });
@@ -269,6 +299,7 @@ class Game {
     // let tiles = wario.currentTiles(this);
     if (wario.y > 98) {
       setTimeout(function () {
+        wario.audioBG.stop();
         wario.dead = true;
       }, 30);
     }
@@ -544,6 +575,7 @@ class Game {
     tiles.forEach(tile => {
       if (tile instanceof ItemBlock) {
         if (!tile.used) {
+          wario.audioCoin.play();
           wario.points += 100;
           tile.useBlock();
         }
@@ -629,6 +661,7 @@ class Game {
           // console.log('hellohello')
           if (goomba.y < wario.y + 10) {
             if (!goomba.dead) {
+              wario.audioBG.stop();
               wario.dead = true;
             }
           }
@@ -650,6 +683,7 @@ class Game {
           if (!goomba.jumpedOn && !wario.dead) {
             goomba.jumpedOn = true;
             wario.bouncing = true;
+            // wario.audioStomp.play();
             wario.points += 100;
             setTimeout(function () {
               wario.bouncing = false;
@@ -658,7 +692,9 @@ class Game {
               goomba.triggerDeath(goomba, that);
             }, 200);
             wario.bouncing = true;
+            wario.audioStomp.play();
             setTimeout(function () {
+              wario.audioStomp.play();
               wario.jump(2, 10);
             }, 25);
           }
@@ -693,9 +729,11 @@ class Game {
   outtro(wario) {
     // console.log('hi im done');
     this.controlsActive = false;
+    this.bindKeyHandlers();
     wario.x = 100;
     let that = this;
     let y = wario.y;
+    wario.audioBG.stop();
     setTimeout(function () {
       wario.initiateEndgame();
     }, 800);

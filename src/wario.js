@@ -14,6 +14,15 @@ class Wario {
     this.dead = false;
     this.nogoZones = restricted;
     this.image = null;
+
+    // audio clips
+    this.audioCoin = null;
+    this.audioStomp = null;
+    this.audioJump = null;
+    this.audioStageClear = null;
+    this.audioDeath = null;
+    this.audioFlagPole = null;
+    this.audioBG = null;
   }
 
   resetSprite() {
@@ -26,6 +35,7 @@ class Wario {
     this.spritePos[1] = 1300;
     // this.draw();
     that.animate();
+    this.audioDeath.play();
   }
 
   move(dir) {
@@ -49,7 +59,7 @@ class Wario {
 
   moveRight() {
     let that = this;
-    console.log('yuh')
+    console.log('yuh');
     this.rightSprites();
     let rightAnimation = setInterval(function () {
       that.rightSprites();
@@ -60,7 +70,7 @@ class Wario {
 
   moveLeft() {
     let that = this;
-    console.log('wtff')
+    console.log('wtff');
     this.leftSprites();
     let leftAnimation = setInterval(function () {
       that.leftSprites();
@@ -176,6 +186,12 @@ class Wario {
     if (steps === maxSteps) {
       // that.animate();
       return;
+    } else if (steps === 6) {
+      wario.audioJump.play();
+      this.y -= direction;
+      return setTimeout(function () {
+        wario.jump(direction, steps + 1);
+      }, 5);
     } else {
       this.y -= direction;
       return setTimeout(function () {
@@ -203,9 +219,12 @@ class Wario {
 
   slideDownPole() {
     let wario = this;
+    wario.audioFlagPole.play();
     wario.points += 100;
     if (wario.y === 96) {
-      wario.walkToPipe();
+      setTimeout(function () {
+        wario.walkToPipe();
+      }, 500);
     } else {
       wario.y += 1;
       return setTimeout(function () {
@@ -228,7 +247,9 @@ class Wario {
 
   walkToPipe() {
     let wario = this;
+    wario.audioFlagPole.stop();
     if (wario.x === 170) {
+      wario.audioStageClear.play();
       wario.jump(1);
       wario.slide();
     } else {

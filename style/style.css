@@ -1,6 +1,84 @@
 html {
   background-color: rgba(20, 20, 85, 0.918);
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Kalam', cursive;
+}
+
+/* fake canvas  */
+#intro-screen {
+  display: block;
+}
+#intro-screen2 {
+  display: none;
+}
+#intro-screen3 {
+  display: none;
+}
+
+.introscreen {
+  z-index: 100;
+  margin-top: -15px;
+  margin-left: 16px;
+  height: 800px;
+  width: 1200px;
+  background-color: rgb(0, 0, 0, 0.92);
+}
+
+.point-bottom-left {
+  height: 250px;
+  margin-left: 25px;
+}
+
+.point-bottom-right {
+  height: 250px;
+  float: right;
+  margin-top: -50px;
+  margin-right: 50px;
+}
+
+.point-top-right {
+  float: right;
+  height: 250px;
+  margin-top: 60px;
+  margin-right: 60px;
+}
+
+.intro-desc {
+  color: white;
+  margin-top: 110px;
+  margin-left: 60px;
+  font-size: 55px;
+}
+
+.intro-desc2 {
+  color: white;
+  text-align: right;
+  margin-top: 310px;
+  margin-right: 100px;
+  font-size: 55px;
+}
+
+.intro-desc3 {
+  color: white;
+  text-align: right;
+  margin-top: 350px;
+  margin-right: 90px;
+  font-size: 55px;
+}
+
+.continue {
+  color: white;
+  position: absolute;
+  font-size: 48px;
+  left: 35%;
+  bottom: 60px;
+}
+
+.start {
+  color: white;
+  position: absolute;
+  font-size: 48px;
+  left: 38%;
+  top: 180px;
 }
 
 .game-name {
@@ -26,7 +104,7 @@ html {
   padding-left: 90px;
   margin-right: 0px;
   margin-left: 0px;
-  -webkit-text-stroke: 2px black;
+  -webkit-text-stroke: 0.3px black;
 }
 
 .game-last-name {
@@ -34,7 +112,7 @@ html {
   letter-spacing: 7px;
   color: rgb(97,92,255);
   padding-left: 200px;
-  -webkit-text-stroke: 2px black;
+  -webkit-text-stroke: 0.3px black;
 }
 
 /* class container display properties */
@@ -86,8 +164,15 @@ html {
 }
 
 .status {
-  margin-top:160px;
+  margin-top:180px;
+  font-family: 'Roboto mono', monospace; 
   padding: 10px;
+}
+
+.version {
+  font-family: 'Roboto mono', monospace; 
+  text-align: left;
+  margin-right: 20px;
 }
 
 /* right side style properties  */
@@ -214,7 +299,7 @@ html {
   height: 800px;
   top: 125px;
   left: 18.7%;
-  background-color: rgb(0, 0, 0, 0.7);
+  background-color: rgb(0, 0, 0, 0.8);
 }
 
 /* icons  */
@@ -242,7 +327,7 @@ html {
   text-align: center;
   width: 500px;
   height: 300px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Kalam', cursive;
   border: 5px solid rgba(245, 245, 245, 0.795);
   background-color: rgba(35, 35, 92, 0.781);
   display: none;
@@ -261,13 +346,20 @@ html {
 
 .gg-button {
   align-self: center;
-  color: white;
-  background-color: rgba(35, 35, 92);
+  color: rgb(97,92,255);  background-color: rgba(233, 233, 96, 0.795);
   border: 2px solid rgba(245, 245, 245, 0.795);
   padding: 20px;
+  font-weight: bold;
+  font-size: 30px;
   margin-top: 10px;
   padding-left: 40px;
   padding-right: 40px;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.gg-button:hover {
+  background-color: rgba(233, 233, 96, 1);
+  cursor: pointer;
 }
 
 /* level won display message */
@@ -278,14 +370,14 @@ html {
   height: 800px;
   top: 125px;
   left: 18.7%;
-  background-color: rgb(0, 0, 0, 0.7);
+  background-color: rgb(0, 0, 0, 0.8);
 }
 
 .victory-msg {
   text-align: center;
   width: 600px;
   height: 450px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Kalam', cursive;
   border: 5px solid rgba(245, 245, 245, 0.795);
   background-color: rgba(35, 35, 92, 0.781);
   display: none;
@@ -300,6 +392,11 @@ html {
   color: white;
   font-size: 36px;
   padding: 5px;
+  top: 10px;
+}
+
+.email-input {
+  margin-top: 20px;
 }
 
 .victory-text {
@@ -311,29 +408,49 @@ html {
 
 .victory-button {
   position: absolute;
-  color: white;
-  background-color: rgb(36, 36, 87);
+  color: rgb(97,92,255);
+  background-color: rgba(233, 233, 96, 0.7);
   border: 2px solid rgba(245, 245, 245, 0.795);
-  left: 350px;
+  font-size: 28px;
+  font-weight: bold;
+  left: 340px;
   bottom: 40px;
   padding: 20px;
   padding-left: 40px;
   padding-right: 40px;
   text-decoration: none;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.victory-button:hover {
+  background-color: rgba(233, 233, 96, 0.9);
 }
 
 .send-button {
   position: absolute;
-  color: white;
-  background-color: rgb(36, 36, 87);
+  color: rgb(97,92,255);
+  width: 180px;
+  font-weight: bold;
+  font-size: 28px;
+  background-color: rgba(233, 233, 96, 0.75);
   border: 2px solid rgba(245, 245, 245, 0.795);
   left: 75px;
   bottom: 40px;
   padding: 20px;
   padding-left: 40px;
   padding-right: 40px;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.send-button:hover {
+  cursor: pointer;
+  background-color: rgba(233, 233, 96, 0.9);
 }
 
 .enable {
-  display: block;
+  display: block !important;
+}
+
+.disable {
+  display: none !important;
 }
