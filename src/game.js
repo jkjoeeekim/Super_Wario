@@ -45,8 +45,8 @@ class Game {
     this.roof = new Roof(240, 48);
 
     // clouds
-    this.cloud = new Cloud(16, 16, null, null, true, 17)
-    this.cloud2 = new Cloud(16, 32, null, null, true, 33)
+    this.cloud = new Cloud(16, 16, null, null, true, 17);
+    this.cloud2 = new Cloud(16, 32, null, null, true, 33);
     // stairs
     this.stair = new Stair(16, 96);
     this.stair2 = new Stair(16, 80);
@@ -62,6 +62,8 @@ class Game {
   bindKeyHandlers() {
     const wario = this.character;
     let that = this;
+    let fncRight = null;
+    let fncLeft = null;
 
     document.addEventListener('keypress', function (e) {
       if (e.key === ' ') {
@@ -78,14 +80,40 @@ class Game {
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'KeyD' || e.key === 'KeyA') {
+      if (e.key === 'ArrowRight' || e.key === 'KeyD') {
         that.keysDown[e.key] = true;
+        if (!wario.movingRight) {
+          // console.log('byeeeeee')
+          wario.movingRight = true;
+          let moveRight = wario.move('right');
+          fncRight = moveRight;
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
+        that.keysDown[e.key] = true;
+        if (!wario.movingLeft) {
+          // console.log('helloooo')
+          let moveLeft = wario.move('left');
+          wario.movingLeft = true;
+          fncLeft = moveLeft;
+        }
       }
     });
 
     document.addEventListener('keyup', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'KeyD' || e.key === 'KeyA') {
+      if (e.key === 'ArrowRight' || e.key === 'KeyD') {
         that.keysDown[e.key] = false;
+        wario.movingRight = false;
+        setTimeout(function () {
+          wario.resetSprite();
+        }, 80);
+        clearInterval(fncRight);
+      } else if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
+        that.keysDown[e.key] = false;
+        wario.movingLeft = false;
+        setTimeout(function () {
+          wario.resetSprite();
+        }, 80);
+        clearInterval(fncLeft);
       }
     });
   }
@@ -188,7 +216,7 @@ class Game {
     if (!this.controlsActive) {
       setTimeout(function () {
         fnc2(wario, that.map);
-      }, 9000)
+      }, 9000);
     }
     if (this.checkDeath(wario)) {
       cancelAnimationFrame(animationFrame);
@@ -470,6 +498,16 @@ class Game {
         floorCount += 1;
       }
     });
+
+    tiles.forEach(tile => {
+      if (tile instanceof ItemBlock) {
+        if (!tile.used) {
+          wario.points += 100;
+          tile.useBlock();
+        }
+      }
+    });
+
     // let tile = this.getClosestTileLeft();
     // console.log(tile);
     this.checkDeathGoomba(bottomTiles);

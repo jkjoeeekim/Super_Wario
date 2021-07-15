@@ -1,15 +1,102 @@
 class Wario {
   constructor(x, y, restricted) {
-    this.height = 34 / 2;
-    this.width = 48 / 2;
+    this.height = 18;
+    this.width = 18;
     this.x = x;
     this.y = y;
     this.points = 0;
+    this.spritePos = [13, 670];
+    // this.spritePos = [314, 50];
     this.context = null;
     this.bouncing = false;
+    this.movingRight = false;
+    this.movingLeft = false;
     this.dead = false;
     this.nogoZones = restricted;
     this.image = null;
+  }
+
+  resetSprite() {
+    this.spritePos[0] = 13;
+    this.spritePos[1] = 670;
+  }
+
+  move(dir) {
+    let that = this;
+    let ani = null;
+    if (dir === 'left') {
+      this.leftSprites();
+      let leftAnimation = setInterval(function () {
+        that.leftSprites();
+      }, 250);
+      ani = leftAnimation;
+    } else if (dir === 'right') {
+      this.rightSprites();
+      let rightAnimation = setInterval(function () {
+        that.rightSprites();
+      }, 275);
+      ani = rightAnimation;
+    }
+    return ani;
+  }
+
+  moveRight() {
+    let that = this;
+    console.log('yuh')
+    this.rightSprites();
+    let rightAnimation = setInterval(function () {
+      that.rightSprites();
+    }, 200);
+    // console.log('hi"')
+    return rightAnimation;
+  }
+
+  moveLeft() {
+    let that = this;
+    console.log('wtff')
+    this.leftSprites();
+    let leftAnimation = setInterval(function () {
+      that.leftSprites();
+    }, 200);
+    return leftAnimation;
+  }
+
+  rightSprites() {
+    // console.log('hi');
+    if (this.spritePos[0] === 107 && this.spritePos[1] === 882) {
+      this.spritePos[0] = 7;
+      this.spritePos[1] = 880;
+    } else if (this.spritePos[0] === 7 && this.spritePos[1] === 880) {
+      this.spritePos[0] = 36;
+      this.spritePos[1] = 882;
+    } else if (this.spritePos[0] === 107 && this.spritePos[1] === 882) {
+      this.spritePos[0] = 7;
+      this.spritePos[1] = 880;
+    } else {
+      this.spritePos[0] = 107;
+      this.spritePos[1] = 882;
+    }
+  }
+
+  leftSprites() {
+    // console.log('hihihi');
+    if (this.spritePos[0] === 13 && this.spritePos[1] === 670) {
+      this.spritePos[0] = 218;
+      this.spritePos[1] = 50;
+    } else if (this.spritePos[0] === 218 && this.spritePos[1] === 50) {
+      this.spritePos[0] = 250;
+      this.spritePos[1] = 50;
+    } else if (this.spritePos[0] === 250 && this.spritePos[1] === 50) {
+      this.spritePos[0] = 314;
+      this.spritePos[1] = 50;
+    } else {
+      this.spritePos[0] = 107;
+      this.spritePos[1] = 882;
+    }
+  }
+
+  moveLeft() {
+
   }
 
   bubble(game) {
@@ -50,7 +137,13 @@ class Wario {
   }
 
   draw() {
-    this.context.drawImage(this.image, 13, 670, 35, 49, this.x - 8, this.y + 4, this.width, this.height);
+    this.context.drawImage(
+      this.image,
+      this.spritePos[0], this.spritePos[1],
+      (this.width * 2), (this.height * 2),
+      this.x - 5, this.y - 2,
+      (24), (18)
+    );
   }
 
   moveX(direction, bool) {
