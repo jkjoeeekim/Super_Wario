@@ -60,7 +60,7 @@ function createVictoryMsg(wario, map) {
   emailInput.classList.add("email-input");
   emailInput.setAttribute("placeholder", "  example@email.com");
   emailInput.setAttribute("type", "text");
-  linkInput.setAttribute("value", "https://jkjoeeekim.github.io/Super_Wario/dist/index")
+  linkInput.setAttribute("value", "https://jkjoeeekim.github.io/Super_Wario/dist/index");
   linkInput.setAttribute("name", "link");
   linkInput.setAttribute("type", "hidden");
   descInput.setAttribute("name", "desc");
@@ -75,7 +75,7 @@ function createVictoryMsg(wario, map) {
     victoryMsg.setAttribute("method", "post");
     victoryMsg.setAttribute("enctype", "text/plain");
     descInput.setAttribute("value", `Check out this cool game! Try to beat my Score, I got ${wario.points} points in ${map.ingameSecond} seconds`);
-    victoryMsg.setAttribute("action", `mailto:${emailInput.value}`)
+    victoryMsg.setAttribute("action", `mailto:${emailInput.value}`);
   });
 
   text.innerHTML = `SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
@@ -96,6 +96,7 @@ function createVictoryMsg(wario, map) {
 function sound(src) {
   this.sound = document.createElement("audio");
   this.sound.src = src;
+  this.sound.volume = 0.1;
   this.sound.setAttribute("preload", "auto");
   this.sound.setAttribute("controls", "none");
   // this.sound.setAttribute("autoplay", "");
