@@ -15,7 +15,7 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   - Instructions page to show instructions before game starts.
 
 # Wireframe:
-![Alt text](./img/wireframeNew.png)
+![Alt text](./img/newWireframe.png)
 
 # Technologies, Libraries, APIs:
 ## This project will be implemented with the following technologies:
