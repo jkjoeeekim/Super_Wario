@@ -26,8 +26,8 @@ class Map {
     this.floorHoles = [160, 176, 560, 576, 800, 816];
     this.roofFills = [240, 272, 288, 864, 880, 896];
     this.itemBlockFills = [256, 912];
-    this.pipeFills = [480];
-    this.stairFills = [48, 1152];
+    this.pipeFills = [480, 1376];
+    this.stairFills = [1152];
     this.stair2Fills = [1168];
     this.stair3Fills = [1184];
     this.stair4Fills = [1200];
@@ -66,30 +66,22 @@ class Map {
     }
   }
 
-  scoreCounter(context, wario) {
-    if (context == null) return;
-    context.fillText("SCORE: " + wario.points, 120, 10)
-  }
-
-  timeCounter(context) {
-    let sec = Math.floor(Date.now() / 1000);
-
-  }
-
-  topBar(context, wario) {
+  topBar(context, wario, that) {
     if (context == null) return;
     let sec = Math.floor(Date.now() / 1000);
 
     if (sec != this.currentSecond) {
       this.currentSecond = sec;
       this.framesPrevSec = this.frameCount;
-      this.ingameSecond += 1;
       this.frameCount = 1;
+      if (that.controlsActive) {
+        this.ingameSecond += 1;
+      }
     } else {
       this.frameCount += 1;
     }
-    context.fillText("SCORE: " + wario.points, 120, 10)
-    context.fillText("TIME: " + this.ingameSecond, 250, 10)
+    context.fillText("SCORE: " + wario.points, 120, 10);
+    context.fillText("TIME: " + this.ingameSecond, 250, 10);
     context.fillText("FPS: " + this.framesPrevSec, 5, 10);
   }
 

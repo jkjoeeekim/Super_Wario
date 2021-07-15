@@ -7,31 +7,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="../style/style.css">
   <link rel="stylesheet" type="text/css" href="../style/reset.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
   <script type="application/javascript" src="../vendor/keymaster.js"></script>
   <script type="text/javascript" src="./main.js"></script>
   <title>Super Wario</title>
 </head>
 
 <body>
-  <p class="game-name">Super Wario</p>
+  <div class="game-name">
+    <p class="game-first-name">SUPER</p>
+    <p class="game-last-name">ARIO</p>
+  </div>
   <div class="container">
     <section class="side-info-left">
       <p class="game-desc-title">Game Description</p>
-      <br>
       <p class="game-desc">
         You are playing as Wario, the archnemesis of Mario!
         You must get to Mario's castle and kidnap Princess Peach!
       </p>
+      <p class="status">
+        Disclaimer: There is currently only 1 level. More to come...
+      </p>
     </section>
     <canvas id="game-window"></canvas>
     <section class="side-info-right">
-      <p class="game-controls">Game controls</p>
-      <p class="game-desc">
-        Vertical movement: Left and Right Arrow Keys.
-        <br>
-        <br>
-        Horizontal movement: Space bar to Jump.
-      </p>
+      <section class="game-controls">
+        <p class="game-control-title">Game controls</p>
+        <p class="vert-desc">
+          Vertical movement: Left and Right Arrow Keys.
+        </p>
+        <p class="horiz-desc">
+          Horizontal movement: Space bar to Jump.
+        </p>
+      </section>
+      <section class="Links">
+        
+      </section>
     </section>
   </div>
 </body>

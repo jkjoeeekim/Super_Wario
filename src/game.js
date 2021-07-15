@@ -15,7 +15,8 @@ class Game {
     this.keysDown = {
       'ArrowLeft': false,
       'ArrowRight': false,
-      'ArrowUp': false
+      'KeyD': false,
+      'KeyA': false
     };
     this.context = context;
     this.map = new Map();
@@ -62,9 +63,9 @@ class Game {
       if (e.key === ' ') {
         if (!that.keysDown[e.key]) {
           if (that.enableGravity(wario)) {
-            that.keysDown[e.key] = true;
-            if (!wario.dead) {
-              wario.jump(2, that);
+            that.keysDown[e.jump] = true;
+            if (!wario.dead && that.controlsActive) {
+              wario.jump(2);
             }
             setTimeout(function () { that.keysDown[e.key] = false; }, 515);
           }
@@ -73,13 +74,13 @@ class Game {
     });
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'KeyD' || e.key === 'KeyA') {
         that.keysDown[e.key] = true;
       }
     });
 
     document.addEventListener('keyup', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'KeyD' || e.key === 'KeyA') {
         that.keysDown[e.key] = false;
       }
     });
@@ -98,7 +99,7 @@ class Game {
     goomba.viewportDiff += num;
   }
 
-  start(fnc) {
+  start(fnc1, fnc2) {
     let that = this;
     const wario = this.character;
     const goomba = this.goomba1;
@@ -107,6 +108,16 @@ class Game {
         if (this.keysDown[key]) {
           switch (key) {
             case 'ArrowLeft':
+              if (this.leftGravity(wario)) {
+                if (wario.x - 10 < 0) {
+                  return;
+                } else {
+                  wario.moveX(-1);
+                  // wario.currentTile(that);
+                };
+              }
+              break;
+            case 'KeyA':
               if (this.leftGravity(wario)) {
                 if (wario.x - 10 < 0) {
                   return;
@@ -134,23 +145,46 @@ class Game {
                 }
               };
               break;
+            case 'KeyD':
+              if (this.rightGravity(wario)) {
+                if (wario.x + 5 > 100) {
+                  if (this.notRendering) {
+                    this.notRendering = false;
+                    let allPieces = that.map.allPieces();
+                    allPieces.forEach(piece => {
+                      that.moveBack(piece, 1, wario, goomba);
+                    });
+                    setTimeout(function () {
+                      that.notRendering = true;
+                    }, 6);
+                  };
+                } else {
+                  wario.moveX(1, true);
+                }
+              };
+              break;
           }
         }
       });
       this.enableGravity(wario);
       this.enableGoombaGravity();
     }
-    
+
     // console.log(wario.points)
     this.animate();
-    this.map.topBar(this.context, wario);
+    this.map.topBar(this.context, wario, this);
     // this.map.scoreCounter(this.context, wario);
     // this.toggleGoomba(wario, this.floor, goomba);
-    let animationFrame = requestAnimationFrame(this.start.bind(this, fnc));
+    let animationFrame = requestAnimationFrame(this.start.bind(this, fnc1, fnc2));
     if (this.checkDeath(wario)) {
       setTimeout(function () {
-        fnc();
+        fnc1();
       }, 1500);
+    }
+    if (!this.controlsActive) {
+      setTimeout(function () {
+        fnc2(wario, that.map);
+      }, 10000)
     }
     if (this.checkDeath(wario)) {
       cancelAnimationFrame(animationFrame);
@@ -185,6 +219,7 @@ class Game {
 
   animate() {
     this.context.clearRect(0, 0, 800, 600);
+    this.character.draw();
     const allPieces = this.map.allRenderPieces();
     allPieces.forEach((tile) => {
       this.map.draw(tile);
@@ -194,7 +229,6 @@ class Game {
     });
     // console.log(this.noGoZones())
     // this.goomba1.draw(allPieces[0]);
-    this.character.draw();
   }
 
   noGoZones() {
@@ -541,7 +575,7 @@ class Game {
             }, 200);
             wario.bouncing = true;
             setTimeout(function () {
-              wario.jump(2, that, 10);
+              wario.jump(2, 10);
             }, 25);
           }
         }
@@ -576,10 +610,11 @@ class Game {
     // console.log('hi im done');
     this.controlsActive = false;
     wario.x = 100;
+    let that = this;
     let y = wario.y;
-    setTimeout(function() {
-      wario.slideDown();
-    }, 800)
+    setTimeout(function () {
+      wario.initiateEndgame();
+    }, 800);
   }
 }
 

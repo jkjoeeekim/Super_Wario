@@ -1,10 +1,39 @@
 html {
-  background-color: grey;
+  background-color: rgba(20, 20, 85, 0.918);
+  font-family: 'Roboto Mono', monospace;
 }
 
 .game-name {
   text-align: center;
+  display: flex;
+  justify-content: center;
+  font-family: 'Kalam', cursive;
+  color: black;
+  padding: 5px;
   font-size: 50px;
+  background-color: rgba(233, 233, 96, 0.795);
+  background-image: url(../img/wario-hat.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 3px solid rgba(245, 245, 245, 0.795);
+}
+
+.game-first-name {
+  font-size: 85px;
+  letter-spacing: 7px;
+  color: rgb(97,92,255);
+  padding-left: 90px;
+  margin-right: 0px;
+  margin-left: 0px;
+  -webkit-text-stroke: 2px black;
+}
+
+.game-last-name {
+  font-size: 85px;
+  letter-spacing: 7px;
+  color: rgb(97,92,255);
+  padding-left: 200px;
+  -webkit-text-stroke: 2px black;
 }
 
 /* class container display properties */
@@ -14,49 +43,75 @@ html {
   flex-direction: row;
 }
 
+/* left side style properties */
 .side-info-left {
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 250px;
-  height: 500px;
-  padding: 20px;
-  border: 1px solid black;
-  margin-top: 20px;
-  margin-left: 10px;
+  height: 410px;
+  padding: 10px;
+  border: 3px solid rgba(245, 245, 245, 0.795);
+  margin-top: 80px;
+  margin-left: 40px;
 }
 
+.game-desc-title {
+  font-size: 22px;
+  text-decoration-line: underline;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.status {
+  margin-top:110px;
+}
+
+/* right side style properties  */
 .side-info-right {
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 250px;
   height: 500px;
   padding: 20px;
-  border: 1px solid black;
-  margin-top: 20px;
-  margin-right: 10px;
+  border: 3px solid rgba(245, 245, 245, 0.795);
+  margin-top: 80px;
+  margin-right: 60px;
+}
+
+.game-control-title {
+  font-size: 26px;
+  text-decoration-line: underline;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.vert-desc {
+  margin-bottom: 20px;
 }
 
 #game-window {
   image-rendering: pixelated;
   display: flex;
-  outline: black 3px solid;
+  outline: rgba(245, 245, 245, 0.795) 3px solid;
   background-color: #33C3FF;
   width: 1200px;
   height: 800px;
-  margin-top: 20px;
+  margin-top: 50px;
   position: absolute;
   top: 75px;
   left: 18.7%;
 }
 
-.dim-canvas {
+.gg-canvas {
   display: none;
   position: absolute;
-  width: 1210px;
-  height: 810px;
-  top: 95px;
+  width: 1200px;
+  height: 800px;
+  top: 125px;
   left: 18.7%;
   background-color: rgb(0, 0, 0, 0.7);
 }
@@ -65,12 +120,13 @@ html {
 .gg-msg {
   text-align: center;
   width: 500px;
-  height: 250px;
-  border: 5px solid black;
-  background-color: white;
+  height: 300px;
+  font-family: 'Roboto Mono', monospace;
+  border: 5px solid rgba(245, 245, 245, 0.795);
+  background-color: rgba(35, 35, 92, 0.781);
   display: none;
-  padding: 75px;
-  top: 33%;
+  padding: 50px;
+  top: 39%;
   left: 37.5%;
   position: absolute;
   z-index: 999;
@@ -78,10 +134,64 @@ html {
 
 .gg-text {
   font-size: 40px;
+  margin-bottom: 40px;
+  color: white;
 }
 
 .gg-button {
   align-self: center;
+  color: white;
+  background-color: rgba(35, 35, 92);
+  border: 2px solid rgba(245, 245, 245, 0.795);
+  padding: 20px;
+  margin-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+/* level won display message */
+.victory-canvas {
+  display: none;
+  position: absolute;
+  width: 1200px;
+  height: 800px;
+  top: 125px;
+  left: 18.7%;
+  background-color: rgb(0, 0, 0, 0.7);
+}
+
+.victory-msg {
+  text-align: center;
+  width: 510px;
+  font-family: 'Roboto Mono', monospace;
+  height: 425px;
+  border: 5px solid rgba(245, 245, 245, 0.795);
+  background-color: rgba(35, 35, 92, 0.781);
+  display: none;
+  padding: 25px;
+  top: 30%;
+  left: 37.5%;
+  position: absolute;
+  z-index: 999;
+}
+
+.victory-text {
+  padding-top: 30px;
+  color: white;
+  font-size: 34px;
+  line-height: 1.7;
+}
+
+.victory-button {
+  position: absolute;
+  color: white;
+  background-color: rgb(36, 36, 87);
+  border: 2px solid rgba(245, 245, 245, 0.795);
+  left: 165px;
+  bottom: 40px;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .enable {

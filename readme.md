@@ -50,4 +50,6 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add flag pole at the end of the map.
     - Add initial endgame sequence when reaching the flagpole.
     - Add points and time counter to the top bar.
+    - Add google fonts API.
+    - Style home page and alerts.
     - Remove keymaster.js API.

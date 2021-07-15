@@ -64,41 +64,89 @@ class Wario {
     }
   }
 
-  jump(direction, that, steps = 0) {
+  jump(direction, steps = 0) {
     let wario = this;
     let maxSteps = 36;
     // if (this.bouncing) {
     //   steps = 36;
     //   this.y -= 10;
     // }
-    that.animate();
+    // that.animate();
 
     if (steps === maxSteps) {
-      that.animate();
+      // that.animate();
       return;
     } else {
       this.y -= direction;
       return setTimeout(function () {
-        wario.jump(direction, that, steps + 1);
+        wario.jump(direction, steps + 1);
       }, 5);
     }
   }
 
-  slideDown() {
+  slide(steps = 0) {
+    let wario = this;
+    let maxSteps = 33;
+
+    if (steps === maxSteps) {
+      wario.slideDownPipe();
+    } else {
+      if (steps > 27) {
+        wario.y += 1;
+      }
+      this.x += 1;
+      return setTimeout(function () {
+        wario.slide(steps + 1);
+      }, 10);
+    }
+  }
+
+  slideDownPole() {
     let wario = this;
     wario.points += 100;
     if (wario.y === 96) {
+      wario.walkToPipe();
+    } else {
+      wario.y += 1;
+      return setTimeout(function () {
+        wario.slideDownPole();
+      }, 50);
+    }
+  }
+
+  slideDownPipe() {
+    let wario = this;
+    if (wario.y === 96) {
       return;
     } else {
-      this.y += 1;
-      return setTimeout(function() {
-        wario.slideDown()
-      }, 100)
+      wario.y += 1;
+      return setTimeout(function () {
+        wario.slideDownPipe();
+      }, 50);
+    }
+  }
+
+  walkToPipe() {
+    let wario = this;
+    if (wario.x === 170) {
+      wario.jump(1);
+      wario.slide();
+    } else {
+      wario.x += 1;
+      return setTimeout(function () {
+        wario.walkToPipe();
+      }, 25);
     }
   }
 
   initiateEndgame() {
-
+    // setInterval(function() {
+    //   let pipePieces = game.map.pipePieces;
+    //   pipePieces.forEach(piece => {
+    //     game.map.draw(piece);
+    //   });
+    // }, 1)
+    this.slideDownPole();
   }
 }
 

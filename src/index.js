@@ -23,8 +23,8 @@ function createGGMsg() {
   gameOverMsg.appendChild(button);
   gameOverMsg.classList.add("gg-msg");
   gameOverMsg.setAttribute("id", "gg");
-  newCanvas.classList.add("dim-canvas");
-  newCanvas.setAttribute("id", "dim");
+  newCanvas.classList.add("gg-canvas");
+  newCanvas.setAttribute("id", "gg-can");
   text.classList.add("gg-text");
   button.classList.add("gg-button");
   document.body.appendChild(newCanvas);
@@ -32,15 +32,42 @@ function createGGMsg() {
 }
 
 function displayGGMsg() {
+  createGGMsg();
   let ggMsg = document.getElementById("gg");
-  let displayCanvas = document.getElementById("dim");
+  let displayCanvas = document.getElementById("gg-can");
   ggMsg.classList.add("enable");
+  displayCanvas.classList.add("enable");
+}
+
+function createVictoryMsg(wario, map) {
+  let newCanvas = document.createElement('div');
+  let victoryMsg = document.createElement('form');
+  let text = document.createElement('p');
+  let button = document.createElement('button');
+  text.innerHTML = `Congratulations, you cleared level 1. _____________________ SCORE: ${wario.points} \n TIME: ${map.ingameSecond}`;
+  button.innerText = 'Restart';
+  victoryMsg.appendChild(text);
+  victoryMsg.appendChild(button);
+  victoryMsg.classList.add("victory-msg");
+  victoryMsg.setAttribute("id", "victory");
+  newCanvas.classList.add("victory-canvas");
+  newCanvas.setAttribute("id", "victory-can");
+  text.classList.add("victory-text");
+  button.classList.add("victory-button");
+  document.body.appendChild(newCanvas);
+  document.body.appendChild(victoryMsg);
+}
+
+function displayVictoryMsg(wario, map) {
+  createVictoryMsg(wario, map);
+  let victoryMsg = document.getElementById("victory");
+  let displayCanvas = document.getElementById("victory-can");
+  victoryMsg.classList.add("enable");
   displayCanvas.classList.add("enable");
 }
 
 window.onload = function () {
   const context = document.getElementById("game-window").getContext('2d');
-  createGGMsg();
   // window.requestAnimationFrame(game.map.fpsCounter(context));
 };
 
@@ -49,11 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("game-window");
   const context = canvas.getContext('2d');
   context.imageSmoothingEnabled = false;
-
+  
   const game = new Game(context);
   const wario = game.character;
   const goomba1 = game.goomba1;
   const map = game.map;
+  // displayVictoryMsg(wario, map);
   const goombas = map.goombaPieces;
   const tile = game.emptyTile;
   const floor = game.floor;
@@ -68,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const stair4 = game.stair4;
   // const stair5 = game.stair5;
   const displayGG = displayGGMsg;
+  const displayVIC = displayVictoryMsg;
   const allRenderTiles = map.allRenderPieces();
   let noGoZones = game.noGoZones();
   wario.nogoZones = noGoZones;
@@ -111,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
       wario.draw();
       // game.enableGravity(wario);
       // map.fpsCounter(context);
-      game.start(displayGG);
+      game.start(displayGG, displayVIC);
 
       // console.log(game.tileAtXCoordinate(33))
     });
