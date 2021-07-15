@@ -1,7 +1,9 @@
 const Floor = require('./floor');
+const Stair = require('./stair');
 const Roof = require('./roof');
 const Pipe = require('./pipe');
 const ItemBlock = require('./itemBlock');
+const FlagPole = require('./flagPole');
 
 class Map {
   constructor() {
@@ -11,26 +13,40 @@ class Map {
     this.frameCount = 0;
     this.framesPrevSec = 0;
     this.floorPieces = [];
+    this.stairPieces = [];
     this.roofPieces = [];
     this.emptyPieces = [];
     this.pipePieces = [];
     this.itemBlockPieces = [];
+    this.flagPolePieces = [];
     this.goombaPieces = [];
     this.floorHoles = [160, 176, 560, 576, 800, 816];
     this.roofFills = [240, 272, 288, 864, 880, 896];
     this.itemBlockFills = [256, 912];
     this.pipeFills = [480];
+    this.stairFills = [48, 1152];
+    this.stair2Fills = [64, 1168];
+    this.stair3Fills = [80, 1184];
+    this.stair4Fills = [96, 1200];
+    this.stair5Fills = [112, 1216];
+    this.flagPoleFills = [128, 1296];
+    this.stairHoles = this.generateHoles(this.stairFills, 16);
+    this.stair2Holes = this.generateHoles(this.stair2Fills, 16);
+    this.stair3Holes = this.generateHoles(this.stair3Fills, 16);
+    this.stair4Holes = this.generateHoles(this.stair4Fills, 16);
+    this.stair5Holes = this.generateHoles(this.stair5Fills, 16);
     this.roofHoles = this.generateHoles(this.roofFills, 16);
     this.itemBlockHoles = this.generateHoles(this.itemBlockFills, 16);
     this.pipeHoles = this.generateHoles(this.pipeFills, 32);
+    this.flagPoleHoles = this.generateHoles(this.flagPoleFills, 16);
   }
 
   allPieces() {
-    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.goombaPieces).concat(this.emptyPieces);
+    return this.floorPieces.concat(this.flagPolePieces).concat(this.stairPieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces).concat(this.goombaPieces).concat(this.emptyPieces);
   }
 
   allRenderPieces() {
-    return this.floorPieces.concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces);
+    return this.floorPieces.concat(this.stairPieces).concat(this.flagPolePieces).concat(this.itemBlockPieces).concat(this.roofPieces).concat(this.pipePieces);
   }
 
   draw(tile) {
@@ -73,6 +89,8 @@ class Map {
           let newTile = new tile.constructor(x, y, context, image, this);
           if (newTile instanceof Floor) this.floorPieces.push(newTile);
           if (newTile instanceof Roof) this.roofPieces.push(newTile);
+          if (newTile instanceof Stair) this.stairPieces.push(newTile);
+          if (newTile instanceof FlagPole) this.flagPolePieces.push(newTile);
           if (newTile instanceof Pipe) {
             newTile.createDouble(this);
             this.pipePieces.push(newTile);

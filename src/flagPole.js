@@ -1,17 +1,17 @@
-class Roof {
+class FlagPole {
   constructor(x, y, context, image, bool=true) {
     this.context = context;
     this.image = image;
     this.height = 16;
     this.width = 16;
-    this.spritePos = [16, 0];
+    this.spritePos = [256, 144];
     this.viewportDiff = 0;
     this.x = x;
     this.y = y;
     this.render = bool;
-    this.maxRender = 51;
-    this.passable = true;
+    this.maxRender = 112;
+    this.passable = false;
   }
 }
 
-module.exports = Roof;
+module.exports = FlagPole;

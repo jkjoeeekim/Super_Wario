@@ -10,7 +10,7 @@ class ItemBlock {
     this.y = y;
     this.render = bool;
     this.maxRender = 51;
-    this.passable = false;
+    this.passable = true;
     this.triggered = false;
     let that = this;
     setInterval(function() {

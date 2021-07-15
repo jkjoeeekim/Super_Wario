@@ -5,7 +5,7 @@ class Tile {
     this.x = x;
     this.y = y;
     this.viewportDiff = 0;
-    this.maxRender = 1000;
+    this.maxRender = 1200;
     this.passable = true;
   }
 

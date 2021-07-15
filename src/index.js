@@ -60,8 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const roof = game.roof;
   const itemBlock = game.itemBlock;
   const pipe = game.pipe;
+  const stair = game.stair;
+  const flagPole = game.flagPole;
+  const stair2 =  game.stair2;
+  const stair3 =  game.stair3;
+  const stair4 =  game.stair4;
+  const stair5 =  game.stair5;
   const displayGG = displayGGMsg;
   const allRenderTiles = map.allRenderPieces();
+  let noGoZones = game.noGoZones();
+  wario.nogoZones = noGoZones;
 
   loadImage('../img/tiles.png')
     .then(image => {
@@ -69,9 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
       map.generateTiles(roof, context, image, map.roofHoles);
       map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
       map.generateTiles(pipe, context, image, map.pipeHoles);
+      map.generateTiles(stair, context, image, map.stairHoles);
+      map.generateTiles(stair2, context, image, map.stair2Holes);
+      map.generateTiles(stair3, context, image, map.stair3Holes);
+      map.generateTiles(stair4, context, image, map.stair4Holes);
+      map.generateTiles(stair5, context, image, map.stair5Holes);
+      map.generateTiles(flagPole, context, image, map.flagPoleHoles);
       tile.generateEmptyTiles(map, tile, allRenderTiles);
-      let noGoZones = game.noGoZones();
-      wario.nogoZones = noGoZones;
       // pipe.context = context;
       // pipe.image = image;
       // map.draw(pipe);

@@ -36,6 +36,14 @@ class Wario {
     return bubble;
   }
 
+  pieceLeft() {
+
+  }
+
+  pieceRight() {
+
+  }
+
   currentTiles(game, bool) {
     let allTiles = game.map.allPieces();
     let currentTiles = [];

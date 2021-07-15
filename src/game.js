@@ -1,11 +1,13 @@
 const Wario = require('./wario');
 const Map = require('./map');
 const Floor = require('./floor');
+const Stair = require('./stair');
 const Roof = require('./roof');
 const Tile = require('./tile');
 const Pipe = require('./pipe');
 const ItemBlock = require('./itemBlock');
 const Goomba = require('./goomba');
+const FlagPole = require('./flagPole');
 
 class Game {
   constructor(context) {
@@ -16,8 +18,12 @@ class Game {
     };
     this.context = context;
     this.map = new Map();
-    this.emptyTile = new Tile(-16, 0);
+    this.emptyTile = new Tile(-32, -32);
+
+    // wario
     this.character = new Wario(25, 0);
+
+    // goombas
     this.testGoomba = new Goomba(64, 99);
     this.goomba1 = new Goomba(400, 99);
     this.goomba2 = new Goomba(432, 99);
@@ -25,12 +31,23 @@ class Game {
     this.goomba4 = new Goomba(784, 99);
     this.goomba5 = new Goomba(1008, 99);
     this.goomba6 = new Goomba(1040, 99);
-    this.map.goombaPieces = [this.testGoomba, this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
-    // this.map.goombaPieces = this.goombas;
+    this.map.goombaPieces = [this.goomba1, this.goomba2, this.goomba3, this.goomba4, this.goomba5, this.goomba6];
+
+    // floors, pipes, item blocks, roofs, flag poles
+    this.flagPole = new FlagPole(16, 32)
     this.pipe = new Pipe(480, 80);
     this.floor = new Floor(0, 112);
-    this.itemBlock = new ItemBlock(0, 48);
+    this.itemBlock = new ItemBlock(256, 48);
     this.roof = new Roof(240, 48);
+
+    // stairs
+    this.stair = new Stair(16, 96);
+    this.stair2 = new Stair(16, 80);
+    this.stair3 = new Stair(16, 64);
+    this.stair4 = new Stair(16, 48);
+    this.stair5 = new Stair(16, 32);
+
+    
     this.notRendering = true;
   }
 
@@ -86,13 +103,17 @@ class Game {
       if (this.keysDown[key]) {
         switch (key) {
           case 'ArrowLeft':
-            if (this.canMove(wario, 'backward')) {
-              wario.moveX(-1);
-              // wario.currentTile(that);
-            };
+            if (this.leftGravity(wario)) {
+              if (wario.x - 10 < 0) {
+                return;
+              } else {
+                wario.moveX(-1);
+                // wario.currentTile(that);
+              };
+            }
             break;
           case 'ArrowRight':
-            if (this.canMove(wario, 'forward')) {
+            if (this.rightGravity(wario)) {
               if (wario.x + 5 > 100) {
                 if (this.notRendering) {
                   this.notRendering = false;
@@ -164,16 +185,17 @@ class Game {
     this.map.goombaPieces.forEach(goomba => {
       goomba.draw(allPieces[0]);
     });
+    // console.log(this.noGoZones())
     // this.goomba1.draw(allPieces[0]);
     this.character.draw();
   }
 
   noGoZones() {
-    let allPieces = this.map.allPieces();
+    let allPieces = this.map.allRenderPieces();
     let noGoCoords = [];
     allPieces.forEach(piece => {
       if (!piece.passable) {
-        noGoCoords.push([piece.x, piece.y]);
+        noGoCoords.push(piece);
       }
     });
     return noGoCoords;
@@ -189,8 +211,8 @@ class Game {
     switch (direction) {
       case 'forward':
         let frontxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
-        let frontyCoord = this.closestCoordinate(wario.y);
         let fx = frontxCoord[1];
+        let frontyCoord = this.closestCoordinate(wario.y);
         let fy = frontyCoord[1];
         // console.log(fx)
         this.checkGoomba(this, fx);
@@ -204,13 +226,21 @@ class Game {
         let backyCoord = this.closestCoordinate(wario.y);
         let bx = backxCoord[0];
         let by = backyCoord[0];
+        let bool = false;
+        wario.nogoZones.forEach(zone => {
+          if (wario.x + tiles[0].viewportDiff - 5 > zone.x && wario.x + tiles[0].viewportDiff < zone.x + 16) {
+            bool = false;
+          }
+        });
         if (wario.nogoZones.includes([bx, by])) {
-          return false;
+          bool = false;
         } else if (wario.x - 10 < 0) {
-          return false;
+          bool = false;
         } else {
-          return true;
+          bool = true;
         }
+        return bool;
+        break;
     }
     return false;
   }
@@ -279,36 +309,135 @@ class Game {
     }
   }
 
-  enableGravity(obj) {
-    let tiles = obj.currentTiles(this);
+  rightGravity(wario) {
+    let tiles = wario.currentTiles(this);
+    let frontxCoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+    let fx = frontxCoord[1];
+    this.checkGoomba(this, fx);
+    let bottomTiles = [tiles[0], tiles[1]];
+    let nogoZones = this.noGoZones();
+    let tile = this.getClosestTileRight();
+    let moveable = true;
+    if (tile && nogoZones.includes(tile)) {
+      moveable = false;
+    }
+    let bottomRight = tiles[1];
+    console.log('tile', tile)
+    console.log(wario.x + bottomRight.viewportDiff);
+    console.log(wario.y);
+    console.log(bottomRight);
+    if (!bottomRight.passable && wario.y + 15 > bottomRight.y) {
+
+      moveable = false;
+    }
+    if (!bottomRight.passable && wario.x + wario.width + bottomRight.viewportDiff > bottomRight.x) {
+      if (wario.y + 1 > bottomRight.y) {
+        wario.x -= 2;
+        moveable = false;
+      }
+    }
+
+    return moveable;
+    // if (bottomTiles[0] instanceof Stair && bottomTiles[1] instanceof Stair && bottomTiles[0].y != bottomTiles[1].y) {
+    //   let bool = true;
+    //   if (tiles[2] instanceof Stair) {
+    //     bool = true;
+    //   };
+    //   return bool;
+    // } else {
+    //   return true;
+    // }
+  }
+
+  rightGravity2(wario) {
+    let bubble = wario.bubble(this);
+    let moveable = true;
+
+    bubble.rightBubble.forEach(piece => {
+      if (!piece.passable && wario.x + piece.viewportDiff + 10 > piece.x) {
+        moveable = false;
+      }
+    });
+
+    let tiles = wario.currentTiles(this);
+    let bottomRight = tiles[1];
+    console.log(bottomRight);
+    if (wario.x < bottomRight.x) {
+      moveable = false;
+    }
+
+    return moveable;
+  }
+
+  leftGravity(wario) {
+    let tiles = wario.currentTiles(this);
+    let bottomTiles = [tiles[0], tiles[1]];
+    let nogoZones = this.noGoZones();
+    let tile = this.getClosestTileLeft();
+    let moveable = true;
+    if (tile && nogoZones.includes(tile)) {
+      moveable = false;
+    }
+    let bottomLeft = tiles[0];
+    console.log('tile', tile)
+    console.log(wario.x + bottomLeft.viewportDiff);
+    console.log(wario.y);
+    console.log(bottomLeft);
+    if (!bottomLeft.passable && wario.y + 15 > bottomLeft.y) {
+      moveable = false;
+    }
+    if (!bottomLeft.passable && wario.x + bottomLeft.viewportDiff > bottomLeft.x) {
+      if (wario.y > bottomLeft.y) {
+        moveable = false;
+      }
+    }
+
+    return moveable;
+    // if (bottomTiles[0] instanceof Stair && bottomTiles[1] instanceof Stair && bottomTiles[0].y != bottomTiles[1].y) {
+    //   return true;
+    // } else if (tiles[2] instanceof Stair) {
+    //   return true;
+    // } else {
+    //   return true;
+    // }
+  }
+
+  enableGravity(wario) {
+    let tiles = wario.currentTiles(this);
     let bottomTiles = [tiles[0], tiles[1]];
     let goombas = this.map.goombaPieces;
     let that = this;
     let floorCount = 0;
     let pipeCount = 0;
+    let stairCount = 0;
 
     bottomTiles.forEach(tile => {
       if (tile instanceof Floor) {
         return;
       } else if (tile instanceof Pipe) {
         pipeCount += 1;
+      } else if (tile instanceof Stair) {
+        stairCount += 1;
       } else {
         floorCount += 1;
       }
     });
-    this.getClosestTileLeft();
+    // let tile = this.getClosestTileLeft();
+    // console.log(tile);
     this.checkDeathGoomba(bottomTiles);
     if (goombas.includes(bottomTiles[0]) || goombas.includes(bottomTiles[1])) {
       // bottomTiles[0].triggerDeath(bottomTiles[0], that);
       return true;
-    } else if (floorCount < 2 || pipeCount > 0) {
+    } else if ((wario.y > bottomTiles[0].y && wario.y < bottomTiles[0].y + 17) && !bottomTiles[0].passable) {
+      return false;
+    } else if (floorCount < 2 || pipeCount > 0 || stairCount > 0) {
       return true;
     } else if (floorCount < 2 && pipeCount > 0) {
-      obj.x -= 3;
-      obj.y += 1;
+      wario.x -= 3;
+      wario.y += 1;
       return true;
     } else {
-      obj.y += 1;
+      wario.y += 1;
       return false;
     };
   }
@@ -325,9 +454,9 @@ class Game {
 
   getClosestTileLeft() {
     let wario = this.character;
-    let closestXcoord = this.closestCoordinate(wario.x);
-    let closestYcoord = this.closestCoordinate(wario.y);
     let tiles = this.map.allRenderPieces();
+    let closestXcoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+    let closestYcoord = this.closestCoordinate(wario.y);
     let leftTile = null;
     tiles.forEach(tile => {
       // console.log('cord', closestXcoord[0])
@@ -338,8 +467,26 @@ class Game {
         }
       }
     });
-    // console.log(leftTile)
     return leftTile;
+  }
+
+  getClosestTileRight() {
+    let wario = this.character;
+    let tiles = this.map.allRenderPieces();
+    let closestXcoord = this.closestCoordinate(wario.x + tiles[0].viewportDiff);
+    let closestYcoord = this.closestCoordinate(wario.y);
+    let rightTile = null;
+    tiles.forEach(tile => {
+      // console.log('cord', closestXcoord[0])
+      // console.log('tile', tile.x)
+      if (tile.x === closestXcoord[1]) {
+        if (tile.y === closestYcoord[0]) {
+          rightTile = tile;
+          // wario.x -= 1;
+        }
+      }
+    });
+    return rightTile;
   }
 
   checkDeathByGoomba(tile) {
