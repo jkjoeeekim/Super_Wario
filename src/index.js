@@ -44,7 +44,7 @@ function createVictoryMsg(wario, map) {
   let victoryMsg = document.createElement('form');
   let text = document.createElement('p');
   let button = document.createElement('button');
-  text.innerHTML = `Congratulations, you cleared level 1. _____________________ SCORE: ${wario.points} \n TIME: ${map.ingameSecond}`;
+  text.innerHTML = `Congratulations, you cleared level 1. _____________________ SCORE: ${wario.points} \n TIME: ${map.ingameSecond}s`;
   button.innerText = 'Restart';
   victoryMsg.appendChild(text);
   victoryMsg.appendChild(button);
@@ -76,18 +76,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("game-window");
   const context = canvas.getContext('2d');
   context.imageSmoothingEnabled = false;
-  
+
   const game = new Game(context);
   const wario = game.character;
   const goomba1 = game.goomba1;
   const map = game.map;
-  // displayVictoryMsg(wario, map);
   const goombas = map.goombaPieces;
   const tile = game.emptyTile;
   const floor = game.floor;
   const roof = game.roof;
   const itemBlock = game.itemBlock;
   const pipe = game.pipe;
+  const cloud = game.cloud;
+  const cloud2 = game.cloud2;
   const stair = game.stair;
   const flagPole = game.flagPole;
   const flagPoleTip = game.flagPoleTip;
@@ -107,6 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
       map.generateTiles(roof, context, image, map.roofHoles);
       map.generateTiles(itemBlock, context, image, map.itemBlockHoles);
       map.generateTiles(pipe, context, image, map.pipeHoles);
+      map.generateTiles(cloud, context, image, map.cloudHoles);
+      map.generateTiles(cloud2, context, image, map.cloud2Holes);
       map.generateTiles(stair, context, image, map.stairHoles);
       map.generateTiles(stair2, context, image, map.stair2Holes);
       map.generateTiles(stair3, context, image, map.stair3Holes);

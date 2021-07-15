@@ -54,3 +54,6 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add links to home page.
     - Style home page and alerts.
     - Remove keymaster.js API.
+
+  ## Thursday July 15th, 2021
+    - Add clouds in the background.

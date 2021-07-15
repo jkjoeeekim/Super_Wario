@@ -9,6 +9,7 @@ const ItemBlock = require('./itemBlock');
 const Goomba = require('./goomba');
 const FlagPole = require('./flagPole');
 const FlagPoleTip = require('./flagPoleTip');
+const Cloud = require('./cloud');
 
 class Game {
   constructor(context) {
@@ -43,6 +44,9 @@ class Game {
     this.itemBlock = new ItemBlock(256, 48);
     this.roof = new Roof(240, 48);
 
+    // clouds
+    this.cloud = new Cloud(16, 16, null, null, true, 17)
+    this.cloud2 = new Cloud(16, 32, null, null, true, 33)
     // stairs
     this.stair = new Stair(16, 96);
     this.stair2 = new Stair(16, 80);
