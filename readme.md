@@ -5,14 +5,14 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 
 # Features:
 ## In Super Wario, players will be able to:
-  - Use Left and Right arrow keys for vertical movement.
+  - Use Left and Right arrow keys or W, A, S, D for vertical movement.
   - Use Spacebar for jumping action.
   - Navigate Wario through an obstacle course to get to the castle on the other side.
   - Defeat of evade enemy Goombas along the way.
 
-## In addition, this project will include:
+## In addition, this project also includes:
   - In-game timer and score tracker, accumulated through picking up coins and killing Goombas.
-  - Instructions page to show instructions before game starts.
+  - Able to click a link and send an email at the end of the game.
 
 # Wireframe:
 ## Before:
