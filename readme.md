@@ -58,4 +58,5 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   ## Thursday July 15th, 2021
     - Add clouds in the background.
     - Add item box triggered animations.
+    - Add wario walking and death animations.
     - Update homepage style.

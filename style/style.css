@@ -69,7 +69,7 @@ html {
   font-weight: bold;
   font-family: 'Kalam', cursive;
   background-color: rgba(233, 233, 96, 0.795);
-  font-size: 30px;
+  font-size: 32px;
   width: 100%;
   text-align: center;
   padding-top: 20px;
@@ -161,7 +161,7 @@ html {
 }
 
 .creator-header {
-  font-size: 34px;
+  font-size: 36px;
   font-weight: bold;
   text-align: center;
   padding-top: 15px;
