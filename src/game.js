@@ -202,7 +202,7 @@ class Game {
     goomba.viewportDiff += num;
   }
 
-  start(fnc1, fnc2) {
+  start(fnc1, fnc2, animation) {
     let that = this;
     const wario = this.character;
     const goomba = this.goomba1;
@@ -278,7 +278,7 @@ class Game {
     this.map.topBar(this.context, wario, this);
     // this.map.scoreCounter(this.context, wario);
     // this.toggleGoomba(wario, this.floor, goomba);
-    let animationFrame = requestAnimationFrame(this.start.bind(this, fnc1, fnc2));
+    // let animationFrame = requestAnimationFrame(this.start.bind(this, fnc1, fnc2));
     if (this.checkDeath(wario)) {
       wario.death(that);
       setTimeout(function () {
@@ -291,7 +291,7 @@ class Game {
       }, 9000);
     }
     if (this.checkDeath(wario)) {
-      cancelAnimationFrame(animationFrame);
+      clearInterval(animation);
     };
   }
 

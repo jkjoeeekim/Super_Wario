@@ -125,6 +125,7 @@ html {
 /* left side style properties */
 .side-info-left {
   color: white;
+  background-color: rgba(35, 35, 92, 0.781);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -70,3 +70,6 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Add quick email share functionality.
     - Update homepage style.
     - Adjust volume levels.
+
+  ## Tuesday July 20th, 2021
+    - Set fixed FPS at 121.

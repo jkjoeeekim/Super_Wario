@@ -198,7 +198,9 @@ document.addEventListener("DOMContentLoaded", function () {
       wario.audioDeath = soundClipDeath;
       wario.audioFlagPole = soundClipFlagPole;
       wario.audioBG = soundClipBG;
-      game.start(displayGG, displayVIC);
+      let animation = setInterval(function() {
+        game.start(displayGG, displayVIC, animation);
+      }, 1000/121)
     }
   });
 
