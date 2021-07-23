@@ -77,3 +77,4 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
   ## Thursday July 22nd, 2021
     - Set fixed FPS at 60.
     - Make jump animation more fluid.
+    - Update webpage styling.

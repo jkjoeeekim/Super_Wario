@@ -16,18 +16,18 @@
 </head>
 
 <body>
-  <div class="game-name">
-    <p class="game-first-name">SUPER</p>
-    <p class="game-last-name">ARIO</p>
-  </div>
-  <div class="container">
-    <section class="side-info-left">
-      <div class="game-title-banner">
-        <p class="game-desc-title">GAME</p>
-        <p class="game-desc-title game-desc-title2">DESCRIPTION</p>
-      </div>
-      <div class="game-desc-content">
-        <p class="game-desc">
+  <header id="game-banner">
+    <p class="game-banner-first-name">SUPER</p>
+    <p class="game-banner-last-name">ARIO</p>
+  </header>
+  <section id="main-section">
+    <aside id="side-info-left">
+      <section id="game-title-banner">
+        <p class="game-title">GAME</p>
+        <p class="game-title game-title-center">DESCRIPTION</p>
+      </section>
+      <section id="game-description-section">
+        <p class="game-description-content">
           You are playing as Wario, the archnemesis of Mario!
           You must get to Mario's castle and kidnap Princess Peach!
         </p>
@@ -37,8 +37,13 @@
         <p class="version">
           VERSION: BETA_v_0.002
         </p>
-      </div>
-    </section>
+      </section>
+      <section id="volume-section">
+        <div class="volume-title">VOLUME TOGGLE</div>
+        <button id="volume-button">on<img src="../img/sound-ico.png"></button>
+        <button id="mute-button">off<img class="mute-img" src="../img/mute-ico.png"></button>
+      </section>
+    </aside>
     <form id="intro-screen" class="introscreen">
       <p class="intro-desc">ABOUT THE GAME</p>
       <img src="../img/point-bottom-left.png" class="point-bottom-left">
@@ -56,29 +61,26 @@
     </form>
     <canvas id="game-window">
     </canvas>
-    <button id="volume-button">Volume ON<img src="../img/sound-ico.png"></button>
-    <button id="mute-button">Volume OFF<img class="mute-img" src="../img/mute-ico.png"></button>
     <section class="side-info-right">
       <section class="game-controls">
         <div class="game-controls-banner">
-          <p class="game-control-title">GAME CONTROLS</p>
+          <p class="game-controls-title">GAME CONTROLS</p>
         </div>
-        <p class="vert-desc">
-          Horizontal movement: W, A, S, D or Left Arrow ⬅ Right Arrow ➡
-        </p>
-        <p class="horiz-desc">
-          Vertical movement: W key or Space bar to Jump
-        </p>
+        <p class="game-controls-info-title">Game movement:</p>
+        <ul class="game-controls-info">
+          <li>W, A, S, D Keys</li>
+          <li>Left Arrow Key ⬅, Right Arrow Key ➡, Spacebar</li>
+        </ul>
       </section>
-      <section class="links">
+      <section class="links-section">
         <div class="creator-banner">
           <p class="creator-header">
             CREATOR INFO
           </p>
         </div>
-        <p class="info">
+        <div class="info">
           All coded into a Canvas using vanilla JavaScript.
-        </p>
+        </div>
         <p class="links-title">
           LINKS:
         </p>
@@ -92,7 +94,7 @@
         </section>
       </section>
     </section>
-  </div>
+  </section>
 </body>
 
 </html>
