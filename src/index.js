@@ -163,47 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let noGoZones = game.noGoZones();
   wario.nogoZones = noGoZones;
 
-  document.body.addEventListener("click", function () {
-    if (directions === 0) {
-      directions += 1;
-      introScreen.classList.add("disable");
-      introScreen2.classList.add("enable");
-
-      // introScreen.setAttribute("display", "none");
-      // introScreen2.setAttribute("display", "block");
-    } else if (directions === 1) {
-      directions += 1;
-      introScreen2.classList.add("disable");
-      introScreen3.classList.add("enable");
-      // introScreen2.setAttribute("display", "none");
-      // introScreen3.setAttribute("display", "block");
-    } else if (directions === 2) {
-      directions += 1;
-      introScreen3.classList.add("disable");
-      // introScreen3.setAttribute("display", "none");
-
-      let soundClipCoin = new sound("../audio/smb_coin.wav");
-      let soundClipStomp = new sound("../audio/smb_stomp.wav");
-      let soundClipJump = new sound("../audio/smb_jump-small.wav");
-      let soundClipStageClear = new sound("../audio/smb_stage_clear.wav");
-      let soundClipDeath = new sound("../audio/smb_mariodie.wav");
-      let soundClipFlagPole = new sound("../audio/smb_flagpole.wav");
-      let soundClipBG = new sound("../audio/smb-overworld.wav");
-
-      soundClipBG.play();
-      wario.audioCoin = soundClipCoin;
-      wario.audioStomp = soundClipStomp;
-      wario.audioJump = soundClipJump;
-      wario.audioStageClear = soundClipStageClear;
-      wario.audioDeath = soundClipDeath;
-      wario.audioFlagPole = soundClipFlagPole;
-      wario.audioBG = soundClipBG;
-      let animation = setInterval(function() {
-        game.start(displayGG, displayVIC, animation);
-      }, 1000/60)
-    }
-  });
-
   let volumeOn = document.getElementById("volume-button");
   let muteOn = document.getElementById("mute-button");
 
@@ -231,14 +190,9 @@ document.addEventListener("DOMContentLoaded", function () {
       map.generateTiles(stair2, context, image, map.stair2Holes);
       map.generateTiles(stair3, context, image, map.stair3Holes);
       map.generateTiles(stair4, context, image, map.stair4Holes);
-      // map.generateTiles(stair5, context, image, map.stair5Holes);
       map.generateTiles(flagPole, context, image, map.flagPoleHoles);
       map.generateTiles(flagPoleTip, context, image, map.flagPoleTipHoles);
       tile.generateEmptyTiles(map, tile, allRenderTiles);
-      // pipe.context = context;
-      // pipe.image = image;
-      // map.draw(pipe);
-      // console.log(map.emptyPieces)
     });
 
   loadImage('../img/goomba.png')
@@ -248,9 +202,6 @@ document.addEventListener("DOMContentLoaded", function () {
         goomba.image = image;
         goomba.draw(tile);
       });
-      // goomba1.context = context;
-      // goomba1.image = image;
-      // goomba1.draw(tile);
     });
 
   loadImage('../img/wario4.png')
@@ -258,14 +209,44 @@ document.addEventListener("DOMContentLoaded", function () {
       wario.context = context;
       wario.image = image;
       wario.draw();
-      // game.enableGravity(wario);
-      // map.fpsCounter(context);
-
-      // console.log(game.tileAtXCoordinate(33))
+      game.enableGravity(wario);
+      game.animate();
     });
 
-  game.bindKeyHandlers();
-  // key("w", function() { wario.moveX(1) })
+  document.body.addEventListener("click", function () {
+    if (directions === 0) {
+      directions += 1;
+      introScreen.classList.add("disable");
+      introScreen2.classList.add("enable");
+    } else if (directions === 1) {
+      directions += 1;
+      introScreen2.classList.add("disable");
+      introScreen3.classList.add("enable");
+    } else if (directions === 2) {
+      directions += 1;
+      introScreen3.classList.add("disable");
 
-  // requestAnimationFrame(game.start.bind(game));
+      let soundClipCoin = new sound("../audio/smb_coin.wav");
+      let soundClipStomp = new sound("../audio/smb_stomp.wav");
+      let soundClipJump = new sound("../audio/smb_jump-small.wav");
+      let soundClipStageClear = new sound("../audio/smb_stage_clear.wav");
+      let soundClipDeath = new sound("../audio/smb_mariodie.wav");
+      let soundClipFlagPole = new sound("../audio/smb_flagpole.wav");
+      let soundClipBG = new sound("../audio/smb-overworld.wav");
+
+      soundClipBG.play();
+      wario.audioCoin = soundClipCoin;
+      wario.audioStomp = soundClipStomp;
+      wario.audioJump = soundClipJump;
+      wario.audioStageClear = soundClipStageClear;
+      wario.audioDeath = soundClipDeath;
+      wario.audioFlagPole = soundClipFlagPole;
+      wario.audioBG = soundClipBG;
+      let animation = setInterval(function () {
+        game.start(displayGG, displayVIC, animation);
+      }, 1000 / 60);
+    }
+  });
+
+  game.bindKeyHandlers();
 });

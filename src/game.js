@@ -34,7 +34,7 @@ class Game {
     // this.soundClipStageClear.play();
 
     // wario
-    this.character = new Wario(25, 0);
+    this.character = new Wario(25, 95);
 
     // assign wario audio clips
     this.character.audioCoin = this.soundClipCoin;
@@ -72,8 +72,6 @@ class Game {
     this.stair4 = new Stair(16, 48);
     this.stair5 = new Stair(16, 32);
 
-
-    this.controlsActive = true;
     this.notRendering = true;
   }
 
@@ -89,11 +87,11 @@ class Game {
           if (that.enableGravity(wario)) {
             that.keysDown[e.jump] = true;
             if (!wario.dead) {
-              if (that.controlsActive) {
+              if (wario.controlsActive) {
                 wario.jump();
               }
             }
-            setTimeout(function () { that.keysDown[e.key] = false; }, 515);
+            setTimeout(function () { that.keysDown[e.key] = false; }, 610);
           }
         }
       } else if (e.code === 'KeyW') {
@@ -101,11 +99,11 @@ class Game {
           if (that.enableGravity(wario)) {
             that.keysDown[e.jump] = true;
             if (!wario.dead) {
-              if (that.controlsActive) {
+              if (wario.controlsActive) {
                 wario.jump();
               }
             }
-            setTimeout(function () { that.keysDown[e.code] = false; }, 515);
+            setTimeout(function () { that.keysDown[e.code] = false; }, 610);
           }
         }
       }
@@ -114,7 +112,7 @@ class Game {
     document.addEventListener('keydown', function (e) {
       // console.log(e.key);
       if (e.key === 'ArrowRight') {
-        if (that.controlsActive) {
+        if (wario.controlsActive) {
           that.keysDown[e.key] = true;
           if (!wario.movingRight) {
             // console.log('byeeeeee')
@@ -124,7 +122,7 @@ class Game {
           }
         }
       } else if (e.code === 'KeyD') {
-        if (that.controlsActive) {
+        if (wario.controlsActive) {
           that.keysDown[e.code] = true;
           if (!wario.movingRight) {
             // console.log('byeeeeee')
@@ -134,7 +132,7 @@ class Game {
           }
         }
       } else if (e.key === 'ArrowLeft') {
-        if (that.controlsActive) {
+        if (wario.controlsActive) {
           that.keysDown[e.key] = true;
           if (!wario.movingLeft) {
             // console.log('helloooo')
@@ -144,7 +142,7 @@ class Game {
           }
         }
       } else if (e.code === 'KeyA') {
-        if (that.controlsActive) {
+        if (wario.controlsActive) {
           that.keysDown[e.code] = true;
           if (!wario.movingLeft) {
             // console.log('helloooo')
@@ -189,12 +187,6 @@ class Game {
     });
   }
 
-  // toggleGoomba(wario, tile, goomba) {
-  //   if (wario.x + tile.viewportDiff > goomba.x - 200) {
-  //     goomba.triggerMovement();
-  //   }
-  // }
-
   // give all units a value of viewportDiff which keeps track of x-axis difference.
   moveBack(tile, num, wario, goomba) {
     tile.viewportDiff += num;
@@ -206,7 +198,7 @@ class Game {
     let that = this;
     const wario = this.character;
     const goomba = this.goomba1;
-    if (this.controlsActive) {
+    if (wario.controlsActive) {
       Object.keys(this.keysDown).forEach((key) => {
         if (this.keysDown[key]) {
           switch (key) {
@@ -285,7 +277,7 @@ class Game {
         fnc1();
       }, 1500);
     }
-    if (!this.controlsActive) {
+    if (!wario.controlsActive) {
       setTimeout(function () {
         fnc2(wario, that.map);
       }, 9000);
@@ -560,6 +552,7 @@ class Game {
 
     bottomTiles.forEach(tile => {
       if (tile instanceof FlagPole) {
+        wario.controlsActive = false;
         that.outtro(wario);
       } else if (tile instanceof Floor) {
         return;
@@ -689,10 +682,10 @@ class Game {
             wario.points += 100;
             setTimeout(function () {
               wario.bouncing = false;
-            }, 200);
+            }, 90);
             setTimeout(function () {
               goomba.triggerDeath(goomba, that);
-            }, 200);
+            }, 90);
             wario.bouncing = true;
             if (!wario.muted) {
               wario.audioStomp.play();
@@ -701,7 +694,7 @@ class Game {
               if (!wario.muted) {
                 wario.audioStomp.play();
               }
-              wario.jump(10);
+              wario.jump(16, true);
             }, 25);
           }
         }
@@ -734,7 +727,7 @@ class Game {
 
   outtro(wario) {
     // console.log('hi im done');
-    this.controlsActive = false;
+    wario.controlsActive = false;
     this.bindKeyHandlers();
     wario.x = 100;
     let that = this;

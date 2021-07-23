@@ -80,7 +80,7 @@ class Map {
       this.currentSecond = sec;
       this.framesPrevSec = this.frameCount;
       this.frameCount = 1;
-      if (that.controlsActive) {
+      if (wario.controlsActive) {
         this.ingameSecond += 1;
       }
     } else {

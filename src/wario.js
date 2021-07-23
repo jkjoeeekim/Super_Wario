@@ -14,6 +14,7 @@ class Wario {
     this.dead = false;
     this.nogoZones = restricted;
     this.image = null;
+    this.controlsActive = true;
 
     this.muted = false;
     // audio clips
@@ -60,18 +61,19 @@ class Wario {
 
   move(dir) {
     let that = this;
+    if (!that.controlsActive) return;
     let ani = null;
     if (dir === 'left') {
       this.leftSprites();
       let leftAnimation = setInterval(function () {
         that.leftSprites();
-      }, 250);
+      }, 180);
       ani = leftAnimation;
     } else if (dir === 'right') {
       this.rightSprites();
       let rightAnimation = setInterval(function () {
         that.rightSprites();
-      }, 275);
+      }, 180);
       ani = rightAnimation;
     }
     return ani;
@@ -82,7 +84,7 @@ class Wario {
     this.rightSprites();
     let rightAnimation = setInterval(function () {
       that.rightSprites();
-    }, 200);
+    }, 180);
     // console.log('hi"')
     return rightAnimation;
   }
@@ -92,7 +94,7 @@ class Wario {
     this.leftSprites();
     let leftAnimation = setInterval(function () {
       that.leftSprites();
-    }, 200);
+    }, 180);
     return leftAnimation;
   }
 
@@ -115,7 +117,7 @@ class Wario {
 
   leftSprites() {
     // console.log('hihihi');
-    if (this.spritePos[0] === 13 && this.spritePos[1] === 670) {
+    if (this.spritePos[0] === 314 && this.spritePos[1] === 50) {
       this.spritePos[0] = 218;
       this.spritePos[1] = 50;
     } else if (this.spritePos[0] === 218 && this.spritePos[1] === 50) {
@@ -125,8 +127,8 @@ class Wario {
       this.spritePos[0] = 314;
       this.spritePos[1] = 50;
     } else {
-      this.spritePos[0] = 107;
-      this.spritePos[1] = 882;
+      this.spritePos[0] = 314;
+      this.spritePos[1] = 50;
     }
   }
 
@@ -176,12 +178,13 @@ class Wario {
       this.image,
       this.spritePos[0], this.spritePos[1],
       (this.width * 2), (this.height * 2),
-      this.x - 5, this.y - 2,
+      this.x - 5, this.y - 3,
       (24), (18)
     );
   }
 
   moveX(direction, bool) {
+    if (!this.controlsActive) return;
     if (bool) {
       this.x += direction;
     } else if (bool === false) {
@@ -192,40 +195,34 @@ class Wario {
     }
   }
 
-  jump(steps = 0) {
+  jump(steps = 0, bool) {
     let wario = this;
-    let maxSteps = 60;
+    let maxSteps = 53;
+    if (!bool && !this.muted) {
+      wario.audioJump.play();
+    }
 
     if (steps >= maxSteps) {
-      // that.animate();
       return;
-    } else if (steps === 5) {
-      if (!wario.muted) {
-        wario.audioJump.play();
-      }
+    } else if (steps < 19) {
       this.y -= 2;
       return setTimeout(function () {
-        wario.jump(steps + 1);
-      }, 1);
-    } else if (steps < 17) {
-      this.y -= 2;
-      return setTimeout(function () {
-        wario.jump(steps + 1);
-      }, 1);
-    } else if (steps >= 17 && steps < 45) {
+        wario.jump(steps + 1, true);
+      }, 1000 / 540);
+    } else if (steps >= 19 && steps < 35) {
       this.y -= 1;
       return setTimeout(function () {
-        wario.jump(steps + 1);
-      }, 1);
-    } else if (steps >= 45 && steps <= 53) {
+        wario.jump(steps + 1, true);
+      }, 1000 / 240);
+    } else if (steps >= 32 && steps <= 42) {
       this.y -= 2;
       return setTimeout(function () {
-        wario.jump(steps + 1);
+        wario.jump(steps + 1, true);
       }, 1000 / 60);
-    } else {
+    } else if (steps > 42 && steps <= 52) {
       this.y -= 1;
       return setTimeout(function () {
-        wario.jump(steps + 1);
+        wario.jump(steps + 1, true);
       }, 1000 / 60);
     }
   }
@@ -243,7 +240,7 @@ class Wario {
       this.x += 1;
       return setTimeout(function () {
         wario.slide(steps + 1);
-      }, 10);
+      }, 1000 / 60);
     }
   }
 
@@ -253,7 +250,7 @@ class Wario {
       wario.audioFlagPole.play();
     }
     wario.points += 100;
-    if (wario.y === 96) {
+    if (wario.y === 97) {
       setTimeout(function () {
         wario.walkToPipe();
       }, 500);
@@ -267,7 +264,8 @@ class Wario {
 
   slideDownPipe() {
     let wario = this;
-    if (wario.y === 96) {
+    wario.x = 100;
+    if (wario.y - 2 === 96) {
       return;
     } else {
       wario.y += 1;
@@ -282,17 +280,51 @@ class Wario {
     if (!wario.muted) {
       wario.audioFlagPole.stop();
     }
-    if (wario.x === 170) {
+    if (wario.x === 168) {
       if (!wario.muted) {
         wario.audioStageClear.play();
       }
-      wario.jump(1);
-      wario.slide();
+      wario.jumpToPipe();
     } else {
       wario.x += 1;
       return setTimeout(function () {
         wario.walkToPipe();
       }, 25);
+    }
+  }
+
+  jumpToPipe(steps = 0) {
+    let wario = this;
+    let maxSteps = 40;
+
+    if (steps >= maxSteps) {
+      return;
+    } else if (steps < 7) {
+      this.y -= 2;
+      return setTimeout(function () {
+        wario.jumpToPipe(steps + 1);
+      }, 1000 / 30);
+    } else if (steps >= 7 && steps < 18) {
+      this.y -= 2;
+      this.x += 1;
+      return setTimeout(function () {
+        wario.jumpToPipe(steps + 1);
+      }, 1000 / 30);
+    } else if (steps >= 18 && steps < 28) {
+      this.x += 2;
+      return setTimeout(function () {
+        wario.jumpToPipe(steps + 1);
+      }, 1000 / 30);
+    } else if (steps === 30) {
+      this.y += 2;
+      return setTimeout(function () {
+        wario.jumpToPipe(steps + 1);
+      }, 450);
+    } else {
+      this.y += 2;
+      return setTimeout(function () {
+        wario.jumpToPipe(steps + 1);
+      }, 45);
     }
   }
 
@@ -303,6 +335,7 @@ class Wario {
     //     game.map.draw(piece);
     //   });
     // }, 1)
+    this.controlsActive = false;
     this.slideDownPole();
   }
 }

@@ -19,7 +19,7 @@ class Goomba {
     let that = this;
     setInterval(function () {
       that.changeSprite();
-    }, 500);
+    }, 300);
   }
 
   moveX() {
@@ -58,7 +58,7 @@ class Goomba {
       this.y += 1;
       return setTimeout(function () {
         that.fall(steps + 1);
-      }, 15)
+      }, 15);
     }
   }
 
