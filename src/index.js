@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
       wario.audioBG = soundClipBG;
       let animation = setInterval(function() {
         game.start(displayGG, displayVIC, animation);
-      }, 1000/121)
+      }, 1000/60)
     }
   });
 

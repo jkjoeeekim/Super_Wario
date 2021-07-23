@@ -79,7 +79,6 @@ class Wario {
 
   moveRight() {
     let that = this;
-    console.log('yuh');
     this.rightSprites();
     let rightAnimation = setInterval(function () {
       that.rightSprites();
@@ -90,7 +89,6 @@ class Wario {
 
   moveLeft() {
     let that = this;
-    console.log('wtff');
     this.leftSprites();
     let leftAnimation = setInterval(function () {
       that.leftSprites();
@@ -194,31 +192,41 @@ class Wario {
     }
   }
 
-  jump(direction, steps = 0) {
+  jump(steps = 0) {
     let wario = this;
-    let maxSteps = 36;
-    // if (this.bouncing) {
-    //   steps = 36;
-    //   this.y -= 10;
-    // }
-    // that.animate();
+    let maxSteps = 60;
 
-    if (steps === maxSteps) {
+    if (steps >= maxSteps) {
       // that.animate();
       return;
-    } else if (steps === 6) {
+    } else if (steps === 5) {
       if (!wario.muted) {
         wario.audioJump.play();
       }
-      this.y -= direction;
+      this.y -= 2;
       return setTimeout(function () {
-        wario.jump(direction, steps + 1);
-      }, 5);
+        wario.jump(steps + 1);
+      }, 1);
+    } else if (steps < 17) {
+      this.y -= 2;
+      return setTimeout(function () {
+        wario.jump(steps + 1);
+      }, 1);
+    } else if (steps >= 17 && steps < 45) {
+      this.y -= 1;
+      return setTimeout(function () {
+        wario.jump(steps + 1);
+      }, 1);
+    } else if (steps >= 45 && steps <= 53) {
+      this.y -= 2;
+      return setTimeout(function () {
+        wario.jump(steps + 1);
+      }, 1000 / 60);
     } else {
-      this.y -= direction;
+      this.y -= 1;
       return setTimeout(function () {
-        wario.jump(direction, steps + 1);
-      }, 5);
+        wario.jump(steps + 1);
+      }, 1000 / 60);
     }
   }
 

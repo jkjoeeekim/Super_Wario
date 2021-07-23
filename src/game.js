@@ -90,7 +90,7 @@ class Game {
             that.keysDown[e.jump] = true;
             if (!wario.dead) {
               if (that.controlsActive) {
-                wario.jump(2);
+                wario.jump();
               }
             }
             setTimeout(function () { that.keysDown[e.key] = false; }, 515);
@@ -102,7 +102,7 @@ class Game {
             that.keysDown[e.jump] = true;
             if (!wario.dead) {
               if (that.controlsActive) {
-                wario.jump(2);
+                wario.jump();
               }
             }
             setTimeout(function () { that.keysDown[e.code] = false; }, 515);
@@ -215,7 +215,7 @@ class Game {
                 if (wario.x - 10 < 0) {
                   return;
                 } else {
-                  wario.moveX(-1);
+                  wario.moveX(-2);
                   // wario.currentTile(that);
                 };
               }
@@ -225,7 +225,7 @@ class Game {
                 if (wario.x - 10 < 0) {
                   return;
                 } else {
-                  wario.moveX(-1);
+                  wario.moveX(-2);
                   // wario.currentTile(that);
                 };
               }
@@ -237,14 +237,14 @@ class Game {
                     this.notRendering = false;
                     let allPieces = that.map.allPieces();
                     allPieces.forEach(piece => {
-                      that.moveBack(piece, 1, wario, goomba);
+                      that.moveBack(piece, 2, wario, goomba);
                     });
                     setTimeout(function () {
                       that.notRendering = true;
                     }, 6);
                   };
                 } else {
-                  wario.moveX(1, true);
+                  wario.moveX(2, true);
                 }
               };
               break;
@@ -255,14 +255,14 @@ class Game {
                     this.notRendering = false;
                     let allPieces = that.map.allPieces();
                     allPieces.forEach(piece => {
-                      that.moveBack(piece, 1, wario, goomba);
+                      that.moveBack(piece, 2, wario, goomba);
                     });
                     setTimeout(function () {
                       that.notRendering = true;
                     }, 6);
                   };
                 } else {
-                  wario.moveX(1, true);
+                  wario.moveX(2, true);
                 }
               };
               break;
@@ -596,10 +596,10 @@ class Game {
       return true;
     } else if (floorCount < 2 && pipeCount > 0) {
       wario.x -= 3;
-      wario.y += 1;
+      wario.y += 2;
       return true;
     } else {
-      wario.y += 1;
+      wario.y += 2;
       return false;
     };
   }
@@ -701,7 +701,7 @@ class Game {
               if (!wario.muted) {
                 wario.audioStomp.play();
               }
-              wario.jump(2, 10);
+              wario.jump(10);
             }, 25);
           }
         }

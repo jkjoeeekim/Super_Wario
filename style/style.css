@@ -90,11 +90,11 @@ html {
   color: black;
   padding: 5px;
   font-size: 50px;
-  background-color: rgba(233, 233, 96, 0.795);
+  background-color: rgba(233, 233, 96, 0.695);
   background-image: url(../img/wario-hat.png);
   background-position: center;
   background-repeat: no-repeat;
-  border-bottom: 3px solid rgba(245, 245, 245, 0.795);
+  border-bottom: 5px solid rgb(0, 0, 0, 0.7);
 }
 
 .game-first-name {
@@ -129,43 +129,52 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 250px;
-  height: 520px;
-  padding: 0px;
-  border: 3px solid rgba(245, 245, 245, 0.795);
-  margin-top: 120px;
+  margin-top: 100px;
   margin-left: 40px;
 }
 
 .game-title-banner {
-  border: 3px solid rgba(245, 245, 245, 0.795);
-  width: 300px;
-  margin-top: -75px;
+  border: 3px solid rgb(0, 0, 0, 0.8);
+  position: absolute;
+  background-color: rgba(233, 233, 96, 0.85);
+  padding-left: 10px;
+  padding-top: 7px;
+  line-height: 1;
+  width: 275px;
+  height: 440px;
 }
 
 .game-desc-title {
-  color: rgb(97,92,255);
+  color: rgb(21, 21, 86);
   font-weight: bold;
   font-family: 'Kalam', cursive;
-  background-color: rgba(233, 233, 96, 0.795);
-  font-size: 32px;
+  font-size: 36px;
   width: 100%;
+  text-align: space-word;
+  /* -webkit-text-stroke: 1px rgb(0, 0, 0, 1); */
+}
+
+.game-desc-title2 {
   text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  -webkit-text-stroke: 0.5px white;
+}
+
+.game-desc-content {
+  border: 2px solid rgb(0, 0, 0, 0.8);
+  background-color: rgba(20, 20, 85, 0.918);
+  margin-top: 80px;
+  width: 265px;
+  z-index: 1;
 }
 
 .game-desc {
   text-align: center;
-  margin-top: 20px;
-  padding: 10px;
+  padding: 7px;
   font-family: 'Kalam', cursive;
   font-size: 20px;
 }
 
 .status {
-  margin-top:180px;
+  margin-top:100px;
   font-family: 'Roboto mono', monospace; 
   padding: 10px;
 }
@@ -173,7 +182,7 @@ html {
 .version {
   font-family: 'Roboto mono', monospace; 
   text-align: left;
-  margin-right: 20px;
+  margin-left: 3px;
 }
 
 /* right side style properties  */
@@ -187,7 +196,6 @@ html {
 }
 
 .game-controls-banner {
-  border: 3px solid rgba(245, 245, 245, 0.795);
   width: 300px;
   margin-top: -80px;
 }
@@ -199,16 +207,17 @@ html {
   width: 250px;
   height: 200px;
   padding: 0px;
-  border: 3px solid rgba(245, 245, 245, 0.795);
+  border: 2px solid rgb(0, 0, 0, 0.8);
   margin-top: 115px;
   margin-right: 60px;
 }
 
 .game-control-title {
   color: rgb(97,92,255);
+  border: 2px solid rgb(0, 0, 0, 0.8);
   font-weight: bold;
   text-align: center;
-  background-color: rgba(233, 233, 96, 0.795);
+  background-color: rgba(233, 233, 96, 0.85);
   width: 100%;
   font-size: 35px;
   padding-top: 20px;
@@ -256,7 +265,7 @@ html {
   padding-top: 15px;
   padding-bottom: 15px;
   color: rgb(97,92,255);
-  background-color: rgba(233, 233, 96, 0.795);
+  background-color: rgba(233, 233, 96, 0.85);
   -webkit-text-stroke: 0.5px white;
 }
 
