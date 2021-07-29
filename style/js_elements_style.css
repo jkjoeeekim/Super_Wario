@@ -1,0 +1,159 @@
+/* styling for js made classes */
+
+.gg-canvas {
+  z-index: 100;
+  margin-top: -22px;
+  margin-left: 4px;
+  height: 820px;
+  width: 1210px;
+  background-color: rgb(0, 0, 0, 0.97);
+  position: absolute;
+  top: 14%;
+  left: 18.28%;
+  border: 5px solid rgb(245, 245, 245, 0.7);
+  border-radius: 10px;
+}
+
+
+/* game over display message */
+.gg-msg {
+  text-align: center;
+  width: 500px;
+  height: 300px;
+  font-family: 'Kalam', cursive;
+  border: 3px solid rgba(233, 233, 96, 0.85);
+  border-radius: 10px;
+  background-color: rgba(35, 35, 92, 0.781);
+  display: none;
+  padding: 50px;
+  top: 39%;
+  left: 37.5%;
+  position: absolute;
+  z-index: 999;
+}
+
+.gg-text {
+  font-size: 42px;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.gg-button {
+  align-self: center;
+  color: rgb(97,92,255);
+  background-color: rgba(233, 233, 96, 0.795);
+  border: 3px solid rgba(233, 233, 96, 0.85);
+  border-radius: 10px;
+  padding: 20px;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.gg-button:hover {
+  background-color: rgba(233, 233, 96, 1);
+  cursor: pointer;
+}
+
+.victory-canvas {
+  z-index: 100;
+  margin-top: -22px;
+  margin-left: 4px;
+  height: 820px;
+  width: 1210px;
+  background-color: rgb(0, 0, 0, 0.97);
+  position: absolute;
+  top: 14%;
+  left: 18.28%;
+  border: 5px solid rgb(245, 245, 245, 0.7);
+  border-radius: 10px;
+}
+
+.victory-msg {
+  text-align: center;
+  width: 600px;
+  height: 450px;
+  font-family: 'Kalam', cursive;
+  border: 3px solid rgba(233, 233, 96, 0.85);
+  border-radius: 10px;
+  background-color: rgba(35, 35, 92, 0.781);
+  display: none;
+  padding: 25px;
+  top: 30%;
+  left: 35%;
+  position: absolute;
+  z-index: 999;
+}
+
+.email-label {
+  color: white;
+  font-size: 36px;
+  border-radius: 10px;
+  padding: 5px;
+  top: 10px;
+}
+
+.email-input {
+  margin-top: 40px;
+}
+
+.victory-text {
+  padding-top: 40px;
+  color: white;
+  font-size: 34px;
+  line-height: 1.7;
+}
+
+.victory-button {
+  position: absolute;
+  color: rgb(97,92,255);
+  background-color: rgba(233, 233, 96, 0.7);
+  border: 3px solid rgba(233, 233, 96, 0.85);
+  border-radius: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  left: 340px;
+  bottom: 40px;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-decoration: none;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.victory-button:hover {
+  background-color: rgba(233, 233, 96, 0.9);
+}
+
+.send-button {
+  position: absolute;
+  color: rgb(97,92,255);
+  width: 180px;
+  font-weight: bold;
+  font-size: 28px;
+  background-color: rgba(233, 233, 96, 0.75);
+  border: 3px solid rgba(233, 233, 96, 0.85);
+  border-radius: 10px;
+  left: 75px;
+  bottom: 40px;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  -webkit-text-stroke: 0.5px white;
+}
+
+.send-button:hover {
+  cursor: pointer;
+  background-color: rgba(233, 233, 96, 0.9);
+}
+
+.enable {
+  display: block !important;
+}
+
+.disable {
+  display: none !important;
+}
