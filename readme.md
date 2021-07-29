@@ -18,9 +18,9 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
 ## Before:
 ![Alt text](./img/wireframe2.png)
 ## Version 0.001:
-![Alt text](./img/version_001.png)
+![Alt text](./img/version_010.png)
 ## Current Version:
-![Alt text](./img/version_002.png)
+![Alt text](./img/version_021.png)
 
 # Technologies, Libraries, APIs:
 ## This project will be implemented with the following technologies:
