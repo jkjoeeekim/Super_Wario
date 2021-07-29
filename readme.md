@@ -82,3 +82,6 @@ Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
     - Fix end loop function.
     - Update Goomba sprite refresh rate.
     - Update webpage styling.
+  
+  ## Thursday July 29th, 2021
+    - Update content spacing and styling.

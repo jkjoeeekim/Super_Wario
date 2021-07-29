@@ -54,6 +54,7 @@ html {
   align-items: center;
   margin: 0 auto;
   width: 260px;
+  margin-top: 35px;
 }
 
 #game-title-banner {
@@ -276,7 +277,8 @@ html {
   justify-content: space-between;
   font-family: 'Kalam', cursive;
   margin: 0 auto;
-  height: 750px;
+  margin-top: 130px;
+  height: 625px;
   width: 260px;
 }
 
@@ -285,17 +287,15 @@ html {
   flex-direction: column;
   align-items: center;
   width: 250px;
-  height: 250px;
+  height: 285px;
   padding: 0px;
   border: 2px solid rgba(233, 233, 96, 0.85);
   border-radius: 10px;
   background-color: rgba(20, 20, 85, 0.918);
-  margin-top: 80px;
 }
 
 .game-controls-banner {
-  width: 300px;
-  margin-top: -70px;
+  margin-top: -80px !important;
 }
 
 .game-controls-title {
@@ -313,7 +313,7 @@ html {
 }
 
 .game-controls-info-title {
-  font-size: 22px;
+  font-size: 25px;
   padding-top: 20px;
 }
 
@@ -327,6 +327,11 @@ html {
 
 .game-controls-info li {
   margin-top: 15px;
+}
+
+.center-divider {
+  margin-top: 15px;
+  margin-left: 60px;
 }
 
 .links-section {
