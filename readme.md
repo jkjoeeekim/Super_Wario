@@ -1,4 +1,5 @@
 Deployed at https://jkjoeeekim.github.io/Super_Wario/dist/index
+***Styling for different size viewports have not been implemented yet. Some content may be offset depending on your viewport size.***
 
 # Background:
 - You will play as Wario, the archnemesis of Mario! You must break into Mario's castle and steal Princess Peach. You will face enemies and obstacles along the way. Get to the end and steal Princess Peach!
