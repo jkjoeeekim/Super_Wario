@@ -86,12 +86,12 @@ class Game {
         if (!that.keysDown[e.key]) {
           if (that.enableGravity(wario)) {
             that.keysDown[e.jump] = true;
+            setTimeout(function () { that.keysDown[e.key] = false; }, 3000);
             if (!wario.dead) {
               if (wario.controlsActive) {
                 wario.jump();
               }
             }
-            setTimeout(function () { that.keysDown[e.key] = false; }, 610);
           }
         }
       } else if (e.code === 'KeyW') {
@@ -103,7 +103,7 @@ class Game {
                 wario.jump();
               }
             }
-            setTimeout(function () { that.keysDown[e.code] = false; }, 610);
+            setTimeout(function () { that.keysDown[e.code] = false; }, 1000);
           }
         }
       }
@@ -694,7 +694,7 @@ class Game {
               if (!wario.muted) {
                 wario.audioStomp.play();
               }
-              wario.jump(16, true);
+              wario.jump(21, true);
             }, 25);
           }
         }

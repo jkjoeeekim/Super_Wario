@@ -197,29 +197,34 @@ class Wario {
 
   jump(steps = 0, bool) {
     let wario = this;
-    let maxSteps = 53;
+    let maxSteps = 51;
     if (!bool && !this.muted) {
       wario.audioJump.play();
     }
 
     if (steps >= maxSteps) {
       return;
-    } else if (steps < 19) {
+    } else if (steps < 8) {
+      this.y -= 1;
+      return setTimeout(function () {
+        wario.jump(steps + 1, true);
+      }, 1000 / 540);
+    } else if (steps < 26) {
       this.y -= 2;
       return setTimeout(function () {
         wario.jump(steps + 1, true);
       }, 1000 / 540);
-    } else if (steps >= 19 && steps < 35) {
+    } else if (steps >= 26 && steps < 38) {
       this.y -= 1;
       return setTimeout(function () {
         wario.jump(steps + 1, true);
       }, 1000 / 240);
-    } else if (steps >= 32 && steps <= 42) {
+    } else if (steps >= 38 && steps <= 44) {
       this.y -= 2;
       return setTimeout(function () {
         wario.jump(steps + 1, true);
       }, 1000 / 60);
-    } else if (steps > 42 && steps <= 52) {
+    } else if (steps > 44 && steps <= 50) {
       this.y -= 1;
       return setTimeout(function () {
         wario.jump(steps + 1, true);
